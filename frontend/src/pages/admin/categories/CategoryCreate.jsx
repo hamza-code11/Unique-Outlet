@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useOutletContext } from "react-router-dom";
 import { 
-  FiSave, FiImage, FiTag, FiEye, FiEyeOff, FiList
+  FiSave, FiImage, FiTag, FiEye, FiEyeOff, FiList, FiArrowLeft
 } from "react-icons/fi";
+import axios from "axios";
+
+const API_URL = 'http://127.0.0.1:8000/api';
 
 const CategoryCreate = () => {
   const { isDarkMode } = useOutletContext();
@@ -19,6 +22,7 @@ const CategoryCreate = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [errors, setErrors] = useState({});
   const [slugEditable, setSlugEditable] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   // Handle input changes
   const handleChange = (e) => {
@@ -70,6 +74,12 @@ const CategoryCreate = () => {
     }
   };
 
+  // Remove image
+  const handleRemoveImage = () => {
+    setFormData(prev => ({ ...prev, image: null }));
+    setImagePreview(null);
+  };
+
   // Validate form
   const validateForm = () => {
     const newErrors = {};
@@ -88,7 +98,7 @@ const CategoryCreate = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     const newErrors = validateForm();
@@ -97,40 +107,58 @@ const CategoryCreate = () => {
       return;
     }
 
-    // Prepare data for API
-    const submitData = new FormData();
-    submitData.append('name', formData.name);
-    submitData.append('slug', formData.slug);
-    if (formData.image) {
-      submitData.append('image', formData.image);
-    }
+    setSaving(true);
 
-    // Log data (replace with actual API call)
-    console.log('Category data:', {
-      name: formData.name,
-      slug: formData.slug,
-      image: formData.image ? formData.image.name : null
-    });
-    
-    // Show success message and redirect
-    alert('Category created successfully!');
-    navigate('/admin/categories');
+    try {
+      // Prepare data for API
+      const submitData = new FormData();
+      submitData.append('name', formData.name);
+      submitData.append('slug', formData.slug);
+      
+      if (formData.image) {
+        submitData.append('image', formData.image);
+      }
+
+      // Send POST request
+      await axios.post(`${API_URL}/categories`, submitData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
+      });
+
+      alert('Category created successfully!');
+      navigate('/admin/categories');
+      
+    } catch (error) {
+      console.error("Error creating category:", error);
+      alert(error.response?.data?.message || "Failed to create category");
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
     <div className="space-y-6">
-      {/* Header with Show Categories Button */}
+      {/* Header with Back Button and Show Categories Button */}
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className={`text-xl sm:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-            Add New Category
-          </h1>
-          <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-            Create a new product category
-          </p>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => navigate('/admin/categories')}
+            className={`p-2 rounded-lg transition-colors
+              ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
+          >
+            <FiArrowLeft className="text-lg" />
+          </button>
+          <div>
+            <h1 className={`text-xl sm:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              Add New Category
+            </h1>
+            <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+              Create a new product category
+            </p>
+          </div>
         </div>
         
-        {/* Show Categories Button - replaces cross */}
         <button
           onClick={() => navigate('/admin/categories')}
           className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors
@@ -235,56 +263,6 @@ const CategoryCreate = () => {
           </div>
         </div>
 
-        {/* Category Image */}
-        <div className={`p-5 rounded-lg border ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
-          <h2 className={`text-base font-medium mb-4 pb-2 border-b ${
-            isDarkMode ? 'border-gray-700 text-white' : 'border-gray-200 text-gray-900'
-          }`}>
-            Category Image
-          </h2>
-
-          <div className="flex flex-col sm:flex-row items-start gap-6">
-            {/* Image Preview */}
-            <div className={`w-32 h-32 rounded-lg border-2 border-dashed flex items-center justify-center overflow-hidden
-              ${isDarkMode ? 'border-gray-600' : 'border-gray-300'}`}>
-              {imagePreview ? (
-                <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
-              ) : (
-                <FiImage className={`text-3xl ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`} />
-              )}
-            </div>
-
-            {/* Upload Controls */}
-            <div className="flex-1 space-y-3">
-              <div>
-                <label
-                  htmlFor="image-upload"
-                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg cursor-pointer text-sm font-medium
-                    ${isDarkMode
-                      ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                    }`}
-                >
-                  <FiImage className="text-sm" />
-                  Choose Image
-                </label>
-                <input
-                  type="file"
-                  id="image-upload"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="hidden"
-                />
-              </div>
-              <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                Recommended size: 200x200px. Max file size: 2MB.
-              </p>
-              {errors.image && (
-                <p className="text-xs text-red-500">{errors.image}</p>
-              )}
-            </div>
-          </div>
-        </div>
 
         {/* Form Actions */}
         <div className="flex justify-end gap-3">
@@ -293,18 +271,28 @@ const CategoryCreate = () => {
             onClick={() => navigate('/admin/categories')}
             className={`px-4 py-2 rounded-lg text-sm font-medium
               ${isDarkMode
-                ? 'bg-gray-700 text-gray-300'
-                : 'bg-gray-200 text-gray-700'
+                ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
               }`}
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg text-sm font-medium flex items-center gap-2"
+            disabled={saving}
+            className="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg text-sm font-medium flex items-center gap-2 disabled:opacity-50"
           >
-            <FiSave className="text-sm" />
-            Save Category
+            {saving ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                <span>Saving...</span>
+              </>
+            ) : (
+              <>
+                <FiSave className="text-sm" />
+                <span>Save Category</span>
+              </>
+            )}
           </button>
         </div>
       </form>

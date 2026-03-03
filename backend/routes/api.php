@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\FooterSettingController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ContactController;
 
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -48,13 +49,32 @@ Route::post('/footer-setting', [FooterSettingController::class, 'update']);
 
 
 Route::get('/categories', [CategoryController::class, 'index']);
+Route::post('/categories', [CategoryController::class, 'store']);
+Route::get('/categories/{id}', [CategoryController::class, 'show']);
+Route::put('/categories/{id}', [CategoryController::class, 'update']);
+Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
+
+
 Route::get('/subcategories', [SubCategoryController::class, 'index']);
+Route::post('/subcategories', [SubCategoryController::class, 'store']);
+Route::get('/subcategories/{id}', [SubCategoryController::class, 'show']);
+Route::put('/subcategories/{id}', [SubCategoryController::class, 'update']);
+Route::delete('/subcategories/{id}', [SubCategoryController::class, 'destroy']);
 
 
 Route::get('/products', [ProductController::class, 'index']);
 Route::post('/products', [ProductController::class, 'store']);
+Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::put('/products/{id}', [ProductController::class, 'update']);
 Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+
+Route::post('/contact', [ContactController::class, 'store']);
+Route::get('/contacts', [ContactController::class, 'index']);
+
+Route::get('/footer-setting', [FooterSettingController::class, 'index']);
+Route::post('/footer-setting', [FooterSettingController::class, 'update']);
+
+
 Route::get('/products/subcategory/{id}', [ProductController::class, 'bySubCategory']);
 Route::get('/products/subcategory/slug/{slug}', [ProductController::class, 'productsBySubCategorySlug']);   
 

@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useOutletContext } from "react-router-dom";
 import { 
-  FiSave, FiImage, FiTag, FiEye, FiEyeOff, FiList
+  FiSave, FiImage, FiTag, FiEye, FiEyeOff, FiList, FiArrowLeft
 } from "react-icons/fi";
+import axios from "axios";
+
+const API_URL = 'http://127.0.0.1:8000/api';
+const STORAGE_URL = 'http://127.0.0.1:8000/storage/';
 
 const CategoryEdit = () => {
   const { isDarkMode } = useOutletContext();
@@ -22,44 +26,49 @@ const CategoryEdit = () => {
   const [errors, setErrors] = useState({});
   const [slugEditable, setSlugEditable] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [fetchError, setFetchError] = useState(null);
 
-  // Simulate fetching category data
+  // Fetch category data
   useEffect(() => {
-    // This would be an API call in real application
-    const fetchCategory = () => {
-      setLoading(true);
-      
-      // Simulate API response based on ID
-      setTimeout(() => {
-        // Mock data - replace with actual API call
-        const mockCategories = {
-          1: { name: "Vapes", slug: "vapes", image: null },
-          2: { name: "Mobile Accessories", slug: "mobile-accessories", image: null },
-          3: { name: "E-Liquids", slug: "e-liquids", image: null },
-          4: { name: "Devices", slug: "devices", image: null },
-        };
-
-        const categoryData = mockCategories[id] || mockCategories[1];
-        
-        setFormData({
-          name: categoryData.name,
-          slug: categoryData.slug,
-          image: null,
-          existingImage: categoryData.image
-        });
-
-        if (categoryData.image) {
-          setImagePreview(categoryData.image);
-        }
-
-        setLoading(false);
-      }, 500);
-    };
-
     if (id) {
       fetchCategory();
     }
   }, [id]);
+
+  const fetchCategory = async () => {
+    setLoading(true);
+    setFetchError(null);
+    
+    try {
+      const response = await axios.get(`${API_URL}/categories/${id}`);
+      const category = response.data;
+      
+      setFormData({
+        name: category.name || "",
+        slug: category.slug || "",
+        image: null,
+        existingImage: category.image || null
+      });
+
+      if (category.image) {
+        const imageUrl = getImageUrl(category.image);
+        setImagePreview(imageUrl);
+      }
+
+    } catch (error) {
+      console.error("Error fetching category:", error);
+      setFetchError(error.response?.data?.message || "Failed to load category");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return null;
+    if (imagePath.startsWith('http')) return imagePath;
+    return `${STORAGE_URL}${imagePath}`;
+  };
 
   // Handle input changes
   const handleChange = (e) => {
@@ -135,7 +144,7 @@ const CategoryEdit = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     const newErrors = validateForm();
@@ -144,28 +153,42 @@ const CategoryEdit = () => {
       return;
     }
 
-    // Prepare data for API
-    const submitData = new FormData();
-    submitData.append('name', formData.name);
-    submitData.append('slug', formData.slug);
-    submitData.append('_method', 'PUT'); // For Laravel or similar frameworks
-    
-    if (formData.image) {
-      submitData.append('image', formData.image);
-    }
+    setSaving(true);
 
-    // Log data (replace with actual API call)
-    console.log('Updating category ID:', id);
-    console.log('Category data:', {
-      id: id,
-      name: formData.name,
-      slug: formData.slug,
-      image: formData.image ? formData.image.name : (formData.existingImage ? 'existing' : null)
-    });
-    
-    // Show success message and redirect
-    alert('Category updated successfully!');
-    navigate('/admin/categories');
+    try {
+      // Prepare data for API
+      const submitData = new FormData();
+      submitData.append('name', formData.name);
+      submitData.append('slug', formData.slug);
+      
+      if (formData.image) {
+        submitData.append('image', formData.image);
+      }
+
+      // If removing existing image
+      if (!formData.existingImage && formData.existingImage !== null) {
+        submitData.append('remove_image', '1');
+      }
+
+      // Send PUT request using POST with _method=PUT
+      await axios.post(`${API_URL}/categories/${id}`, submitData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        params: {
+          _method: 'PUT'
+        }
+      });
+
+      alert('Category updated successfully!');
+      navigate('/admin/categories');
+      
+    } catch (error) {
+      console.error("Error updating category:", error);
+      alert(error.response?.data?.message || "Failed to update category");
+    } finally {
+      setSaving(false);
+    }
   };
 
   if (loading) {
@@ -181,20 +204,42 @@ const CategoryEdit = () => {
     );
   }
 
+  if (fetchError) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-red-500 mb-4">{fetchError}</p>
+        <button
+          onClick={() => navigate('/admin/categories')}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+        >
+          Back to Categories
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
-      {/* Header with Show Categories Button */}
+      {/* Header with Back Button and Show Categories Button */}
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className={`text-xl sm:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-            Edit Category
-          </h1>
-          <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-            Update category information
-          </p>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => navigate('/admin/categories')}
+            className={`p-2 rounded-lg transition-colors
+              ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
+          >
+            <FiArrowLeft className="text-lg" />
+          </button>
+          <div>
+            <h1 className={`text-xl sm:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              Edit Category
+            </h1>
+            <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+              ID: {id} • {formData.name || 'Loading...'}
+            </p>
+          </div>
         </div>
         
-        {/* Show Categories Button */}
         <button
           onClick={() => navigate('/admin/categories')}
           className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors
@@ -299,66 +344,7 @@ const CategoryEdit = () => {
           </div>
         </div>
 
-        {/* Category Image */}
-        <div className={`p-5 rounded-lg border ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
-          <h2 className={`text-base font-medium mb-4 pb-2 border-b ${
-            isDarkMode ? 'border-gray-700 text-white' : 'border-gray-200 text-gray-900'
-          }`}>
-            Category Image
-          </h2>
 
-          <div className="flex flex-col sm:flex-row items-start gap-6">
-            {/* Image Preview */}
-            <div className={`w-32 h-32 rounded-lg border-2 border-dashed flex items-center justify-center overflow-hidden relative
-              ${isDarkMode ? 'border-gray-600' : 'border-gray-300'}`}>
-              {imagePreview ? (
-                <>
-                  <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
-                  <button
-                    type="button"
-                    onClick={handleRemoveImage}
-                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
-                    title="Remove image"
-                  >
-                    <FiEyeOff className="text-xs" />
-                  </button>
-                </>
-              ) : (
-                <FiImage className={`text-3xl ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`} />
-              )}
-            </div>
-
-            {/* Upload Controls */}
-            <div className="flex-1 space-y-3">
-              <div>
-                <label
-                  htmlFor="image-upload"
-                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg cursor-pointer text-sm font-medium
-                    ${isDarkMode
-                      ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                    }`}
-                >
-                  <FiImage className="text-sm" />
-                  {imagePreview ? 'Change Image' : 'Choose Image'}
-                </label>
-                <input
-                  type="file"
-                  id="image-upload"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="hidden"
-                />
-              </div>
-              <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                Recommended size: 200x200px. Max file size: 2MB.
-              </p>
-              {errors.image && (
-                <p className="text-xs text-red-500">{errors.image}</p>
-              )}
-            </div>
-          </div>
-        </div>
 
         {/* Form Actions */}
         <div className="flex justify-end gap-3">
@@ -367,18 +353,28 @@ const CategoryEdit = () => {
             onClick={() => navigate('/admin/categories')}
             className={`px-4 py-2 rounded-lg text-sm font-medium
               ${isDarkMode
-                ? 'bg-gray-700 text-gray-300'
-                : 'bg-gray-200 text-gray-700'
+                ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
               }`}
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg text-sm font-medium flex items-center gap-2"
+            disabled={saving}
+            className="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg text-sm font-medium flex items-center gap-2 disabled:opacity-50"
           >
-            <FiSave className="text-sm" />
-            Update Category
+            {saving ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                <span>Updating...</span>
+              </>
+            ) : (
+              <>
+                <FiSave className="text-sm" />
+                <span>Update Category</span>
+              </>
+            )}
           </button>
         </div>
       </form>

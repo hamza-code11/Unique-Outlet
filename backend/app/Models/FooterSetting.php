@@ -6,8 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class FooterSetting extends Model
 {
-    protected $fillable = ['data'];
-    protected $casts = [
-        'data' => 'array'
-    ];
+    protected $fillable = [
+    'brand_name',
+    'description',
+    'location',
+    'contact',
+    'gmail',
+    'newsletter_desc'
+];
 }

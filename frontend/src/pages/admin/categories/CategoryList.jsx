@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useOutletContext } from "react-router-dom";
 import { 
@@ -6,6 +6,9 @@ import {
   FiChevronLeft, FiChevronRight, FiMoreVertical,
   FiTag, FiFolder, FiEyeOff
 } from "react-icons/fi";
+import axios from "axios";
+
+const API_URL = 'http://127.0.0.1:8000/api';
 
 const CategoryList = () => {
   const { isDarkMode } = useOutletContext();
@@ -14,135 +17,76 @@ const CategoryList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
-  // Sample category data
-  const categories = [
-    { 
-      id: 1, 
-      name: "Vapes", 
-      slug: "vapes",
-      parent: null,
-      products: 45,
-      status: "active",
-      image: null,
-      createdAt: "2024-01-15",
-      featured: true,
-      showInMenu: true
-    },
-    { 
-      id: 2, 
-      name: "Mobile Accessories", 
-      slug: "mobile-accessories",
-      parent: null,
-      products: 32,
-      status: "active",
-      image: null,
-      createdAt: "2024-01-14",
-      featured: false,
-      showInMenu: true
-    },
-    { 
-      id: 3, 
-      name: "E-Liquids", 
-      slug: "e-liquids",
-      parent: "Vapes",
-      products: 28,
-      status: "active",
-      image: null,
-      createdAt: "2024-01-13",
-      featured: true,
-      showInMenu: true
-    },
-    { 
-      id: 4, 
-      name: "Devices", 
-      slug: "devices",
-      parent: "Vapes",
-      products: 19,
-      status: "inactive",
-      image: null,
-      createdAt: "2024-01-12",
-      featured: false,
-      showInMenu: false
-    },
-    { 
-      id: 5, 
-      name: "Pod Systems", 
-      slug: "pod-systems",
-      parent: "Devices",
-      products: 12,
-      status: "active",
-      image: null,
-      createdAt: "2024-01-11",
-      featured: false,
-      showInMenu: true
-    },
-    { 
-      id: 6, 
-      name: "Starter Kits", 
-      slug: "starter-kits",
-      parent: "Vapes",
-      products: 15,
-      status: "active",
-      image: null,
-      createdAt: "2024-01-10",
-      featured: true,
-      showInMenu: true
-    },
-    { 
-      id: 7, 
-      name: "Chargers", 
-      slug: "chargers",
-      parent: "Mobile Accessories",
-      products: 23,
-      status: "active",
-      image: null,
-      createdAt: "2024-01-09",
-      featured: false,
-      showInMenu: true
-    },
-    { 
-      id: 8, 
-      name: "Phone Cases", 
-      slug: "phone-cases",
-      parent: "Mobile Accessories",
-      products: 31,
-      status: "active",
-      image: null,
-      createdAt: "2024-01-08",
-      featured: false,
-      showInMenu: true
-    },
-    { 
-      id: 9, 
-      name: "Power Banks", 
-      slug: "power-banks",
-      parent: "Mobile Accessories",
-      products: 17,
-      status: "inactive",
-      image: null,
-      createdAt: "2024-01-07",
-      featured: false,
-      showInMenu: false
-    },
-    { 
-      id: 10, 
-      name: "Disposable Vapes", 
-      slug: "disposable-vapes",
-      parent: "Vapes",
-      products: 22,
-      status: "active",
-      image: null,
-      createdAt: "2024-01-06",
-      featured: true,
-      showInMenu: true
-    },
-  ];
+  // Fetch categories on mount
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${API_URL}/categories`);
+      setCategories(response.data || []);
+      setError(null);
+    } catch (err) {
+      console.error("Error fetching categories:", err);
+      setError("Failed to load categories");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle single delete
+  const handleDelete = async (id) => {
+    if (!confirm('Are you sure you want to delete this category?')) return;
+    
+    setDeleteLoading(true);
+    setDeleteId(id);
+    
+    try {
+      await axios.delete(`${API_URL}/categories/${id}`);
+      setCategories(categories.filter(c => c.id !== id));
+      setSelectedCategories(selectedCategories.filter(cid => cid !== id));
+    } catch (err) {
+      console.error("Error deleting category:", err);
+      alert(err.response?.data?.message || "Failed to delete category");
+    } finally {
+      setDeleteLoading(false);
+      setDeleteId(null);
+    }
+  };
+
+  // Handle bulk delete
+  const handleBulkDelete = async () => {
+    if (selectedCategories.length === 0) return;
+    if (!confirm(`Are you sure you want to delete ${selectedCategories.length} categories?`)) return;
+    
+    setDeleteLoading(true);
+    
+    try {
+      await Promise.all(selectedCategories.map(id => 
+        axios.delete(`${API_URL}/categories/${id}`)
+      ));
+      setCategories(categories.filter(c => !selectedCategories.includes(c.id)));
+      setSelectedCategories([]);
+    } catch (err) {
+      console.error("Error deleting categories:", err);
+      alert("Failed to delete some categories");
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
 
   // Filter categories based on search
   const filteredCategories = categories.filter(cat =>
-    cat.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (cat.parent && cat.parent.toLowerCase().includes(searchTerm.toLowerCase()))
+    cat.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    cat.slug?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Pagination
@@ -169,35 +113,35 @@ const CategoryList = () => {
     }
   };
 
-  // Handle delete
-  const handleDelete = (id) => {
-    if (confirm('Are you sure you want to delete this category?')) {
-      console.log('Delete category:', id);
-      // Add your delete logic here
-    }
-  };
-
-  // Handle bulk delete
-  const handleBulkDelete = () => {
-    if (selectedCategories.length === 0) return;
-    if (confirm(`Are you sure you want to delete ${selectedCategories.length} categories?`)) {
-      console.log('Delete categories:', selectedCategories);
-      setSelectedCategories([]);
-      // Add your bulk delete logic here
-    }
-  };
-
   // Get status badge color
   const getStatusBadge = (status) => {
-    switch(status) {
-      case 'active':
-        return 'text-green-500 bg-green-500/10 border-green-500/20';
-      case 'inactive':
-        return 'text-gray-500 bg-gray-500/10 border-gray-500/20';
-      default:
-        return 'text-gray-500 bg-gray-500/10 border-gray-500/20';
+    if (status === 1) {
+      return 'text-green-500 bg-green-500/10 border-green-500/20';
     }
+    return 'text-gray-500 bg-gray-500/10 border-gray-500/20';
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-4 border-blue-600 border-t-transparent"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-red-500 mb-4">{error}</p>
+        <button
+          onClick={fetchCategories}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+        >
+          Try Again
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -208,7 +152,7 @@ const CategoryList = () => {
             Categories
           </h1>
           <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-            Manage your product categories
+            Total {categories.length} categories
           </p>
         </div>
         
@@ -221,7 +165,7 @@ const CategoryList = () => {
         </button>
       </div>
 
-      {/* Search Bar Only */}
+      {/* Search Bar */}
       <div className="flex-1 relative max-w-md">
         <FiSearch className={`absolute left-3 top-2.5 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
         <input
@@ -247,14 +191,25 @@ const CategoryList = () => {
           </span>
           <button
             onClick={handleBulkDelete}
-            className="px-3 py-1.5 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600 transition-colors"
+            disabled={deleteLoading}
+            className="px-3 py-1.5 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600 transition-colors disabled:opacity-50 flex items-center gap-2"
           >
-            Delete Selected
+            {deleteLoading ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                <span>Deleting...</span>
+              </>
+            ) : (
+              <>
+                <FiTrash2 className="text-sm" />
+                <span>Delete Selected</span>
+              </>
+            )}
           </button>
         </div>
       )}
 
-      {/* Categories Table - Border Removed */}
+      {/* Categories Table */}
       <div className="overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[800px]">
@@ -270,17 +225,16 @@ const CategoryList = () => {
                 </th>
                 <th className={`p-4 text-left text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>ID</th>
                 <th className={`p-4 text-left text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Category</th>
-                <th className={`p-4 text-left text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Parent</th>
-                <th className={`p-4 text-left text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Products</th>
+                <th className={`p-4 text-left text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Slug</th>
                 <th className={`p-4 text-left text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Status</th>
-                <th className={`p-4 text-left text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Features</th>
                 <th className={`p-4 text-left text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Created</th>
+                <th className={`p-4 text-left text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Updated</th>
                 <th className={`p-4 text-left text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
               {currentItems.map((category) => (
-                <tr key={category.id}>
+                <tr key={category.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                   <td className="p-4">
                     <input
                       type="checkbox"
@@ -302,37 +256,22 @@ const CategoryList = () => {
                         <p className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                           {category.name}
                         </p>
-                        <p className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>
-                          {category.slug}
-                        </p>
                       </div>
                     </div>
                   </td>
                   <td className={`p-4 text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    {category.parent || <span className="text-gray-400">—</span>}
-                  </td>
-                  <td className={`p-4 text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    {category.products}
+                    {category.slug}
                   </td>
                   <td className="p-4">
                     <span className={`text-xs px-2 py-1 rounded-full ${getStatusBadge(category.status)}`}>
-                      {category.status}
+                      {category.status === 1 ? 'Active' : 'Inactive'}
                     </span>
                   </td>
-                  <td className="p-4">
-                    <div className="flex items-center gap-2">
-                      {category.featured && (
-                        <span className={`text-xs px-2 py-0.5 rounded-full ${isDarkMode ? 'bg-yellow-500/20 text-yellow-400' : 'bg-yellow-100 text-yellow-600'}`}>
-                          Featured
-                        </span>
-                      )}
-                      {!category.showInMenu && (
-                        <FiEyeOff className={`text-sm ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} title="Hidden from menu" />
-                      )}
-                    </div>
+                  <td className={`p-4 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                    {category.created_at ? new Date(category.created_at).toLocaleDateString() : 'N/A'}
                   </td>
                   <td className={`p-4 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                    {new Date(category.createdAt).toLocaleDateString()}
+                    {category.updated_at ? new Date(category.updated_at).toLocaleDateString() : 'N/A'}
                   </td>
                   <td className="p-4">
                     <div className="flex items-center gap-2">
@@ -340,19 +279,23 @@ const CategoryList = () => {
                         onClick={() => navigate(`/admin/categories/edit/${category.id}`)}
                         className={`p-1.5 rounded-lg transition-colors
                           ${isDarkMode ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-100 text-gray-600'}`}
+                        title="Edit"
                       >
                         <FiEdit2 className="text-sm" />
                       </button>
                       <button
                         onClick={() => handleDelete(category.id)}
+                        disabled={deleteLoading && deleteId === category.id}
                         className={`p-1.5 rounded-lg transition-colors hover:bg-red-100 dark:hover:bg-red-900/20
-                          ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}
+                          ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}
+                          disabled:opacity-50 disabled:cursor-not-allowed`}
+                        title="Delete"
                       >
-                        <FiTrash2 className="text-sm hover:text-red-500" />
-                      </button>
-                      <button className={`p-1.5 rounded-lg transition-colors lg:hidden
-                        ${isDarkMode ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-100 text-gray-600'}`}>
-                        <FiMoreVertical className="text-sm" />
+                        {deleteLoading && deleteId === category.id ? (
+                          <div className="animate-spin rounded-full h-4 w-4 border-2 border-red-500 border-t-transparent"></div>
+                        ) : (
+                          <FiTrash2 className="text-sm hover:text-red-500" />
+                        )}
                       </button>
                     </div>
                   </td>
@@ -364,10 +307,21 @@ const CategoryList = () => {
 
         {/* Empty State */}
         {currentItems.length === 0 && (
-          <div className={`p-8 text-center ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-            <FiFolder className="text-4xl mx-auto mb-3 opacity-50" />
-            <p className="text-sm">No categories found</p>
-            <p className="text-xs mt-1">Try adjusting your search or add a new category</p>
+          <div className={`p-12 text-center ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+            <FiFolder className="text-5xl mx-auto mb-4 opacity-30" />
+            <p className="text-lg mb-2">No categories found</p>
+            <p className="text-sm mb-4">
+              {searchTerm ? 'Try adjusting your search' : 'Add your first category to get started'}
+            </p>
+            {!searchTerm && (
+              <button
+                onClick={() => navigate('/admin/categories/create')}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg inline-flex items-center gap-2"
+              >
+                <FiPlus className="text-sm" />
+                Add Category
+              </button>
+            )}
           </div>
         )}
       </div>

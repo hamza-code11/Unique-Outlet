@@ -27,28 +27,19 @@ const Footer = () => {
                 console.log("API Response:", response.data); // Debug log
                 
                 if (response.data) {
-                    // Check if data is a string and parse it
-                    if (typeof response.data.data === 'string') {
-                        try {
-                            const parsedData = JSON.parse(response.data.data);
-                            setFooterData(parsedData);
-                            console.log("Parsed data:", parsedData); // Debug log
-                        } catch (parseError) {
-                            console.error("Error parsing JSON:", parseError);
-                            setError("Failed to parse footer data");
-                        }
-                    } else if (typeof response.data.data === 'object') {
-                        // If it's already an object
-                        setFooterData(response.data.data);
-                    } else if (response.data.id) {
-                        // If the response itself is the footer data (not wrapped in data property)
-                        if (typeof response.data.data === 'string') {
-                            const parsedData = JSON.parse(response.data.data);
-                            setFooterData(parsedData);
-                        } else {
-                            setFooterData(response.data.data);
-                        }
+                    // Handle different response structures
+                    let data;
+                    
+                    if (response.data.data) {
+                        // If data is wrapped in data property
+                        data = response.data.data;
+                    } else {
+                        // If response itself is the data
+                        data = response.data;
                     }
+                    
+                    console.log("Extracted data:", data); // Debug log
+                    setFooterData(data);
                 }
             } catch (err) {
                 console.error("Error fetching footer data:", err);
@@ -92,40 +83,24 @@ const Footer = () => {
         }
 
         return () => observer.disconnect();
-    }, [footerData]); // Re-run when footerData changes
+    }, [footerData]);
 
     // Default data in case API fails or while loading
     const defaultData = {
-        brand: {
-            name: "Wapo",
-            description: "Reinventing the way of creating websites, we aim to create the most masterpiece WordPress theme available on the market.",
-            madeWithText: "Made with passion",
-            logo: null
-        },
-        contact: {
-            title: "Contact Us",
-            address: "202 Helga Springs Rd, Crawford, TN 38554",
-            phone: "800.275.8777",
-            email: "alex@company.com",
-            showIconBackground: true
-        },
-        newsletter: {
-            title: "Newsletter",
-            description: "Sign up with your email address to receive news and updates.",
-            placeholder: "Your e-mail address",
-            buttonText: "Subscribe",
-            trustText: "No spam, unsubscribe anytime",
-            showTrustBadge: true
-        },
-        socialLinks: [],
+        brand_name: "Wapo",
+        description: "Reinventing the way of creating websites, we aim to create the most masterpiece WordPress theme available on the market.",
+        location: "202 Helga Springs Rd, Crawford, TN 38554",
+        contact: "800.275.8777",
+        gmail: "alex@company.com",
+        newsletter_desc: "Sign up with your email address to receive news and updates.",
         wavesImage: wavesBg,
         active: true
     };
 
+    // Use API data if available, otherwise use default
     const data = footerData || defaultData;
-
-    console.log("Current footer data:", data); // Debug log
-    console.log("Active status:", data.active); // Debug log
+    
+    console.log("Final data being used:", data); // Debug log
 
     // If footer is not active, don't render
     if (data.active === false) {
@@ -142,12 +117,6 @@ const Footer = () => {
                 </div>
             </footer>
         );
-    }
-
-    // Show error state
-    if (error) {
-        console.log("Error state:", error);
-        // Still render with default data
     }
 
     return (
@@ -176,7 +145,7 @@ const Footer = () => {
                 />
             </div>
             
-            {/* Gradient overlays - same as before */}
+            {/* Gradient overlays */}
             <div className={`absolute inset-0 z-0 transition-colors duration-500 ${
                 isDarkMode 
                     ? 'bg-gradient-to-tr from-gray-900/80 via-gray-800/60 to-transparent' 
@@ -210,45 +179,31 @@ const Footer = () => {
                 {/* Main Footer Content */}
                 <div className="grid md:grid-cols-3 gap-10 lg:gap-12">
 
-                    {/* Brand */}
+                    {/* Brand Column - Using brand_name and description */}
                     <div className="space-y-4">
                         <h3 className="text-3xl font-bold">
                             <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-                                {data.brand?.name || "Wapo"}
+                                {data.brand_name || "Wapo"}
                             </span>
                         </h3>
                         <p className={`leading-relaxed text-sm transition-colors duration-500 ${
                             isDarkMode ? 'text-gray-400' : 'text-gray-600'
                         }`}>
-                            {data.brand?.description || defaultData.brand.description}
+                            {data.description || defaultData.description}
                         </p>
-
-                        <div className="flex items-center gap-2 pt-2">
-                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center border backdrop-blur-sm transition-colors duration-500 ${
-                                isDarkMode 
-                                    ? 'bg-gradient-to-br from-blue-900/50 to-cyan-900/50 border-blue-800/30' 
-                                    : 'bg-gradient-to-br from-blue-100 to-cyan-100 border-blue-200'
-                            }`}>
-                                <FiHeart className={`text-sm ${
-                                    isDarkMode ? 'text-blue-400' : 'text-blue-600'
-                                }`} />
-                            </div>
-                            <span className={`text-xs transition-colors duration-500 ${
-                                isDarkMode ? 'text-gray-500' : 'text-gray-500'
-                            }`}>{data.brand?.madeWithText || "Made with passion"}</span>
-                        </div>
                     </div>
 
-                    {/* Contact */}
+                    {/* Contact Column - Using location, contact, gmail */}
                     <div className="space-y-4">
                         <h4 className={`text-lg font-semibold relative inline-block transition-colors duration-500 ${
                             isDarkMode ? 'text-gray-200' : 'text-gray-900'
                         }`}>
-                            {data.contact?.title || "Contact Us"}
+                            Contact Us
                             <span className="absolute -bottom-1 left-0 w-12 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-500"></span>
                         </h4>
 
                         <div className="space-y-3">
+                            {/* Location */}
                             <div className="flex items-start gap-3">
                                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 border backdrop-blur-sm transition-colors duration-500 ${
                                     isDarkMode 
@@ -262,10 +217,11 @@ const Footer = () => {
                                 <p className={`text-sm leading-relaxed transition-colors duration-500 ${
                                     isDarkMode ? 'text-gray-400' : 'text-gray-600'
                                 }`}>
-                                    {data.contact?.address || defaultData.contact.address}
+                                    {data.location || defaultData.location}
                                 </p>
                             </div>
 
+                            {/* Phone */}
                             <div className="flex items-center gap-3">
                                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 border backdrop-blur-sm transition-colors duration-500 ${
                                     isDarkMode 
@@ -281,10 +237,11 @@ const Footer = () => {
                                 }`}>
                                     Call Us: <span className={`font-semibold transition-colors duration-500 ${
                                         isDarkMode ? 'text-gray-200' : 'text-gray-900'
-                                    }`}>{data.contact?.phone || defaultData.contact.phone}</span>
+                                    }`}>{data.contact || defaultData.contact}</span>
                                 </p>
                             </div>
 
+                            {/* Email */}
                             <div className="flex items-center gap-3">
                                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 border backdrop-blur-sm transition-colors duration-500 ${
                                     isDarkMode 
@@ -297,56 +254,30 @@ const Footer = () => {
                                 </div>
                                 <p className={`text-sm transition-colors duration-500 ${
                                     isDarkMode ? 'text-gray-400' : 'text-gray-600'
-                                }`}>{data.contact?.email || defaultData.contact.email}</p>
+                                }`}>{data.gmail || defaultData.gmail}</p>
                             </div>
                         </div>
-
-                        {/* Social Links */}
-                        {data.socialLinks && data.socialLinks.length > 0 && (
-                            <div className="flex items-center gap-3 pt-4">
-                                {data.socialLinks.filter(link => link.active).map((link) => {
-                                    const IconComponent = socialIcons[link.platform] || FiHeart;
-                                    return (
-                                        <a
-                                            key={link.id}
-                                            href={link.url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className={`w-8 h-8 rounded-lg flex items-center justify-center border backdrop-blur-sm transition-all duration-300 hover:scale-110 ${
-                                                isDarkMode 
-                                                    ? 'bg-gray-800 border-gray-700 hover:bg-blue-600/20 hover:border-blue-500' 
-                                                    : 'bg-gray-100 border-gray-200 hover:bg-blue-100 hover:border-blue-300'
-                                            }`}
-                                        >
-                                            <IconComponent className={`text-sm ${
-                                                isDarkMode ? 'text-blue-400' : 'text-blue-600'
-                                            }`} />
-                                        </a>
-                                    );
-                                })}
-                            </div>
-                        )}
                     </div>
 
-                    {/* Newsletter */}
+                    {/* Newsletter Column - Using newsletter_desc */}
                     <div className="space-y-4">
                         <h4 className={`text-lg font-semibold relative inline-block transition-colors duration-500 ${
                             isDarkMode ? 'text-gray-200' : 'text-gray-900'
                         }`}>
-                            {data.newsletter?.title || "Newsletter"}
+                            Newsletter
                             <span className="absolute -bottom-1 left-0 w-12 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-500"></span>
                         </h4>
 
                         <p className={`text-sm transition-colors duration-500 ${
                             isDarkMode ? 'text-gray-400' : 'text-gray-500'
                         }`}>
-                            {data.newsletter?.description || defaultData.newsletter.description}
+                            {data.newsletter_desc || "Sign up with your email address to receive news and updates."}
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-2">
                             <input
                                 type="email"
-                                placeholder={data.newsletter?.placeholder || defaultData.newsletter.placeholder}
+                                placeholder="Your e-mail address"
                                 className={`w-full px-4 py-3 rounded-l-full border text-sm transition-colors duration-500
                                          focus:outline-none focus:border-blue-500 ${
                                            isDarkMode 
@@ -355,24 +286,22 @@ const Footer = () => {
                                          }`}
                             />
                             <button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-r-full hover:from-blue-700 hover:to-cyan-700 transition duration-300 whitespace-nowrap flex items-center justify-center gap-2 group">
-                                <span>{data.newsletter?.buttonText || "Subscribe"}</span>
+                                <span>Subscribe</span>
                                 <FiSend className="group-hover:translate-x-1 transition-transform duration-300" />
                             </button>
                         </div>
 
                         {/* Trust badge */}
-                        {data.newsletter?.showTrustBadge !== false && (
-                            <div className="flex items-center gap-2 pt-2">
-                                <span className="relative flex h-1.5 w-1.5">
-                                    <span className="animate-ping absolute inline-flex h-full w-full 
-                                   rounded-full bg-blue-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500"></span>
-                                </span>
-                                <span className={`text-xs transition-colors duration-500 ${
-                                    isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                                }`}>{data.newsletter?.trustText || "No spam, unsubscribe anytime"}</span>
-                            </div>
-                        )}
+                        <div className="flex items-center gap-2 pt-2">
+                            <span className="relative flex h-1.5 w-1.5">
+                                <span className="animate-ping absolute inline-flex h-full w-full 
+                               rounded-full bg-blue-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500"></span>
+                            </span>
+                            <span className={`text-xs transition-colors duration-500 ${
+                                isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                            }`}>No spam, unsubscribe anytime</span>
+                        </div>
                     </div>
                 </div>
 
@@ -384,7 +313,7 @@ const Footer = () => {
                         <p className={`text-sm transition-colors duration-500 ${
                             isDarkMode ? 'text-gray-500' : 'text-gray-500'
                         }`}>
-                            Copyright ©2026 {data.brand?.name || "Wapo"}. All rights reserved.
+                            Copyright ©2026 {data.brand_name || "Wapo"}. All rights reserved.
                         </p>
 
                         {/* Footer Links */}

@@ -1,31 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useOutletContext } from "react-router-dom";
-import { 
-  FiSave, FiLayers, FiEye, FiEyeOff, FiList
+import {
+  FiSave, FiLayers, FiEye, FiEyeOff, FiList, FiArrowLeft
 } from "react-icons/fi";
+import axios from "axios";
+
+const API_URL = 'http://127.0.0.1:8000/api';
 
 const SubCategoryCreate = () => {
   const { isDarkMode } = useOutletContext();
   const navigate = useNavigate();
-  
+
   // Form state
   const [formData, setFormData] = useState({
     name: "",
     slug: "",
-    parentCategory: "",
+    category_id: "",
   });
 
   const [errors, setErrors] = useState({});
   const [slugEditable, setSlugEditable] = useState(false);
+  const [saving, setSaving] = useState(false);
 
-  // Parent categories (example data - replace with actual API data)
-  const parentCategories = [
-    { id: 1, name: "Vapes" },
-    { id: 2, name: "Mobile Accessories" },
-    { id: 3, name: "E-Liquids" },
-    { id: 4, name: "Devices" },
-  ];
+  // Categories state
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch categories on mount
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${API_URL}/categories`);
+      setCategories(response.data || []);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      alert("Failed to load categories");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Handle input changes
   const handleChange = (e) => {
@@ -64,45 +82,88 @@ const SubCategoryCreate = () => {
       newErrors.slug = 'Slug can only contain lowercase letters, numbers, and hyphens';
     }
 
-    if (!formData.parentCategory) {
-      newErrors.parentCategory = 'Parent category is required';
+    if (!formData.category_id) {
+      newErrors.category_id = 'Parent category is required';
     }
 
     return newErrors;
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const newErrors = validateForm();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
-    // Log data (replace with actual API call)
-    console.log('Subcategory data:', formData);
-    
-    // Show success message and redirect
-    alert('Subcategory created successfully!');
-    navigate('/admin/subcategories');
+    setSaving(true);
+
+    try {
+      // Prepare data for API
+      const submitData = {
+        name: formData.name,
+        slug: formData.slug,
+        category_id: formData.category_id
+      };
+
+      // Send POST request
+      await axios.post(`${API_URL}/subcategories`, submitData);
+
+      alert('Subcategory created successfully!');
+      navigate('/admin/subcategories');
+
+    } catch (error) {
+      console.error("Error creating subcategory:", error);
+      alert(error.response?.data?.message || "Failed to create subcategory");
+    } finally {
+      setSaving(false);
+    }
   };
+
+  // Get category name by ID (for display)
+  const getCategoryName = (categoryId) => {
+    const category = categories.find(c => c.id === parseInt(categoryId));
+    return category ? category.name : '';
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+            Loading categories...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
-      {/* Header with Show Subcategories Button */}
+      {/* Header with Back Button and Show Subcategories Button */}
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className={`text-xl sm:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-            Add New Subcategory
-          </h1>
-          <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-            Create a new product subcategory
-          </p>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => navigate('/admin/subcategories')}
+            className={`p-2 rounded-lg transition-colors
+              ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
+          >
+            <FiArrowLeft className="text-lg" />
+          </button>
+          <div>
+            <h1 className={`text-xl sm:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              Add New Subcategory
+            </h1>
+            <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+              Create a new product subcategory
+            </p>
+          </div>
         </div>
-        
-        {/* Show Subcategories Button */}
+
         <button
           onClick={() => navigate('/admin/subcategories')}
           className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors
@@ -120,47 +181,49 @@ const SubCategoryCreate = () => {
       <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl">
         {/* Basic Information */}
         <div className={`p-5 rounded-lg border ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
-          <h2 className={`text-base font-medium mb-4 pb-2 border-b ${
-            isDarkMode ? 'border-gray-700 text-white' : 'border-gray-200 text-gray-900'
-          }`}>
+          <h2 className={`text-base font-medium mb-4 pb-2 border-b ${isDarkMode ? 'border-gray-700 text-white' : 'border-gray-200 text-gray-900'
+            }`}>
             Subcategory Information
           </h2>
 
           <div className="space-y-4">
             {/* Parent Category */}
             <div>
-              <label className={`block text-xs sm:text-sm font-medium mb-1 ${
-                isDarkMode ? 'text-gray-300' : 'text-gray-700'
-              }`}>
+              <label className={`block text-xs sm:text-sm font-medium mb-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                }`}>
                 Parent Category <span className="text-red-500">*</span>
               </label>
               <select
-                name="parentCategory"
-                value={formData.parentCategory}
+                name="category_id"
+                value={formData.category_id}
                 onChange={handleChange}
                 className={`w-full px-4 py-2 rounded-lg border text-sm
                   focus:outline-none focus:ring-2 focus:ring-blue-500
-                  ${errors.parentCategory ? 'border-red-500' : ''}
+                  ${errors.category_id ? 'border-red-500' : ''}
                   ${isDarkMode
                     ? 'bg-gray-700 border-gray-600 text-white'
                     : 'bg-white border-gray-300 text-gray-900'
                   }`}
               >
                 <option value="">Select Parent Category</option>
-                {parentCategories.map(cat => (
-                  <option key={cat.id} value={cat.name}>{cat.name}</option>
+                {categories.map(cat => (
+                  <option key={cat.id} value={cat.id}>{cat.name}</option>
                 ))}
               </select>
-              {errors.parentCategory && (
-                <p className="text-xs text-red-500 mt-1">{errors.parentCategory}</p>
+              {errors.category_id && (
+                <p className="text-xs text-red-500 mt-1">{errors.category_id}</p>
+              )}
+              {formData.category_id && (
+                <p className={`text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                  Selected: {getCategoryName(formData.category_id)}
+                </p>
               )}
             </div>
 
             {/* Subcategory Name */}
             <div>
-              <label className={`block text-xs sm:text-sm font-medium mb-1 ${
-                isDarkMode ? 'text-gray-300' : 'text-gray-700'
-              }`}>
+              <label className={`block text-xs sm:text-sm font-medium mb-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                }`}>
                 Subcategory Name <span className="text-red-500">*</span>
               </label>
               <div className="relative">
@@ -190,9 +253,8 @@ const SubCategoryCreate = () => {
             {/* Slug */}
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label className={`block text-xs sm:text-sm font-medium ${
-                  isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                }`}>
+                <label className={`block text-xs sm:text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
                   Slug <span className="text-red-500">*</span>
                 </label>
                 <button
@@ -243,18 +305,28 @@ const SubCategoryCreate = () => {
             onClick={() => navigate('/admin/subcategories')}
             className={`px-4 py-2 rounded-lg text-sm font-medium
               ${isDarkMode
-                ? 'bg-gray-700 text-gray-300'
-                : 'bg-gray-200 text-gray-700'
+                ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
               }`}
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg text-sm font-medium flex items-center gap-2"
+            disabled={saving}
+            className="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg text-sm font-medium flex items-center gap-2 disabled:opacity-50"
           >
-            <FiSave className="text-sm" />
-            Save Subcategory
+            {saving ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                <span>Saving...</span>
+              </>
+            ) : (
+              <>
+                <FiSave className="text-sm" />
+                <span>Save Subcategory</span>
+              </>
+            )}
           </button>
         </div>
       </form>

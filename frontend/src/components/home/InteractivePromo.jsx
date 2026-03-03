@@ -127,6 +127,9 @@
 
 
 
+
+
+
 import React, { useState, useEffect } from "react";
 import leftImg from "../../assets/home/view-image1.jpg";
 import rightTop from "../../assets/home/view-image2.jpg";

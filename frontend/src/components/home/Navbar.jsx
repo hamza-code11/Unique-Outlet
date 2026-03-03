@@ -16,12 +16,15 @@ import {
   FiUserPlus
 } from "react-icons/fi";
 import { GiCigarette } from "react-icons/gi";
+import { useCart } from "../../context/CartContext"; // ✅ Import useCart
 
 // Import logo image as fallback
 import defaultLogo from "../../assets/logo/Untitled design.svg";
 
 function Navbar() {
   const navigate = useNavigate();
+  const { cartCount } = useCart(); // ✅ Get cart count from context
+  
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -38,11 +41,10 @@ function Navbar() {
 
   // Backend states - Initialize from localStorage
   const [logo, setLogo] = useState(() => {
-    // Try to get logo from localStorage first
     const cachedLogo = localStorage.getItem('siteLogo');
     return cachedLogo || null;
   });
-  const [logoLoading, setLogoLoading] = useState(!localStorage.getItem('siteLogo')); // Only show loading if no cache
+  const [logoLoading, setLogoLoading] = useState(!localStorage.getItem('siteLogo'));
   const [logoError, setLogoError] = useState(false);
 
   // Categories state
@@ -68,7 +70,6 @@ function Navbar() {
   // Fetch logo from backend only once and cache it
   useEffect(() => {
     const fetchLogo = async () => {
-      // Don't fetch if we already have a cached logo or already attempted
       if (localStorage.getItem('siteLogo') || logoFetchAttempted.current) {
         setLogoLoading(false);
         return;
@@ -82,7 +83,6 @@ function Navbar() {
         if (response.data.logo_image) {
           const logoUrl = `http://127.0.0.1:8000/${response.data.logo_image}`;
           setLogo(logoUrl);
-          // Cache in localStorage
           localStorage.setItem('siteLogo', logoUrl);
           setLogoError(false);
         } else {
@@ -100,58 +100,51 @@ function Navbar() {
   }, []);
 
   // Fetch categories from database
-// Fetch categories from database
-useEffect(() => {
-  const fetchCategories = async () => {
-    if (categoriesFetchAttempted.current) return;
+  useEffect(() => {
+    const fetchCategories = async () => {
+      if (categoriesFetchAttempted.current) return;
 
-    try {
-      categoriesFetchAttempted.current = true;
-      setCategoriesLoading(true);
-      
-      // Fetch categories
-      const categoriesResponse = await axios.get("http://127.0.0.1:8000/api/categories");
-      
-      // Fetch subcategories
-      const subcategoriesResponse = await axios.get("http://127.0.0.1:8000/api/subcategories");
-      
-      if (categoriesResponse.data && subcategoriesResponse.data) {
-        // Group subcategories by category
-        const categoriesWithSubs = categoriesResponse.data.map(category => {
-          const categorySubs = subcategoriesResponse.data.filter(
-            sub => sub.category_id === category.id
-          );
-          
-          return {
-            id: category.id,
-            name: category.name,
-            slug: category.slug, // Make sure slug is available
-            icon: getCategoryIcon(category.name),
-            subcategories: categorySubs.map(sub => ({
-              id: sub.id,
-              name: sub.name,
-              slug: sub.slug, // Make sure slug is available
-              // ✅ FIX: Use slug instead of ID
-              path: `/shop?category=${category.slug}&subcategory=${sub.slug}`
-            }))
-          };
-        });
+      try {
+        categoriesFetchAttempted.current = true;
+        setCategoriesLoading(true);
         
-        setCategories(categoriesWithSubs);
-        setCategoriesError(false);
+        const categoriesResponse = await axios.get("http://127.0.0.1:8000/api/categories");
+        const subcategoriesResponse = await axios.get("http://127.0.0.1:8000/api/subcategories");
+        
+        if (categoriesResponse.data && subcategoriesResponse.data) {
+          const categoriesWithSubs = categoriesResponse.data.map(category => {
+            const categorySubs = subcategoriesResponse.data.filter(
+              sub => sub.category_id === category.id
+            );
+            
+            return {
+              id: category.id,
+              name: category.name,
+              slug: category.slug,
+              icon: getCategoryIcon(category.name),
+              subcategories: categorySubs.map(sub => ({
+                id: sub.id,
+                name: sub.name,
+                slug: sub.slug,
+                path: `/shop?category=${category.slug}&subcategory=${sub.slug}`
+              }))
+            };
+          });
+          
+          setCategories(categoriesWithSubs);
+          setCategoriesError(false);
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        setCategoriesError(true);
+        setCategories(getDefaultCategories());
+      } finally {
+        setCategoriesLoading(false);
       }
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-      setCategoriesError(true);
-      setCategories(getDefaultCategories());
-    } finally {
-      setCategoriesLoading(false);
-    }
-  };
+    };
 
-  fetchCategories();
-}, []);
-
+    fetchCategories();
+  }, []);
 
   // Helper function to assign icons based on category name
   const getCategoryIcon = (categoryName) => {
@@ -161,7 +154,6 @@ useEffect(() => {
     } else if (name.includes('mobile') || name.includes('phone') || name.includes('accessories')) {
       return <FiSmartphone className="text-base sm:text-lg" />;
     } else {
-      // Default icon
       return <FiSmartphone className="text-base sm:text-lg" />;
     }
   };
@@ -211,10 +203,7 @@ useEffect(() => {
     };
 
     checkLoginStatus();
-
-    // Listen for storage changes (if user logs in/out in another tab)
     window.addEventListener('storage', checkLoginStatus);
-    
     return () => {
       window.removeEventListener('storage', checkLoginStatus);
     };
@@ -238,7 +227,6 @@ useEffect(() => {
     }
   }, [isDarkMode]);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -250,7 +238,6 @@ useEffect(() => {
     };
   }, [isOpen]);
 
-  // Close mobile menu and reset mobile dropdowns when window resizes to large
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
@@ -265,7 +252,6 @@ useEffect(() => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Close user dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest('.user-dropdown-container')) {
@@ -276,7 +262,6 @@ useEffect(() => {
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
-  // Close dropdown when clicking outside (desktop)
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest('.dropdown-container')) {
@@ -299,7 +284,6 @@ useEffect(() => {
       const token = localStorage.getItem('token');
       
       if (token) {
-        // Call logout API
         await axios.post('http://localhost:8000/api/logout', {}, {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -311,20 +295,15 @@ useEffect(() => {
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
-      // Clear localStorage
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       
-      // Update state
       setIsLoggedIn(false);
       setUser(null);
       setUserDropdownOpen(false);
       setLogoutLoading(false);
       
-      // Redirect to home
       navigate('/');
-      
-      // Close mobile menu if open
       setIsOpen(false);
     }
   };
@@ -332,7 +311,6 @@ useEffect(() => {
   const handleMyAccountClick = () => {
     setUserDropdownOpen(false);
     
-    // Role-based redirection
     if (user?.role === 'admin') {
       navigate('/admin');
     } else {
@@ -348,7 +326,6 @@ useEffect(() => {
     { name: "Contact", path: "/contact", isLink: true },
   ];
 
-  // Toggle main dropdown on click (desktop)
   const toggleMainDropdown = (itemName) => {
     if (openDropdown === itemName) {
       setOpenDropdown(null);
@@ -359,7 +336,6 @@ useEffect(() => {
     }
   };
 
-  // Toggle subdropdown on click (desktop)
   const toggleSubDropdown = (catName) => {
     if (openSubDropdown === catName) {
       setOpenSubDropdown(null);
@@ -368,7 +344,6 @@ useEffect(() => {
     }
   };
 
-  // Toggle mobile main dropdown
   const toggleMobileMainDropdown = () => {
     if (mobileOpenDropdown === "products") {
       setMobileOpenDropdown(null);
@@ -379,7 +354,6 @@ useEffect(() => {
     }
   };
 
-  // Toggle mobile subdropdown
   const toggleMobileSubDropdown = (catName) => {
     if (mobileOpenSubDropdown === catName) {
       setMobileOpenSubDropdown(null);
@@ -388,17 +362,13 @@ useEffect(() => {
     }
   };
 
-  // Get user initials for avatar
   const getUserInitials = () => {
     if (!user?.name) return 'U';
     return user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   };
 
-  // Determine logo source
   const logoSrc = logo && !logoError ? logo : defaultLogo;
   const showFallbackText = (!logo || logoError) && !logoLoading;
-
-  // Use categories from state or fallback to default if loading/error
   const displayCategories = categories.length > 0 ? categories : getDefaultCategories();
 
   return (
@@ -413,10 +383,9 @@ useEffect(() => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 sm:h-20">
 
-          {/* Logo - Show immediately from cache or fallback */}
+          {/* Logo */}
           <Link to="/" className="flex items-center">
             {showFallbackText ? (
-              // Fallback text logo if no image available
               <span className={`text-xl sm:text-2xl font-bold ${
                 isDarkMode ? 'text-blue-400' : 'text-blue-600'
               }`}>
@@ -426,10 +395,9 @@ useEffect(() => {
               <img 
                 src={logoSrc} 
                 alt="Website Logo" 
-                className="h-38 sm:h-42 w-auto object-contain"
+                className="h-18 sm:h-20 w-auto object-contain"
                 onError={() => {
                   setLogoError(true);
-                  // Remove from cache if error
                   localStorage.removeItem('siteLogo');
                 }}
                 loading="eager"
@@ -564,14 +532,22 @@ useEffect(() => {
               {isDarkMode ? <FiSun className="text-yellow-400 text-lg" /> : <FiMoon className="text-gray-600 text-lg" />}
             </button>
 
-            {/* Cart - Links to Cart Page */}
-            <Link to="/cart" className="relative cursor-pointer">
-              <FiShoppingCart className={`text-lg ${
+            {/* Cart - Links to Cart Page with Dynamic Count */}
+            <Link to="/cart" className="relative cursor-pointer group">
+              <FiShoppingCart className={`text-lg transition-all duration-300 group-hover:scale-110 ${
                 isDarkMode ? 'text-gray-200' : 'text-gray-700'
               }`} />
-              <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                3
-              </span>
+              
+              {/* ✅ Dynamic Cart Count Badge with Animation */}
+              {cartCount > 0 && (
+                <span 
+                  key={cartCount}
+                  className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs min-w-[20px] h-5 px-1 rounded-full 
+                             flex items-center justify-center animate-bounce-in"
+                >
+                  {cartCount > 99 ? '99+' : cartCount}
+                </span>
+              )}
             </Link>
 
             {/* Conditional Rendering: Sign In or My Account */}
@@ -693,7 +669,7 @@ useEffect(() => {
           </button>
         </div>
 
-        {/* Mobile Menu - Full Screen with Scroll */}
+        {/* Mobile Menu */}
         {isOpen && (
           <div
             ref={menuRef}
@@ -835,10 +811,10 @@ useEffect(() => {
                   )}
                 </button>
 
-                {/* Cart Button */}
+                {/* Cart Button with Dynamic Count */}
                 <Link
                   to="/cart"
-                  className={`w-full px-3 py-3 rounded-lg flex items-center justify-center gap-2 text-sm transition-colors
+                  className={`w-full px-3 py-3 rounded-lg flex items-center justify-center gap-2 text-sm transition-colors relative
                            ${isDarkMode
                       ? 'border border-gray-700 text-gray-300 hover:border-blue-500 hover:bg-gray-800'
                       : 'border border-gray-300 text-gray-700 hover:border-blue-500 hover:bg-blue-50'
@@ -846,7 +822,12 @@ useEffect(() => {
                   onClick={() => setIsOpen(false)}
                 >
                   <FiShoppingCart />
-                  <span>View Cart (3)</span>
+                  <span>View Cart</span>
+                  {cartCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs min-w-[18px] h-4 px-1 rounded-full flex items-center justify-center">
+                      {cartCount > 99 ? '99+' : cartCount}
+                    </span>
+                  )}
                 </Link>
 
                 {/* Conditional Mobile Buttons */}
@@ -939,6 +920,26 @@ useEffect(() => {
           </div>
         )}
       </div>
+
+      {/* Add CSS for animations */}
+      <style jsx>{`
+        @keyframes bounceIn {
+          0% {
+            transform: scale(0);
+            opacity: 0;
+          }
+          50% {
+            transform: scale(1.2);
+          }
+          100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+        .animate-bounce-in {
+          animation: bounceIn 0.3s ease-out;
+        }
+      `}</style>
     </nav>
   );
 }

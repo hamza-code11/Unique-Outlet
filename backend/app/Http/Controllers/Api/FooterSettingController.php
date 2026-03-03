@@ -10,20 +10,35 @@ class FooterSettingController extends Controller
 {
     public function index()
     {
-        $footer = FooterSetting::first();
-        return response()->json($footer);
+        return response()->json(FooterSetting::first());
     }
 
     public function update(Request $request)
     {
+        $request->validate([
+            'brand_name' => 'required|string',
+            'description' => 'nullable|string',
+            'location' => 'nullable|string',
+            'contact' => 'nullable|string',
+            'gmail' => 'nullable|email',
+            'newsletter_desc' => 'nullable|string'
+        ]);
+
         $footer = FooterSetting::first();
 
-        $footer->data = $request->data;
-        $footer->save();
+        if (!$footer) {
+            $footer = FooterSetting::create($request->all());
+        } else {
+            $footer->update($request->all());
+        }
 
         return response()->json([
             'message' => 'Footer updated successfully',
-            'data' => $footer
+            'footer' => $footer
         ]);
     }
+
+
+
+    
 }

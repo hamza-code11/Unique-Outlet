@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useOutletContext } from "react-router-dom";
 import { 
-  FiSave, FiLayers, FiEye, FiEyeOff, FiList
+  FiSave, FiLayers, FiEye, FiEyeOff, FiList, FiArrowLeft
 } from "react-icons/fi";
+import axios from "axios";
+
+const API_URL = 'http://127.0.0.1:8000/api';
 
 const SubCategoryEdit = () => {
   const { isDarkMode } = useOutletContext();
@@ -14,52 +17,60 @@ const SubCategoryEdit = () => {
   const [formData, setFormData] = useState({
     name: "",
     slug: "",
-    parentCategory: "",
+    category_id: "",
   });
 
   const [errors, setErrors] = useState({});
   const [slugEditable, setSlugEditable] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [fetchError, setFetchError] = useState(null);
+  
+  // Categories state
+  const [categories, setCategories] = useState([]);
 
-  // Parent categories (example data - replace with actual API data)
-  const parentCategories = [
-    { id: 1, name: "Vapes" },
-    { id: 2, name: "Mobile Accessories" },
-    { id: 3, name: "E-Liquids" },
-    { id: 4, name: "Devices" },
-  ];
-
-  // Simulate fetching subcategory data
+  // Fetch categories on mount
   useEffect(() => {
-    const fetchSubCategory = () => {
-      setLoading(true);
-      
-      // Simulate API response based on ID
-      setTimeout(() => {
-        // Mock data - replace with actual API call
-        const mockSubCategories = {
-          1: { name: "Starter Kits", slug: "starter-kits", parentCategory: "Vapes" },
-          2: { name: "Pod Systems", slug: "pod-systems", parentCategory: "Vapes" },
-          3: { name: "Phone Cases", slug: "phone-cases", parentCategory: "Mobile Accessories" },
-          4: { name: "Chargers", slug: "chargers", parentCategory: "Mobile Accessories" },
-        };
+    fetchCategories();
+  }, []);
 
-        const subCategoryData = mockSubCategories[id] || mockSubCategories[1];
-        
-        setFormData({
-          name: subCategoryData.name,
-          slug: subCategoryData.slug,
-          parentCategory: subCategoryData.parentCategory,
-        });
-
-        setLoading(false);
-      }, 500);
-    };
-
+  // Fetch subcategory data
+  useEffect(() => {
     if (id) {
       fetchSubCategory();
     }
   }, [id]);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/categories`);
+      setCategories(response.data || []);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  const fetchSubCategory = async () => {
+    setLoading(true);
+    setFetchError(null);
+    
+    try {
+      const response = await axios.get(`${API_URL}/subcategories/${id}`);
+      const subCategory = response.data;
+      
+      setFormData({
+        name: subCategory.name || "",
+        slug: subCategory.slug || "",
+        category_id: subCategory.category_id?.toString() || "",
+      });
+
+    } catch (error) {
+      console.error("Error fetching subcategory:", error);
+      setFetchError(error.response?.data?.message || "Failed to load subcategory");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Handle input changes
   const handleChange = (e) => {
@@ -98,15 +109,15 @@ const SubCategoryEdit = () => {
       newErrors.slug = 'Slug can only contain lowercase letters, numbers, and hyphens';
     }
 
-    if (!formData.parentCategory) {
-      newErrors.parentCategory = 'Parent category is required';
+    if (!formData.category_id) {
+      newErrors.category_id = 'Parent category is required';
     }
 
     return newErrors;
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     const newErrors = validateForm();
@@ -115,13 +126,32 @@ const SubCategoryEdit = () => {
       return;
     }
 
-    // Log data (replace with actual API call)
-    console.log('Updating subcategory ID:', id);
-    console.log('Subcategory data:', formData);
-    
-    // Show success message and redirect
-    alert('Subcategory updated successfully!');
-    navigate('/admin/subcategories');
+    setSaving(true);
+
+    try {
+      // Prepare data for API
+      const submitData = new FormData();
+      submitData.append('name', formData.name);
+      submitData.append('slug', formData.slug);
+      submitData.append('category_id', formData.category_id);
+      submitData.append('_method', 'PUT');
+
+      // Send PUT request using POST with _method=PUT
+      await axios.post(`${API_URL}/subcategories/${id}`, submitData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
+      });
+
+      alert('Subcategory updated successfully!');
+      navigate('/admin/subcategories');
+      
+    } catch (error) {
+      console.error("Error updating subcategory:", error);
+      alert(error.response?.data?.message || "Failed to update subcategory");
+    } finally {
+      setSaving(false);
+    }
   };
 
   if (loading) {
@@ -137,20 +167,48 @@ const SubCategoryEdit = () => {
     );
   }
 
+  if (fetchError) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-red-500 mb-4">{fetchError}</p>
+        <button
+          onClick={() => navigate('/admin/subcategories')}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+        >
+          Back to Subcategories
+        </button>
+      </div>
+    );
+  }
+
+  // Get category name by ID
+  const getCategoryName = (categoryId) => {
+    const category = categories.find(c => c.id === parseInt(categoryId));
+    return category ? category.name : '';
+  };
+
   return (
     <div className="space-y-6">
-      {/* Header with Show Subcategories Button */}
+      {/* Header with Back Button and Show Subcategories Button */}
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className={`text-xl sm:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-            Edit Subcategory
-          </h1>
-          <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-            Update subcategory information
-          </p>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => navigate('/admin/subcategories')}
+            className={`p-2 rounded-lg transition-colors
+              ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
+          >
+            <FiArrowLeft className="text-lg" />
+          </button>
+          <div>
+            <h1 className={`text-xl sm:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              Edit Subcategory
+            </h1>
+            <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+              ID: {id} • {formData.name || 'Loading...'}
+            </p>
+          </div>
         </div>
         
-        {/* Show Subcategories Button */}
         <button
           onClick={() => navigate('/admin/subcategories')}
           className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors
@@ -183,24 +241,29 @@ const SubCategoryEdit = () => {
                 Parent Category <span className="text-red-500">*</span>
               </label>
               <select
-                name="parentCategory"
-                value={formData.parentCategory}
+                name="category_id"
+                value={formData.category_id}
                 onChange={handleChange}
                 className={`w-full px-4 py-2 rounded-lg border text-sm
                   focus:outline-none focus:ring-2 focus:ring-blue-500
-                  ${errors.parentCategory ? 'border-red-500' : ''}
+                  ${errors.category_id ? 'border-red-500' : ''}
                   ${isDarkMode
                     ? 'bg-gray-700 border-gray-600 text-white'
                     : 'bg-white border-gray-300 text-gray-900'
                   }`}
               >
                 <option value="">Select Parent Category</option>
-                {parentCategories.map(cat => (
-                  <option key={cat.id} value={cat.name}>{cat.name}</option>
+                {categories.map(cat => (
+                  <option key={cat.id} value={cat.id}>{cat.name}</option>
                 ))}
               </select>
-              {errors.parentCategory && (
-                <p className="text-xs text-red-500 mt-1">{errors.parentCategory}</p>
+              {errors.category_id && (
+                <p className="text-xs text-red-500 mt-1">{errors.category_id}</p>
+              )}
+              {formData.category_id && (
+                <p className={`text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                  Selected: {getCategoryName(formData.category_id)}
+                </p>
               )}
             </div>
 
@@ -291,18 +354,28 @@ const SubCategoryEdit = () => {
             onClick={() => navigate('/admin/subcategories')}
             className={`px-4 py-2 rounded-lg text-sm font-medium
               ${isDarkMode
-                ? 'bg-gray-700 text-gray-300'
-                : 'bg-gray-200 text-gray-700'
+                ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
               }`}
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg text-sm font-medium flex items-center gap-2"
+            disabled={saving}
+            className="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg text-sm font-medium flex items-center gap-2 disabled:opacity-50"
           >
-            <FiSave className="text-sm" />
-            Update Subcategory
+            {saving ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                <span>Updating...</span>
+              </>
+            ) : (
+              <>
+                <FiSave className="text-sm" />
+                <span>Update Subcategory</span>
+              </>
+            )}
           </button>
         </div>
       </form>

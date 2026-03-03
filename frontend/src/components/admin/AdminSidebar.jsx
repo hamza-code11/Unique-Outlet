@@ -30,8 +30,7 @@ const AdminSidebar = ({ isDarkMode, isSidebarOpen, isMobileMenuOpen, closeMobile
       icon: <GiCigarette />,
       submenus: [
         { name: "All Products", path: "/admin/products", icon: <FiList /> },
-        { name: "Add Product", path: "/admin/products/create", icon: <FiPlusCircle /> },
-        { name: "Edit Product", path: "/admin/products/edit/2", icon: <FiEdit /> }
+        { name: "Add Product", path: "/admin/products/create", icon: <FiPlusCircle /> }
       ]
     },
 
@@ -41,8 +40,7 @@ const AdminSidebar = ({ isDarkMode, isSidebarOpen, isMobileMenuOpen, closeMobile
       icon: <FiTag />,
       submenus: [
         { name: "All Categories", path: "/admin/categories", icon: <FiList /> },
-        { name: "Add Category", path: "/admin/categories/create", icon: <FiPlusCircle /> },
-        { name: "Edit Category", path: "/admin/categories/edit/2", icon: <FiEdit /> }
+        { name: "Add Category", path: "/admin/categories/create", icon: <FiPlusCircle /> }
       ]
     },
 
@@ -52,8 +50,7 @@ const AdminSidebar = ({ isDarkMode, isSidebarOpen, isMobileMenuOpen, closeMobile
       icon: <FiLayers />,
       submenus: [
         { name: "All Subcategories", path: "/admin/subcategories", icon: <FiList /> },
-        { name: "Add Subcategory", path: "/admin/subcategories/create", icon: <FiPlusCircle /> },
-        { name: "Edit Subcategory", path: "/admin/subcategories/edit/2", icon: <FiEdit /> }
+        { name: "Add Subcategory", path: "/admin/subcategories/create", icon: <FiPlusCircle /> }
       ]
     },
 

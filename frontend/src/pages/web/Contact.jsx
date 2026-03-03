@@ -4,6 +4,9 @@ import { FiMapPin, FiPhone, FiMail, FiClock, FiSend } from "react-icons/fi";
 import Navbar from "../../components/home/Navbar";
 import Footer from "../../components/home/Footer";
 import ShopBanner from "../../components/banner/Banner";
+import axios from "axios";
+
+const API_URL = 'http://127.0.0.1:8000/api';
 
 const Contact = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -12,6 +15,9 @@ const Contact = () => {
     email: "",
     message: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(null);
 
   // Check for dark mode
   useEffect(() => {
@@ -27,13 +33,43 @@ const Contact = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear messages when user starts typing
+    setSuccess(false);
+    setError(null);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Contact form submitted:", formData);
-    alert("Message sent successfully!");
-    setFormData({ name: "", email: "", message: "" });
+    
+    setLoading(true);
+    setError(null);
+    setSuccess(false);
+
+    try {
+      // Send data to backend
+      const response = await axios.post(`${API_URL}/contact`, {
+        name: formData.name,
+        email: formData.email,
+        message: formData.message
+      });
+
+      console.log("Contact form submitted:", response.data);
+      
+      // Show success message
+      setSuccess(true);
+      
+      // Clear form
+      setFormData({ name: "", email: "", message: "" });
+      
+      // Auto-hide success message after 5 seconds
+      setTimeout(() => setSuccess(false), 5000);
+      
+    } catch (err) {
+      console.error("Error submitting form:", err);
+      setError(err.response?.data?.message || "Failed to send message. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const contactInfo = [
@@ -68,8 +104,8 @@ const Contact = () => {
       <ShopBanner 
         title="Contact Us"
         breadcrumbItems={[
-          { name: "WAPO", link: "/" },
-          { name: "CONTACT" }
+          { name: "Home", link: "/" },
+          { name: "Contact" }
         ]}
         showStats={false}
         showButton={false}
@@ -77,7 +113,7 @@ const Contact = () => {
 
       <div className="container mx-auto px-4 py-8 md:py-12 flex-grow">
         
-        {/* Contact Info Cards - 4 in a row exactly like image */}
+        {/* Contact Info Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {contactInfo.map((info, index) => (
             <div
@@ -120,6 +156,20 @@ const Contact = () => {
               Send Us a Message
             </h2>
 
+            {/* Success Message */}
+            {success && (
+              <div className="mb-4 p-3 bg-green-500/20 border border-green-500/50 text-green-600 dark:text-green-400 rounded-lg text-sm">
+                ✓ Message sent successfully! We'll get back to you soon.
+              </div>
+            )}
+
+            {/* Error Message */}
+            {error && (
+              <div className="mb-4 p-3 bg-red-500/20 border border-red-500/50 text-red-600 dark:text-red-400 rounded-lg text-sm">
+                ✗ {error}
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Name */}
               <div>
@@ -134,8 +184,10 @@ const Contact = () => {
                   value={formData.name}
                   onChange={handleInputChange}
                   required
+                  disabled={loading}
                   className={`w-full px-4 py-3 rounded-lg border text-sm
-                           focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                           focus:outline-none focus:ring-2 focus:ring-blue-500
+                           disabled:opacity-50 disabled:cursor-not-allowed ${
                              isDarkMode
                                ? 'bg-gray-800 border-gray-700 text-white'
                                : 'bg-white border-gray-300 text-gray-900'
@@ -156,8 +208,10 @@ const Contact = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                   required
+                  disabled={loading}
                   className={`w-full px-4 py-3 rounded-lg border text-sm
-                           focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                           focus:outline-none focus:ring-2 focus:ring-blue-500
+                           disabled:opacity-50 disabled:cursor-not-allowed ${
                              isDarkMode
                                ? 'bg-gray-800 border-gray-700 text-white'
                                : 'bg-white border-gray-300 text-gray-900'
@@ -178,8 +232,10 @@ const Contact = () => {
                   onChange={handleInputChange}
                   rows="5"
                   required
+                  disabled={loading}
                   className={`w-full px-4 py-3 rounded-lg border text-sm
-                           focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none ${
+                           focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none
+                           disabled:opacity-50 disabled:cursor-not-allowed ${
                              isDarkMode
                                ? 'bg-gray-800 border-gray-700 text-white'
                                : 'bg-white border-gray-300 text-gray-900'
@@ -190,13 +246,24 @@ const Contact = () => {
               {/* Submit Button */}
               <button
                 type="submit"
+                disabled={loading}
                 className="px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 
                          text-white font-medium rounded-lg hover:from-blue-700 
                          hover:to-cyan-700 transition-all duration-300 
-                         flex items-center justify-center gap-2 w-full sm:w-auto"
+                         flex items-center justify-center gap-2 w-full sm:w-auto
+                         disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <FiSend className="text-sm" />
-                <span>Send Message</span>
+                {loading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                    <span>Sending...</span>
+                  </>
+                ) : (
+                  <>
+                    <FiSend className="text-sm" />
+                    <span>Send Message</span>
+                  </>
+                )}
               </button>
             </form>
           </div>

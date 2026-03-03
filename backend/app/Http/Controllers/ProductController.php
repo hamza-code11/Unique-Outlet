@@ -134,6 +134,23 @@ public function update(Request $request, $id)
 }
 
 
+// ProductController.php - line 138 ke around
+public function show($id)
+{
+    try {
+        $product = Product::with(['category', 'subcategory']) // ✅ 'sub_category' nahi, 'subcategory' likho
+                        ->find($id);
+        
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+        
+        return response()->json($product);
+    } catch (\Exception $e) {
+        return response()->json(['message' => $e->getMessage()], 500);
+    }
+}
+
 
 
 public function destroy($id)
