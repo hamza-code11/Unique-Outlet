@@ -10,6 +10,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CheckoutController;
 
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -78,7 +79,16 @@ Route::post('/footer-setting', [FooterSettingController::class, 'update']);
 Route::get('/products/subcategory/{id}', [ProductController::class, 'bySubCategory']);
 Route::get('/products/subcategory/slug/{slug}', [ProductController::class, 'productsBySubCategorySlug']);   
 
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/checkout', [CheckoutController::class, 'store']);
+});
+// Route::post('/checkout', [CheckoutController::class, 'store']);
+
 // http://127.0.0.1:8000/api/categories
 // http://127.0.0.1:8000/api/subcategories
 // http://127.0.0.1:8000/api/products
 
+    Route::get('/order/{id}', [CheckoutController::class, 'show'])->name('api.order.show');
+    

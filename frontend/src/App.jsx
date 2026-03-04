@@ -3,6 +3,7 @@ import Home from "./pages/web/Home";
 import Shop from "./pages/web/Shop";
 import Cart from "./pages/web/Cart";
 import Checkout from "./pages/web/Checkout";
+import OrderConfirmation from "./pages/web/OrderConfirmation.jsx";
 import Contact from "./pages/web/Contact";
 import Product from "./pages/web/ProductPage";
 import SignIn from "./pages/web/SignIn";
@@ -64,18 +65,19 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
 
-        <Route path="/shop" element={<PrivateRoute> <Shop /> </PrivateRoute>} />
-        <Route path="/cart" element={<PrivateRoute> <Cart /> </PrivateRoute>} />
         <Route path="/checkout" element={<PrivateRoute> <Checkout /> </PrivateRoute>} />
-        <Route path="/contact" element={<PrivateRoute> <Contact /> </PrivateRoute>} />
-        {/* <Route path="/product" element={<PrivateRoute> <Product /> </PrivateRoute>} /> */}
-        {/* <Route path="/product/:id" element={<Product />} /> */}
-        <Route path="/product/:id" element={<PrivateRoute> <Product /> </PrivateRoute>} />
-        <Route path="/about" element={<PrivateRoute> <About /> </PrivateRoute>} />
-
+        {/* <Route path="//order/:id" element={<PrivateRoute> <OrderConfirmation /> </PrivateRoute>} /> */}
+<Route path="/order/:id" element={<OrderConfirmation />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/product/:id" element={<Product />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/register" element={<Register />} />
         <Route path="/auth/google/callback" element={<GoogleCallback />} />
+
 
 
         <Route path="/admin" element={<AdminRoute> <AdminLayout /> </AdminRoute>}>

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FiShoppingBag, FiTruck, FiShield, FiLock, FiCreditCard, FiArrowLeft } from "react-icons/fi";
+import { FiShoppingBag, FiTruck, FiShield, FiLock, FiCreditCard, FiArrowLeft, FiCopy } from "react-icons/fi";
 import Navbar from "../../components/home/Navbar";
 import Footer from "../../components/home/Footer";
 import ShopBanner from "../../components/banner/Banner";
 import { useCart } from "../../context/CartContext";
+import axios from "axios";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -12,25 +13,25 @@ const Checkout = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("bank");
   const [createAccount, setCreateAccount] = useState(false);
-  const [orderPlaced, setOrderPlaced] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
   
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
     phone: "",
     country: "",
-    address: "",
-    city: "",
+    street_address: "",
+    town_city: "",
     postcode: "",
   });
 
   // Redirect if cart is empty
-  useEffect(() => {
-    if (cartItems.length === 0 && !orderPlaced) {
-      navigate('/cart');
-    }
-  }, [cartItems, navigate, orderPlaced]);
+  // useEffect(() => {
+  //   if (cartItems.length === 0) {
+  //     navigate('/cart');
+  //   }
+  // }, [cartItems, navigate]);
 
   // Check for dark mode
   useEffect(() => {
@@ -43,79 +44,151 @@ const Checkout = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Validate cart items before submission
+  const validateCartItems = () => {
+    for (const item of cartItems) {
+      if (!item.id || isNaN(item.id) || item.id <= 0) {
+        setError(`Invalid product ID for ${item.name}`);
+        return false;
+      }
+    }
+    return true;
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Here you would send order to backend
-    const orderData = {
-      customer: formData,
-      paymentMethod,
-      createAccount,
-      items: cartItems,
-      subtotal: cartTotal,
-      shipping: shipping,
-      total: total,
-      orderDate: new Date().toISOString()
-    };
-    
-    console.log("Order placed:", orderData);
-    
-    // Clear cart and show success
-    clearCart();
-    setOrderPlaced(true);
-    
-    // Redirect to success page or show message
-    // navigate('/order-success');
+    // Validate cart items first
+    if (!validateCartItems()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      // Get user ID from localStorage or context
+      const userId = localStorage.getItem('userId') || 1;
+
+      // Prepare the order data with payment method
+      const orderData = {
+        user_id: userId,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        country: formData.country,
+        street_address: formData.street_address,
+        town_city: formData.town_city,
+        postcode: formData.postcode,
+        payment_method: paymentMethod,
+        products: cartItems.map(item => ({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity
+        }))
+      };
+
+      console.log('Sending order data:', orderData);
+
+      // Step 1: Place the order
+      const response = await axios.post('http://127.0.0.1:8000/api/checkout', orderData, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      console.log('Order placed response:', response.data);
+      
+      // Clear cart immediately
+      clearCart();
+      
+      // Step 2: Try to get order ID from response
+      let orderId = null;
+      
+      // Check if order object exists in response
+      if (response.data.order && response.data.order.id) {
+        orderId = response.data.order.id;
+        console.log('Order ID found in response:', orderId);
+      } 
+      // Check if ID is at root level
+      else if (response.data.id) {
+        orderId = response.data.id;
+        console.log('Order ID found at root:', orderId);
+      }
+      // If no order ID, we need to fetch the latest order
+      else {
+        console.log('No order ID in response, fetching latest order...');
+        
+        try {
+          // Fetch the latest order for this user
+          const ordersResponse = await axios.get(`http://127.0.0.1:8000/api/user/${userId}/orders/latest`);
+          console.log('Latest order response:', ordersResponse.data);
+          
+          if (ordersResponse.data && ordersResponse.data.order) {
+            orderId = ordersResponse.data.order.id;
+            console.log('Latest order ID:', orderId);
+          } else if (ordersResponse.data && ordersResponse.data.id) {
+            orderId = ordersResponse.data.id;
+          }
+        } catch (fetchErr) {
+          console.error('Error fetching latest order:', fetchErr);
+        }
+      }
+      
+      // Step 3: Redirect to order confirmation page
+      if (orderId) {
+        console.log('Redirecting to order confirmation:', orderId);
+        navigate(`/order/${orderId}`);
+      } else {
+        // Fallback: Show success message but no redirect
+        setError('Order placed successfully! But we could not retrieve order details. Please check your email for confirmation.');
+        // Optional: Redirect to a generic success page
+        // navigate('/order-success');
+      }
+      
+    } catch (err) {
+      console.error('Error placing order:', err);
+      
+      // Detailed error logging
+      if (err.response) {
+        console.error('Error response:', err.response.data);
+        console.error('Error status:', err.response.status);
+        
+        // Check if order was created despite error
+        if (err.response.data && err.response.data.order && err.response.data.order.id) {
+          console.log('Order created despite error:', err.response.data.order.id);
+          clearCart();
+          navigate(`/order/${err.response.data.order.id}`);
+          return;
+        }
+      }
+      
+      // Handle specific error messages
+      if (err.response?.data?.message) {
+        setError(err.response.data.message);
+      } else if (err.response?.data?.errors) {
+        const validationErrors = Object.values(err.response.data.errors).flat();
+        setError(validationErrors.join(', '));
+      } else if (err.message?.includes('foreign key constraint')) {
+        setError('One or more products in your cart no longer exist. Please refresh the page and try again.');
+      } else if (err.message?.includes('Network Error')) {
+        setError('Network error. Please check your connection and try again.');
+      } else {
+        setError('Failed to place order. Please try again.');
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  // Calculate shipping (you can make this dynamic)
-  const shipping = 2; // Fixed shipping $2
+  const shipping = 2;
   const total = cartTotal + shipping;
-
-  // If order placed, show success message
-  if (orderPlaced) {
-    return (
-      <div className={`min-h-screen flex flex-col ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
-        <Navbar />
-        <ShopBanner 
-          title="Order Placed!"
-          breadcrumbItems={[
-            { name: "Home", link: "/" },
-            { name: "Cart", link: "/cart" },
-            { name: "Checkout" }
-          ]}
-        />
-        <div className="flex-1 container mx-auto px-4 py-16 text-center">
-          <div className="max-w-md mx-auto">
-            <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-            </div>
-            <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-              Thank You for Your Order!
-            </h2>
-            <p className={`mb-8 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-              Your order has been placed successfully. You will receive an email confirmation shortly.
-            </p>
-            <Link
-              to="/shop"
-              className="inline-block px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 
-                       text-white font-medium rounded-lg hover:from-blue-700 hover:to-cyan-700"
-            >
-              Continue Shopping
-            </Link>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
 
   return (
     <div className={`min-h-screen flex flex-col transition-colors duration-500 ${
@@ -135,7 +208,6 @@ const Checkout = () => {
       />
 
       <div className="container mx-auto px-4 py-8 md:py-12 flex-grow">
-        {/* Back to Cart Link */}
         <Link
           to="/cart"
           className={`inline-flex items-center gap-2 mb-4 text-sm hover:text-blue-600 transition-colors
@@ -143,6 +215,13 @@ const Checkout = () => {
         >
           <FiArrowLeft /> Back to Cart
         </Link>
+
+        {error && (
+          <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+            <p className="font-medium">Error:</p>
+            <p className="text-sm">{error}</p>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
@@ -157,50 +236,27 @@ const Checkout = () => {
               </h2>
 
               <div className="space-y-3 md:space-y-4">
-                {/* Name Fields */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
-                  <div>
-                    <label className={`block text-xs md:text-sm font-medium mb-1 ${
-                      isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      First Name *
-                    </label>
-                    <input
-                      type="text"
-                      name="firstName"
-                      value={formData.firstName}
-                      onChange={handleInputChange}
-                      placeholder="John"
-                      required
-                      className={`w-full px-3 md:px-4 py-2 md:py-2.5 rounded-lg border text-sm
-                               focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                                 isDarkMode
-                                   ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500'
-                                   : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'
-                               }`}
-                    />
-                  </div>
-                  <div>
-                    <label className={`block text-xs md:text-sm font-medium mb-1 ${
-                      isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      Last Name *
-                    </label>
-                    <input
-                      type="text"
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={handleInputChange}
-                      placeholder="Doe"
-                      required
-                      className={`w-full px-3 md:px-4 py-2 md:py-2.5 rounded-lg border text-sm
-                               focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                                 isDarkMode
-                                   ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500'
-                                   : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'
-                               }`}
-                    />
-                  </div>
+                {/* Name Field */}
+                <div>
+                  <label className={`block text-xs md:text-sm font-medium mb-1 ${
+                    isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    placeholder="John Doe"
+                    required
+                    className={`w-full px-3 md:px-4 py-2 md:py-2.5 rounded-lg border text-sm
+                             focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                               isDarkMode
+                                 ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500'
+                                 : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'
+                             }`}
+                  />
                 </div>
 
                 {/* Email */}
@@ -238,7 +294,7 @@ const Checkout = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    placeholder="+1 234 567 8900"
+                    placeholder="03001234567"
                     required
                     className={`w-full px-3 md:px-4 py-2 md:py-2.5 rounded-lg border text-sm
                              focus:outline-none focus:ring-2 focus:ring-blue-500 ${
@@ -269,14 +325,15 @@ const Checkout = () => {
                              }`}
                   >
                     <option value="">Select Country</option>
-                    <option value="US">United States</option>
-                    <option value="UK">United Kingdom</option>
-                    <option value="CA">Canada</option>
-                    <option value="AU">Australia</option>
+                    <option value="Pakistan">Pakistan</option>
+                    <option value="United States">United States</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Australia">Australia</option>
                   </select>
                 </div>
 
-                {/* Address */}
+                {/* Street Address */}
                 <div>
                   <label className={`block text-xs md:text-sm font-medium mb-1 ${
                     isDarkMode ? 'text-gray-300' : 'text-gray-700'
@@ -285,8 +342,8 @@ const Checkout = () => {
                   </label>
                   <input
                     type="text"
-                    name="address"
-                    value={formData.address}
+                    name="street_address"
+                    value={formData.street_address}
                     onChange={handleInputChange}
                     placeholder="123 Main St"
                     required
@@ -299,7 +356,7 @@ const Checkout = () => {
                   />
                 </div>
 
-                {/* City and Postcode */}
+                {/* Town/City and Postcode */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                   <div>
                     <label className={`block text-xs md:text-sm font-medium mb-1 ${
@@ -309,10 +366,10 @@ const Checkout = () => {
                     </label>
                     <input
                       type="text"
-                      name="city"
-                      value={formData.city}
+                      name="town_city"
+                      value={formData.town_city}
                       onChange={handleInputChange}
-                      placeholder="Miami"
+                      placeholder="Karachi"
                       required
                       className={`w-full px-3 md:px-4 py-2 md:py-2.5 rounded-lg border text-sm
                                focus:outline-none focus:ring-2 focus:ring-blue-500 ${
@@ -333,7 +390,7 @@ const Checkout = () => {
                       name="postcode"
                       value={formData.postcode}
                       onChange={handleInputChange}
-                      placeholder="33101"
+                      placeholder="75200"
                       required
                       className={`w-full px-3 md:px-4 py-2 md:py-2.5 rounded-lg border text-sm
                                focus:outline-none focus:ring-2 focus:ring-blue-500 ${
@@ -433,7 +490,7 @@ const Checkout = () => {
                   </h3>
                   
                   <div className="space-y-2">
-                    {/* Bank Transfer */}
+                    {/* Bank Transfer - Available */}
                     <label className={`flex items-start gap-2 p-2 md:p-3 rounded-lg border cursor-pointer
                       ${paymentMethod === 'bank'
                         ? isDarkMode
@@ -452,85 +509,77 @@ const Checkout = () => {
                         className="mt-0.5 accent-blue-600"
                       />
                       <div className="flex-1">
-                        <div className="flex items-center gap-1">
-                          <FiCreditCard className={`text-xs md:text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
-                          <span className={`text-xs md:text-sm font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
-                            Bank Transfer
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-1">
+                            <FiCreditCard className={`text-xs md:text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+                            <span className={`text-xs md:text-sm font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+                              Bank Transfer
+                            </span>
+                          </div>
+                          <span className="text-xs text-green-600 bg-green-100 dark:bg-green-900/30 px-2 py-0.5 rounded-full">
+                            Available
                           </span>
                         </div>
                       </div>
                     </label>
 
-                    {/* Cash on Delivery */}
-                    <label className={`flex items-start gap-2 p-2 md:p-3 rounded-lg border cursor-pointer
-                      ${paymentMethod === 'cod'
-                        ? isDarkMode
-                          ? 'border-blue-500 bg-blue-600/10'
-                          : 'border-blue-500 bg-blue-50'
-                        : isDarkMode
-                          ? 'border-gray-700 hover:bg-gray-800/50'
-                          : 'border-gray-200 hover:bg-gray-50'
-                      }`}>
+                    {/* Cash on Delivery - Not Available */}
+                    <label className={`flex items-start gap-2 p-2 md:p-3 rounded-lg border cursor-not-allowed opacity-60
+                      ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
                       <input
                         type="radio"
                         name="payment"
                         value="cod"
-                        checked={paymentMethod === 'cod'}
-                        onChange={(e) => setPaymentMethod(e.target.value)}
+                        disabled
                         className="mt-0.5 accent-blue-600"
                       />
                       <div className="flex-1">
-                        <div className="flex items-center gap-1">
-                          <FiShoppingBag className={`text-xs md:text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
-                          <span className={`text-xs md:text-sm font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
-                            Cash on Delivery
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-1">
+                            <FiShoppingBag className={`text-xs md:text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+                            <span className={`text-xs md:text-sm font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                              Cash on Delivery
+                            </span>
+                          </div>
+                          <span className="text-xs text-red-600 bg-red-100 dark:bg-red-900/30 px-2 py-0.5 rounded-full">
+                            Not Available
                           </span>
                         </div>
-                      </div>
-                    </label>
-
-                    {/* Card Payment */}
-                    <label className={`flex items-start gap-2 p-2 md:p-3 rounded-lg border cursor-pointer
-                      ${paymentMethod === 'card'
-                        ? isDarkMode
-                          ? 'border-blue-500 bg-blue-600/10'
-                          : 'border-blue-500 bg-blue-50'
-                        : isDarkMode
-                          ? 'border-gray-700 hover:bg-gray-800/50'
-                          : 'border-gray-200 hover:bg-gray-50'
-                      }`}>
-                      <input
-                        type="radio"
-                        name="payment"
-                        value="card"
-                        checked={paymentMethod === 'card'}
-                        onChange={(e) => setPaymentMethod(e.target.value)}
-                        className="mt-0.5 accent-blue-600"
-                      />
-                      <div className="flex-1">
-                        <div className="flex items-center gap-1">
-                          <FiLock className={`text-xs md:text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
-                          <span className={`text-xs md:text-sm font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
-                            Card Payment
-                          </span>
-                        </div>
+                        <p className={`text-xs mt-1 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>
+                          Currently unavailable for your region
+                        </p>
                       </div>
                     </label>
                   </div>
+
+                  {/* Bank Transfer Instructions */}
+                  {paymentMethod === 'bank' && (
+                    <div className={`mt-4 p-3 rounded-lg ${
+                      isDarkMode ? 'bg-blue-900/20 border border-blue-800' : 'bg-blue-50 border border-blue-200'
+                    }`}>
+                      <h4 className={`text-sm font-medium mb-2 ${isDarkMode ? 'text-blue-400' : 'text-blue-700'}`}>
+                        Bank Transfer Instructions:
+                      </h4>
+                      <p className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                        After placing your order, you will receive bank details to complete the payment. 
+                        Please transfer the exact amount within 24 hours.
+                      </p>
+                    </div>
+                  )}
                 </div>
 
-                {/* Place Order Button */}
                 <button
                   type="submit"
-                  className="w-full mt-4 md:mt-6 py-2.5 md:py-3 bg-gradient-to-r from-blue-600 to-cyan-600 
+                  disabled={isSubmitting}
+                  className={`w-full mt-4 md:mt-6 py-2.5 md:py-3 bg-gradient-to-r from-blue-600 to-cyan-600 
                            text-white font-medium rounded-lg text-sm md:text-base
                            hover:from-blue-700 hover:to-cyan-700 transition-all duration-300 
-                           transform hover:scale-[1.01] hover:shadow-md"
+                           transform hover:scale-[1.01] hover:shadow-md
+                           ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
-                  Place Order (${total.toFixed(2)})
+                  {isSubmitting ? 'Processing...' : `Place Order ($${total.toFixed(2)})`}
                 </button>
 
-                {/* Trust Badges */}
                 <div className="mt-4 pt-3 border-t dark:border-gray-700">
                   <div className="flex items-center justify-center gap-3">
                     <div className="flex items-center gap-1">
