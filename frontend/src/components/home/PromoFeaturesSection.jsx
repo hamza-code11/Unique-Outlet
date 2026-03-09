@@ -241,53 +241,400 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useState, useEffect } from "react";
+// import productImg from "../../assets/home/product-single-no-decor-501x1024.png";
+// import { FiShield, FiWind, FiSmile, FiShoppingBag, FiArrowRight, FiStar } from "react-icons/fi";
+
+// const PromoFeaturesSection = () => {
+//   const [isDarkMode, setIsDarkMode] = useState(false);
+
+//   // Check for dark mode class on html element
+//   useEffect(() => {
+//     const checkDarkMode = () => {
+//       setIsDarkMode(document.documentElement.classList.contains('dark'));
+//     };
+
+//     // Initial check
+//     checkDarkMode();
+
+//     // Observe changes to html class
+//     const observer = new MutationObserver(checkDarkMode);
+//     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+//     return () => observer.disconnect();
+//   }, []);
+
+//   const features = [
+//     {
+//       icon: FiShield,
+//       title: "No dangerous toxins",
+//       description: "We offer a wide range of quality vaping products"
+//     },
+//     {
+//       icon: FiWind,
+//       title: "Feel of menthol",
+//       description: "We offer a wide range of quality vaping products"
+//     },
+//     {
+//       icon: FiSmile,
+//       title: "Safer than smoking",
+//       description: "We offer a wide range of quality vaping products"
+//     }
+//   ];
+
+//   return (
+//     <section className={`relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 transition-colors duration-500 ${
+//       isDarkMode 
+//         ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' 
+//         : 'bg-gradient-to-br from-white via-gray-50 to-white'
+//     }`}>
+//       {/* Background Effects - dynamic */}
+//       <div className={`absolute inset-0 transition-colors duration-500 ${
+//         isDarkMode 
+//           ? 'bg-gradient-to-b from-blue-900/20 via-transparent to-cyan-900/20' 
+//           : 'bg-gradient-to-b from-blue-100/30 via-transparent to-cyan-100/30'
+//       }`}></div>
+      
+//       {/* Animated Background Elements - dynamic */}
+//       <div className={`absolute top-20 left-10 w-96 h-96 rounded-full blur-3xl animate-pulse-slow transition-colors duration-500 ${
+//         isDarkMode ? 'bg-blue-800/20' : 'bg-blue-200/20'
+//       }`}></div>
+      
+//       <div className={`absolute bottom-20 right-10 w-96 h-96 rounded-full blur-3xl animate-pulse-slow transition-colors duration-500 ${
+//         isDarkMode ? 'bg-cyan-800/20' : 'bg-cyan-200/20'
+//       }`} style={{ animationDelay: '1s' }}></div>
+      
+//       <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse-slow transition-colors duration-500 ${
+//         isDarkMode ? 'bg-purple-800/20' : 'bg-purple-200/20'
+//       }`} style={{ animationDelay: '2s' }}></div>
+      
+//       {/* Decorative Lines - dynamic */}
+//       <div className={`absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent transition-colors duration-500 ${
+//         isDarkMode ? 'via-blue-400/20' : 'via-blue-300/50'
+//       }`}></div>
+      
+//       <div className={`absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent transition-colors duration-500 ${
+//         isDarkMode ? 'via-cyan-400/20' : 'via-cyan-300/50'
+//       }`}></div>
+      
+//       {/* Grid Pattern Overlay - dynamic */}
+//       <div className="absolute inset-0 opacity-[0.03]" style={{ 
+//         backgroundImage: `radial-gradient(circle at 1px 1px, ${isDarkMode ? '#60a5fa' : '#2563eb'} 1px, transparent 0)`,
+//         backgroundSize: '40px 40px'
+//       }}></div>
+
+//       <div className="max-w-7xl mx-auto relative z-10">
+//         <div className="flex flex-wrap lg:flex-nowrap items-center justify-between gap-10 lg:gap-16">
+          
+//           {/* Left Content */}
+//           <div className="flex-1 min-w-[280px] text-center lg:text-left space-y-6">
+//             {/* Heading */}
+//             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+//               <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>
+//                 Try our
+//               </span>
+//               <br />
+//               <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+//                 new taste
+//               </span>
+//             </h1>
+
+//             {/* Description */}
+//             <p className={`text-base leading-relaxed max-w-md mx-auto lg:mx-0 transition-colors duration-500 ${
+//               isDarkMode ? 'text-gray-400' : 'text-gray-600'
+//             }`}>
+//               Our vape shop is not only a variety of vaping products, 
+//               but also an operational support service.
+//             </p>
+
+//             {/* CTA Button */}
+//             <div className="flex flex-col sm:flex-row items-center lg:items-start gap-4">
+//               <button className="group px-8 py-3.5 bg-gradient-to-r from-blue-600 to-cyan-600 
+//                                text-white font-semibold rounded-full text-base
+//                                hover:from-blue-700 hover:to-cyan-700 transition-all duration-300 
+//                                transform hover:scale-105 hover:shadow-xl hover:shadow-blue-600/30
+//                                flex items-center justify-center gap-2">
+//                 <FiShoppingBag className="text-lg" />
+//                 <span>Shop Now</span>
+//                 <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
+//               </button>
+//             </div>
+//           </div>
+
+//           {/* Center Image */}
+//           <div className="flex-1 text-center">
+//             <div className="relative inline-block">
+//               {/* Animated Rings - dynamic */}
+//               <div className={`absolute inset-0 rounded-full blur-3xl animate-pulse transition-colors duration-500 ${
+//                 isDarkMode 
+//                   ? 'bg-gradient-to-r from-blue-800/30 to-cyan-800/30' 
+//                   : 'bg-gradient-to-r from-blue-200/40 to-cyan-200/40'
+//               }`}></div>
+              
+//               <div className={`absolute -inset-4 border-2 rounded-full animate-ping-slow transition-colors duration-500 ${
+//                 isDarkMode ? 'border-blue-500/20' : 'border-blue-300/50'
+//               }`}></div>
+              
+//               <div className={`absolute -inset-8 border-2 rounded-full animate-ping-slow transition-colors duration-500 ${
+//                 isDarkMode ? 'border-cyan-500/20' : 'border-cyan-300/40'
+//               }`} style={{ animationDelay: '0.5s' }}></div>
+              
+//               {/* Image Container - dynamic */}
+//               <div className={`relative p-8 md:p-10 rounded-[40px] md:rounded-[50px] 
+//                             border backdrop-blur-sm transform hover:scale-105 transition-transform duration-500
+//                             shadow-2xl transition-colors duration-500 ${
+//                               isDarkMode 
+//                                 ? 'bg-gradient-to-br from-gray-800 to-gray-700 border-gray-700 shadow-gray-900/50' 
+//                                 : 'bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200/50 shadow-blue-200/50'
+//                             }`}>
+//                 <img 
+//                   src={productImg} 
+//                   alt="Vape Product" 
+//                   className="w-48 md:w-56 lg:w-64 h-auto object-contain 
+//                            drop-shadow-2xl animate-float"
+//                 />
+//               </div>
+
+//               {/* Floating Badges */}
+//               <div className="absolute -top-4 -right-4 bg-gradient-to-r from-blue-600 to-cyan-600 
+//                             px-4 py-2 rounded-full shadow-lg animate-float">
+//                 <span className="text-sm font-medium text-white">New</span>
+//               </div>
+              
+//               <div className={`absolute -bottom-4 -left-4 backdrop-blur-sm 
+//                             px-4 py-2 rounded-full border shadow-lg 
+//                             animate-float flex items-center gap-2 transition-colors duration-500 ${
+//                               isDarkMode 
+//                                 ? 'bg-gray-800 border-gray-700' 
+//                                 : 'bg-white border-cyan-200'
+//                             }`}
+//                    style={{ animationDelay: '0.3s' }}>
+//                 <div className="flex items-center gap-1">
+//                   {[...Array(5)].map((_, i) => (
+//                     <FiStar key={i} className="text-yellow-400 fill-current text-sm" />
+//                   ))}
+//                 </div>
+//                 <span className={`text-sm font-medium transition-colors duration-500 ${
+//                   isDarkMode ? 'text-gray-300' : 'text-gray-700'
+//                 }`}>4.9</span>
+//               </div>
+//             </div>
+//           </div>
+
+//           {/* Right Features */}
+//           <div className="flex-1 min-w-[280px] space-y-5">
+//             {features.map((feature, index) => {
+//               const Icon = feature.icon;
+//               return (
+//                 <div key={index}
+//                      className={`group flex gap-4 p-5 rounded-xl backdrop-blur-sm 
+//                               border transition-all duration-300 hover:shadow-lg
+//                               transform hover:scale-[1.02] ${
+//                                 isDarkMode 
+//                                   ? 'bg-gray-800/80 border-gray-700 hover:border-blue-600 hover:shadow-blue-900/30' 
+//                                   : 'bg-white border-gray-200 hover:border-blue-300 hover:shadow-blue-200/50'
+//                               }`}>
+//                   <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-600 
+//                                 rounded-xl flex items-center justify-center flex-shrink-0
+//                                 shadow-lg shadow-blue-500/30 group-hover:scale-110 transition-transform">
+//                     <Icon className="text-white text-xl" />
+//                   </div>
+//                   <div>
+//                     <h4 className={`text-lg font-semibold mb-1 transition-colors duration-500 ${
+//                       isDarkMode ? 'text-gray-200' : 'text-gray-900'
+//                     }`}>
+//                       {feature.title}
+//                     </h4>
+//                     <p className={`text-sm leading-relaxed transition-colors duration-500 ${
+//                       isDarkMode ? 'text-gray-400' : 'text-gray-600'
+//                     }`}>
+//                       {feature.description}
+//                     </p>
+//                   </div>
+//                 </div>
+//               );
+//             })}
+//           </div>
+
+//         </div>
+//       </div>
+
+//       <style jsx>{`
+//         @keyframes pulse-slow {
+//           0%, 100% {
+//             opacity: 0.3;
+//             transform: scale(1);
+//           }
+//           50% {
+//             opacity: 0.6;
+//             transform: scale(1.1);
+//           }
+//         }
+
+//         @keyframes float {
+//           0%, 100% {
+//             transform: translateY(0);
+//           }
+//           50% {
+//             transform: translateY(-10px);
+//           }
+//         }
+
+//         @keyframes ping-slow {
+//           75%, 100% {
+//             transform: scale(1.5);
+//             opacity: 0;
+//           }
+//         }
+        
+//         .animate-pulse-slow {
+//           animation: pulse-slow 4s ease-in-out infinite;
+//         }
+
+//         .animate-float {
+//           animation: float 3s ease-in-out infinite;
+//         }
+
+//         .animate-ping-slow {
+//           animation: ping-slow 3s cubic-bezier(0, 0, 0.2, 1) infinite;
+//         }
+//       `}</style>
+//     </section>
+//   );
+// };
+
+// export default PromoFeaturesSection;
+
+
+
+
+
+// src/components/home/PromoFeaturesSection.jsx
 import React, { useState, useEffect } from "react";
 import productImg from "../../assets/home/product-single-no-decor-501x1024.png";
 import { FiShield, FiWind, FiSmile, FiShoppingBag, FiArrowRight, FiStar } from "react-icons/fi";
+import axios from "axios";
+
+// Pre-fetch data immediately
+let promoDataCache = null;
+let dataPromise = null;
+
+// Start fetching data immediately
+const fetchData = async () => {
+  if (dataPromise) return dataPromise;
+  
+  dataPromise = axios.get('http://127.0.0.1:8000/api/promo-features', { timeout: 3000 })
+    .then(response => {
+      if (response.data.success && response.data.data) {
+        promoDataCache = response.data.data;
+      }
+      return promoDataCache;
+    })
+    .catch(() => {
+      // Fallback data
+      promoDataCache = {
+        image: "promo-features/R4jjSocmRYyx7TpeIjbl3IVRLMZEEAU17QWZuve0.png",
+        badge: "New",
+        heading: "Try our new taste",
+        paragraph: "Our vape shop is not only a variety of vaping products, but also an operational support service.",
+        button_text: "Shop Now",
+        feature_one_heading: "No dangerous toxins",
+        feature_one_paragraph: "We offer a wide range of quality vaping products",
+        feature_two_heading: "Feel of menthol",
+        feature_two_paragraph: "We offer a wide range of quality vaping products",
+        feature_three_heading: "Safer than smoking",
+        feature_three_paragraph: "We offer a wide range of quality vaping products"
+      };
+      return promoDataCache;
+    });
+  
+  return dataPromise;
+};
+
+// Start fetching immediately
+fetchData();
 
 const PromoFeaturesSection = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [promoData, setPromoData] = useState(promoDataCache);
+  const [isVisible, setIsVisible] = useState(false);
 
-  // Check for dark mode class on html element
+  // Check for dark mode
   useEffect(() => {
     const checkDarkMode = () => {
       setIsDarkMode(document.documentElement.classList.contains('dark'));
     };
 
-    // Initial check
     checkDarkMode();
-
-    // Observe changes to html class
     const observer = new MutationObserver(checkDarkMode);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
     return () => observer.disconnect();
   }, []);
 
+  // Show component immediately with smooth fade
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      setIsVisible(true);
+    });
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  // Get data if not already cached
+  useEffect(() => {
+    if (!promoData) {
+      fetchData().then(data => {
+        if (data) setPromoData(data);
+      });
+    }
+  }, [promoData]);
+
+  // Features array from API data
   const features = [
     {
       icon: FiShield,
-      title: "No dangerous toxins",
-      description: "We offer a wide range of quality vaping products"
+      title: promoData?.feature_one_heading || "No dangerous toxins",
+      description: promoData?.feature_one_paragraph || "We offer a wide range of quality vaping products"
     },
     {
       icon: FiWind,
-      title: "Feel of menthol",
-      description: "We offer a wide range of quality vaping products"
+      title: promoData?.feature_two_heading || "Feel of menthol",
+      description: promoData?.feature_two_paragraph || "We offer a wide range of quality vaping products"
     },
     {
       icon: FiSmile,
-      title: "Safer than smoking",
-      description: "We offer a wide range of quality vaping products"
+      title: promoData?.feature_three_heading || "Safer than smoking",
+      description: promoData?.feature_three_paragraph || "We offer a wide range of quality vaping products"
     }
   ];
 
+  const imageUrl = promoData?.image 
+    ? `http://127.0.0.1:8000/storage/${promoData.image}`
+    : productImg;
+
+  // Format heading parts
+  const headingParts = promoData?.heading?.split(' ') || ["Try our",];
+  const firstPart = headingParts.slice(0, 2).join(' ') || "Try our";
+  const secondPart = headingParts.slice(2).join(' ') || "new taste";
+
   return (
-    <section className={`relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 transition-colors duration-500 ${
+    <section className={`relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 transition-opacity duration-700 ${
       isDarkMode 
         ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' 
         : 'bg-gradient-to-br from-white via-gray-50 to-white'
-    }`}>
+    } ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+      
       {/* Background Effects - dynamic */}
       <div className={`absolute inset-0 transition-colors duration-500 ${
         isDarkMode 
@@ -331,11 +678,11 @@ const PromoFeaturesSection = () => {
             {/* Heading */}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
               <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>
-                Try our
+                {firstPart}
               </span>
               <br />
               <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-                new taste
+                {secondPart}
               </span>
             </h1>
 
@@ -343,8 +690,7 @@ const PromoFeaturesSection = () => {
             <p className={`text-base leading-relaxed max-w-md mx-auto lg:mx-0 transition-colors duration-500 ${
               isDarkMode ? 'text-gray-400' : 'text-gray-600'
             }`}>
-              Our vape shop is not only a variety of vaping products, 
-              but also an operational support service.
+              {promoData?.paragraph || "Our vape shop is not only a variety of vaping products, but also an operational support service."}
             </p>
 
             {/* CTA Button */}
@@ -355,7 +701,7 @@ const PromoFeaturesSection = () => {
                                transform hover:scale-105 hover:shadow-xl hover:shadow-blue-600/30
                                flex items-center justify-center gap-2">
                 <FiShoppingBag className="text-lg" />
-                <span>Shop Now</span>
+                <span>{promoData?.button_text || "Shop Now"}</span>
                 <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
@@ -388,17 +734,20 @@ const PromoFeaturesSection = () => {
                                 : 'bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200/50 shadow-blue-200/50'
                             }`}>
                 <img 
-                  src={productImg} 
-                  alt="Vape Product" 
+                  src={imageUrl} 
+                  alt={promoData?.heading || "Vape Product"} 
                   className="w-48 md:w-56 lg:w-64 h-auto object-contain 
                            drop-shadow-2xl animate-float"
+                  onError={(e) => {
+                    e.target.src = productImg; // fallback to local image
+                  }}
                 />
               </div>
 
               {/* Floating Badges */}
               <div className="absolute -top-4 -right-4 bg-gradient-to-r from-blue-600 to-cyan-600 
                             px-4 py-2 rounded-full shadow-lg animate-float">
-                <span className="text-sm font-medium text-white">New</span>
+                <span className="text-sm font-medium text-white">{promoData?.badge || "New"}</span>
               </div>
               
               <div className={`absolute -bottom-4 -left-4 backdrop-blur-sm 

@@ -8,7 +8,7 @@ class Product extends Model
 {
     protected $casts = [
     'specifications' => 'array',
-    'vendor_info' => 'array',
+    'colors' => 'array',
 ];
 
 protected $fillable = [
@@ -21,8 +21,8 @@ protected $fillable = [
     'stock',
     'description',
     'bottle_size',
+    'colors',
     'specifications',
-    'vendor_info',
     'status',
     'image1',
     'image2',
@@ -31,6 +31,7 @@ protected $fillable = [
     'image5',
     'image6',
 ];
+
 
 public function category()
 {

@@ -124,10 +124,7 @@ class ProductSeeder extends Seeder
                         'nicotine' => '5%',
                         'type' => 'Disposable'
                     ],
-                    'vendor_info' => [
-                        'vendor' => 'RockMe',
-                        'country' => 'USA'
-                    ],
+
                     'status' => 1
                 ]);
             }

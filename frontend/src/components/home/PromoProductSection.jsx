@@ -262,54 +262,119 @@
 
 
 
+
+// src/components/home/PromoProductSection.jsx
 import React, { useState, useEffect } from "react";
-import productImg from "../../assets/home/get-image2.png"; // apni product image ka path
-import wavesBg from "../../assets/home/Vertical Garden Wall With Neon Light.jfif"; // smoke/waves background image
-import { FiShoppingBag, FiArrowRight, FiClock, FiTag, FiShield, FiWind, FiSmile, FiStar } from "react-icons/fi";
+import productImg from "../../assets/home/get-image2.png";
+import wavesBg from "../../assets/home/Vertical Garden Wall With Neon Light.jfif";
+import { FiShoppingBag, FiArrowRight, FiShield, FiWind, FiSmile } from "react-icons/fi";
+import axios from "axios";
+
+// Pre-fetch data immediately
+let promoDataCache = null;
+let dataPromise = null;
+
+// Start fetching data immediately
+const fetchData = async () => {
+  if (dataPromise) return dataPromise;
+  
+  dataPromise = axios.get('http://127.0.0.1:8000/api/promo-product', { timeout: 3000 })
+    .then(response => {
+      if (response.data.success && response.data.promo_product) {
+        promoDataCache = response.data.promo_product;
+      }
+      return promoDataCache;
+    })
+    .catch(() => {
+      // Fallback data
+      promoDataCache = {
+        badge: "Best Sellerr",
+        heading: "Organic Menthol Balm",
+        paragraph: "Experience instant cooling relief with our 100% natural menthol balm made from premium organic ingredients.",
+        price: "19.99",
+        feature_one: "100% Natural",
+        feature_two: "Fresh Menthol",
+        feature_three: "30 Day Refund",
+        button_text: "Shop Now",
+        image: "promo-products/Gflo2DAWiUZxYer8nF0Y3nlEmSOxTYcBtJIFSIXk.png"
+      };
+      return promoDataCache;
+    });
+  
+  return dataPromise;
+};
+
+// Start fetching immediately
+fetchData();
 
 const PromoProductSection = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [promoData, setPromoData] = useState(promoDataCache);
+  const [isVisible, setIsVisible] = useState(false);
 
-  // Check for dark mode class on html element
+  // Check for dark mode
   useEffect(() => {
     const checkDarkMode = () => {
       setIsDarkMode(document.documentElement.classList.contains('dark'));
     };
 
-    // Initial check
     checkDarkMode();
-
-    // Observe changes to html class
     const observer = new MutationObserver(checkDarkMode);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
     return () => observer.disconnect();
   }, []);
 
+  // Show component immediately with smooth fade
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      setIsVisible(true);
+    });
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  // Get data if not already cached
+  useEffect(() => {
+    if (!promoData) {
+      fetchData().then(data => {
+        if (data) setPromoData(data);
+      });
+    }
+  }, [promoData]);
+
+  // Features array from API data
   const features = [
     {
       icon: FiShield,
-      title: "100% Natural",
+      title: promoData?.feature_one || "100% Natural",
       description: "Premium quality ingredients"
     },
     {
       icon: FiWind,
-      title: "Fresh Menthol",
+      title: promoData?.feature_two || "Fresh Menthol",
       description: "Smooth cooling effect"
     },
     {
       icon: FiSmile,
-      title: "30 Day Refund",
+      title: promoData?.feature_three || "30 Day Refund",
       description: "Money-back guarantee"
     }
   ];
 
+  const imageUrl = promoData?.image 
+    ? `http://127.0.0.1:8000/storage/${promoData.image}`
+    : productImg;
+
+  // Format price
+  const originalPrice = promoData?.price ? (parseFloat(promoData.price) * 2).toFixed(2) : "99.00";
+
   return (
-    <section className={`relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 transition-colors duration-500 ${
+    <section className={`relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 transition-opacity duration-700 ${
       isDarkMode 
         ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' 
         : 'bg-gradient-to-br from-white via-gray-50 to-white'
-    }`}>
+    } ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+      
       {/* Background Effects - dynamic */}
       <div className={`absolute inset-0 transition-colors duration-500 ${
         isDarkMode 
@@ -358,14 +423,14 @@ const PromoProductSection = () => {
                 />
               </div>
               
-              {/* Gradient Overlay to blend smoke with background - dynamic */}
+              {/* Gradient Overlay - dynamic */}
               <div className={`absolute inset-0 transition-colors duration-500 ${
                 isDarkMode 
                   ? 'bg-gradient-to-tr from-gray-900/80 via-gray-800/60 to-transparent' 
                   : 'bg-gradient-to-tr from-white/80 via-gray-50/60 to-transparent'
               }`}></div>
               
-              {/* Colored overlays for smoke effect - dynamic */}
+              {/* Colored overlays - dynamic */}
               <div className={`absolute top-0 left-0 w-full h-full mix-blend-overlay transition-colors duration-500 ${
                 isDarkMode 
                   ? 'bg-gradient-to-br from-blue-900/30 via-purple-900/30 to-cyan-900/30' 
@@ -413,10 +478,13 @@ const PromoProductSection = () => {
                 
                 {/* Product Image */}
                 <img 
-                  src={productImg} 
-                  alt="Product" 
+                  src={imageUrl} 
+                  alt={promoData?.heading || "Product"} 
                   className="relative w-full max-w-[380px] mx-auto h-auto object-contain
                            drop-shadow-2xl transform hover:scale-105 transition-transform duration-500"
+                  onError={(e) => {
+                    e.target.src = productImg; // fallback to local image
+                  }}
                   style={{ 
                     filter: isDarkMode 
                       ? 'drop-shadow(0 20px 30px rgba(0, 150, 255, 0.3))' 
@@ -454,7 +522,7 @@ const PromoProductSection = () => {
               <span className={`text-sm font-medium tracking-wide ${
                 isDarkMode ? 'text-blue-300' : 'text-blue-600'
               }`}>
-                LATEST ARRIVAL
+                {promoData?.badge?.toUpperCase() || "LATEST ARRIVAL"}
               </span>
             </div>
 
@@ -462,19 +530,19 @@ const PromoProductSection = () => {
             <h2 className={`text-3xl md:text-4xl font-bold transition-colors duration-500 ${
               isDarkMode ? 'text-white' : 'text-gray-900'
             }`}>
-              Premium Products
+              {promoData?.heading || "Organic Menthol Balm"}
             </h2>
 
             {/* Price */}
             <div className="flex items-center gap-4 flex-wrap">
               <span className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 
                                bg-clip-text text-transparent">
-                $49.00
+                ${promoData?.price || "19.99"}
               </span>
               <span className={`text-xl line-through transition-colors duration-500 ${
                 isDarkMode ? 'text-gray-500 decoration-gray-600' : 'text-gray-400 decoration-gray-300'
               }`}>
-                $99.00
+                ${originalPrice}
               </span>
             </div>
 
@@ -482,72 +550,35 @@ const PromoProductSection = () => {
             <p className={`text-base leading-relaxed transition-colors duration-500 ${
               isDarkMode ? 'text-gray-400' : 'text-gray-600'
             }`}>
-              There Are Many Variations Of Passages Of Lorem Ipsum Available, 
-              But The Majority Have Suffered Alteration In Some Form, By Injected 
-              Humour, Or Randomised Words Which...
+              {promoData?.paragraph || "Experience instant cooling relief with our 100% natural menthol balm made from premium organic ingredients."}
             </p>
 
             {/* Features List */}
             <div className="space-y-3 pt-2">
-              {/* 100% Natural */}
-              <div className="flex items-center gap-3">
-                <FiShield className={`text-lg ${
-                  isDarkMode ? 'text-blue-400' : 'text-blue-600'
-                }`} />
-                <span className={`transition-colors duration-500 ${
-                  isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                }`}>100% Natural</span>
-              </div>
-
-              {/* Fresh Menthol */}
-              <div className="flex items-center gap-3">
-                <FiWind className={`text-lg ${
-                  isDarkMode ? 'text-blue-400' : 'text-blue-600'
-                }`} />
-                <span className={`transition-colors duration-500 ${
-                  isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                }`}>Fresh Menthol</span>
-              </div>
-
-              {/* 30 Day Refund */}
-              <div className="flex items-center gap-3">
-                <FiSmile className={`text-lg ${
-                  isDarkMode ? 'text-blue-400' : 'text-blue-600'
-                }`} />
-                <span className={`transition-colors duration-500 ${
-                  isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                }`}>30 Day Refund</span>
-              </div>
+              {features.map((feature, index) => (
+                <div key={index} className="flex items-center gap-3">
+                  <feature.icon className={`text-lg ${
+                    isDarkMode ? 'text-blue-400' : 'text-blue-600'
+                  }`} />
+                  <span className={`transition-colors duration-500 ${
+                    isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                  }`}>{feature.title}</span>
+                </div>
+              ))}
             </div>
 
             {/* Call to Action */}
             <div className="pt-4">
-              <div className="mb-4">
-                <span className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-pink-500 
-                               bg-clip-text text-transparent">
-                  HUNGRY UP!
-                </span>
-              </div>
-
               {/* Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3">
-                <button className="group flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 
-                                 text-white font-semibold rounded-full text-base
+              <div className="flex flex-col sm:flex-row">
+                <button className="group px-8 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 
+                                 text-white font-semibold rounded-full text-base w-fit
                                  hover:from-blue-700 hover:to-cyan-700 transition-all duration-300 
                                  transform hover:scale-105 hover:shadow-xl hover:shadow-blue-600/30
                                  flex items-center justify-center gap-2">
                   <FiShoppingBag className="text-lg" />
-                  <span>Shop Now</span>
+                  <span>{promoData?.button_text || "Shop Now"}</span>
                   <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
-                </button>
-                
-                <button className={`group flex-1 px-6 py-3 border-2 rounded-full text-base
-                                 transition-all duration-300 ${
-                                   isDarkMode 
-                                     ? 'border-blue-600 text-blue-400 hover:bg-gradient-to-r hover:from-blue-600 hover:to-cyan-600 hover:text-white hover:border-transparent' 
-                                     : 'border-blue-300 text-blue-600 hover:bg-gradient-to-r hover:from-blue-600 hover:to-cyan-600 hover:text-white hover:border-transparent'
-                                 }`}>
-                  Learn More
                 </button>
               </div>
             </div>

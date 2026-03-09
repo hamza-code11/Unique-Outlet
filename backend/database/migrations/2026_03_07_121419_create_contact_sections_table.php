@@ -1,0 +1,40 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('contact_sections', function (Blueprint $table) {
+            $table->id();
+
+            $table->string('badge')->nullable();
+        $table->string('heading');
+        $table->text('paragraph');
+
+        $table->string('address');
+        $table->string('phone');
+        $table->string('email');
+        $table->string('customer_support');
+
+        $table->text('map_location');
+
+        
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('contact_sections');
+    }
+};

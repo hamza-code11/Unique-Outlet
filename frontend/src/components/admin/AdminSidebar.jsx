@@ -9,6 +9,7 @@ import {
   FiImage, FiMenu, FiMapPin, FiClock, FiPhone
 } from "react-icons/fi";
 import { GiCigarette } from "react-icons/gi";
+import { GiFruitBowl } from "react-icons/gi";
 
 const AdminSidebar = ({ isDarkMode, isSidebarOpen, isMobileMenuOpen, closeMobileMenu }) => {
   const location = useLocation();
@@ -31,6 +32,16 @@ const AdminSidebar = ({ isDarkMode, isSidebarOpen, isMobileMenuOpen, closeMobile
       submenus: [
         { name: "All Products", path: "/admin/products", icon: <FiList /> },
         { name: "Add Product", path: "/admin/products/create", icon: <FiPlusCircle /> }
+      ]
+    },
+
+    // 📌 NEW: Flavour Management Section
+    {
+      name: "Flavours",
+      icon: <GiFruitBowl />,
+      submenus: [
+        { name: "All Flavours", path: "/admin/flavours", icon: <FiList /> },
+        { name: "Add Flavour", path: "/admin/flavours/add", icon: <FiPlusCircle /> }
       ]
     },
 
@@ -60,7 +71,6 @@ const AdminSidebar = ({ isDarkMode, isSidebarOpen, isMobileMenuOpen, closeMobile
       icon: <FiShoppingBag />,
       submenus: [
         { name: "All Orders", path: "/admin/orders", icon: <FiList /> },
-        { name: "New Orders", path: "/admin/orders/create", icon: <FiShoppingCart /> }
       ]
     },
 
@@ -87,21 +97,20 @@ const AdminSidebar = ({ isDarkMode, isSidebarOpen, isMobileMenuOpen, closeMobile
       name: "Management",
       icon: <FiSettings />,
       submenus: [
-        { name: "Invoices", path: "/admin/invoices", icon: <FiCreditCard /> },
         { name: "Contact Messages", path: "/admin/contact-messages", icon: <FiMail /> }
       ]
     },
 
     // Reports Section
-    {
-      name: "Reports",
-      icon: <FiBarChart2 />,
-      submenus: [
-        { name: "Sales Report", path: "/admin/reports/sales", icon: <FiDollarSign /> },
-        { name: "Product Report", path: "/admin/reports/products", icon: <FiBox /> },
-        { name: "Customer Report", path: "/admin/reports/customers", icon: <FiUsers /> }
-      ]
-    },
+    // {
+    //   name: "Reports",
+    //   icon: <FiBarChart2 />,
+    //   submenus: [
+    //     { name: "Sales Report", path: "/admin/reports/sales", icon: <FiDollarSign /> },
+    //     { name: "Product Report", path: "/admin/reports/products", icon: <FiBox /> },
+    //     { name: "Customer Report", path: "/admin/reports/customers", icon: <FiUsers /> }
+    //   ]
+    // },
   ];
 
   // Desktop Sidebar
@@ -112,7 +121,7 @@ const AdminSidebar = ({ isDarkMode, isSidebarOpen, isMobileMenuOpen, closeMobile
       {/* Logo */}
       <div className={`h-16 flex items-center justify-center border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
         <Link to="/admin" className="text-xl sm:text-2xl font-bold text-blue-600">
-          WAPO<span className="text-xs sm:text-sm"> Admin</span>
+          Unique Outlet<span className="text-xs sm:text-sm"></span>
         </Link>
       </div>
 

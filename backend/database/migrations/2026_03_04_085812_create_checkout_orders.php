@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-Schema::create('checkout_orders', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('user_id')->constrained()->onDelete('cascade');
-    $table->string('name');
-    $table->string('email');
-    $table->string('phone');
-    $table->string('country');
-    $table->string('street_address');
-    $table->string('town_city');
-    $table->string('postcode');
-    $table->timestamps();
-});
+        Schema::create('checkout_orders', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('name');
+            $table->string('email');
+            $table->string('phone');
+            $table->string('country');
+            $table->string('street_address');
+            $table->string('town_city');
+            $table->string('postcode');
+            $table->timestamps();
+        });
     }
 
     /**

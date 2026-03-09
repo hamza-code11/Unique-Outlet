@@ -23,9 +23,9 @@ public function up(): void
         $table->integer('stock');
         $table->text('description')->nullable();
         $table->string('bottle_size')->nullable();
+        $table->json('colors')->nullable();
 
         $table->json('specifications')->nullable();
-        $table->json('vendor_info')->nullable();
         $table->boolean('status')->default(1);
 
         // Images (6 images)

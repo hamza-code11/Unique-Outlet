@@ -188,39 +188,613 @@
 
 
 
-import React, { useEffect, useRef, useState } from "react";
-import user1 from "../../assets/home/01.webp";
-import user2 from "../../assets/home/02.webp";
-import user3 from "../../assets/home/03.webp";
-import { FiStar, FiMessageCircle } from "react-icons/fi";
 
-const testimonials = [
-  {
-    image: user1,
-    name: "Lisa Smith",
-    role: "Barista",
-    text: "Great! The products are high quality and delivery was super fast. I'm really satisfied with my purchase.",
-    rating: 5,
-  },
-  {
-    image: user2,
-    name: "Andrew Jons",
-    role: "Waiter",
-    text: "Amazing experience shopping here. The customer support team was very helpful and responsive.",
-    rating: 5,
-  },
-  {
-    image: user3,
-    name: "Steve Parker",
-    role: "Project Manager",
-    text: "Professional service and premium products. Highly recommended for anyone looking for reliability.",
-    rating: 4,
-  },
-];
+
+
+
+
+
+
+
+
+// import React, { useEffect, useRef, useState } from "react";
+// import user1 from "../../assets/home/01.webp";
+// import user2 from "../../assets/home/02.webp";
+// import user3 from "../../assets/home/03.webp";
+// import { FiStar, FiMessageCircle } from "react-icons/fi";
+
+// const testimonials = [
+//   {
+//     image: user1,
+//     name: "Lisa Smith",
+//     role: "Barista",
+//     text: "Great! The products are high quality and delivery was super fast. I'm really satisfied with my purchase.",
+//     rating: 5,
+//   },
+//   {
+//     image: user2,
+//     name: "Andrew Jons",
+//     role: "Waiter",
+//     text: "Amazing experience shopping here. The customer support team was very helpful and responsive.",
+//     rating: 5,
+//   },
+//   {
+//     image: user3,
+//     name: "Steve Parker",
+//     role: "Project Manager",
+//     text: "Professional service and premium products. Highly recommended for anyone looking for reliability.",
+//     rating: 4,
+//   },
+// ];
+
+// const TestimonialSection = () => {
+//   const sectionRef = useRef(null);
+//   const [isDarkMode, setIsDarkMode] = useState(false);
+
+//   // Check for dark mode class on html element
+//   useEffect(() => {
+//     const checkDarkMode = () => {
+//       setIsDarkMode(document.documentElement.classList.contains('dark'));
+//     };
+
+//     // Initial check
+//     checkDarkMode();
+
+//     // Observe changes to html class
+//     const observer = new MutationObserver(checkDarkMode);
+//     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+//     return () => observer.disconnect();
+//   }, []);
+
+//   useEffect(() => {
+//     const observer = new IntersectionObserver(
+//       (entries) => {
+//         entries.forEach((entry) => {
+//           if (entry.isIntersecting) {
+//             entry.target.classList.add('animate-fade-in-up');
+//           }
+//         });
+//       },
+//       { threshold: 0.1 }
+//     );
+
+//     if (sectionRef.current) {
+//       observer.observe(sectionRef.current);
+//     }
+
+//     return () => observer.disconnect();
+//   }, []);
+
+//   return (
+//     <section className={`relative overflow-hidden py-20 md:py-24 transition-colors duration-500 ${
+//       isDarkMode ? 'bg-gray-900' : 'bg-white'
+//     }`} id="testimonials">
+//       {/* Gradient backgrounds - dynamic */}
+//       <div className={`absolute top-0 right-0 w-3/4 h-3/4 rounded-full blur-3xl transition-colors duration-500 ${
+//         isDarkMode 
+//           ? 'bg-gradient-to-bl from-blue-900/30 via-blue-800/10 to-transparent' 
+//           : 'bg-gradient-to-bl from-blue-100/30 via-blue-50/20 to-transparent'
+//       }`}></div>
+      
+//       <div className={`absolute bottom-0 left-0 w-3/4 h-3/4 rounded-full blur-3xl transition-colors duration-500 ${
+//         isDarkMode 
+//           ? 'bg-gradient-to-tr from-cyan-900/30 via-transparent to-transparent' 
+//           : 'bg-gradient-to-tr from-cyan-100/30 via-transparent to-transparent'
+//       }`}></div>
+      
+//       {/* Overlay for depth - dynamic */}
+//       <div className={`absolute inset-0 transition-colors duration-500 ${
+//         isDarkMode ? 'bg-gray-900/50' : 'bg-white/50'
+//       }`}></div>
+      
+//       {/* Decorative quote marks - dynamic */}
+//       <div className={`absolute top-40 left-20 text-[200px] font-serif select-none transition-colors duration-500 ${
+//         isDarkMode ? 'text-blue-800/20' : 'text-blue-200/50'
+//       }`}>"</div>
+      
+//       <div className={`absolute bottom-40 right-20 text-[200px] font-serif select-none transition-colors duration-500 ${
+//         isDarkMode ? 'text-cyan-800/20' : 'text-cyan-200/50'
+//       }`}>"</div>
+      
+//       <div ref={sectionRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 opacity-0">
+        
+//         {/* Header Section */}
+//         <div className="text-center max-w-3xl mx-auto mb-16">
+//           {/* Badge - dynamic */}
+//           <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 transition-colors duration-500 ${
+//             isDarkMode 
+//               ? 'bg-gradient-to-r from-blue-900/50 to-cyan-800/30 border border-blue-700/50' 
+//               : 'bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200'
+//           }`}>
+//             <span className="relative flex h-2 w-2">
+//               <span className="animate-ping absolute inline-flex h-full w-full rounded-full 
+//                              bg-blue-400 opacity-75"></span>
+//               <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+//             </span>
+//             <span className={`text-xs sm:text-sm font-medium tracking-wide ${
+//               isDarkMode ? 'text-blue-300' : 'text-blue-600'
+//             }`}>
+//               TESTIMONIALS
+//             </span>
+//           </div>
+
+//           {/* Heading */}
+//           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-6">
+//             <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>
+//               Hear from our
+//             </span>
+//             <br />
+//             <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+//               happy clients
+//             </span>
+//           </h2>
+
+//           {/* Description */}
+//           <p className={`text-sm sm:text-base leading-relaxed transition-colors duration-500 ${
+//             isDarkMode ? 'text-gray-400' : 'text-gray-600'
+//           }`}>
+//             We offer a wide range of quality products, an easy shopping
+//             process, express delivery and first-class service.
+//           </p>
+//         </div>
+
+//         {/* Testimonials Grid */}
+//         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+//           {testimonials.map((item, index) => (
+//             <div
+//               key={index}
+//               className={`group rounded-2xl p-8 transition-all duration-300 
+//                        relative border ${
+//                          isDarkMode 
+//                            ? 'bg-gray-800 border-gray-700 hover:shadow-xl hover:shadow-blue-900/30 hover:border-blue-700' 
+//                            : 'bg-white border-gray-200 hover:shadow-xl hover:shadow-blue-200/50 hover:border-blue-300'
+//                        }`}
+//             >
+//               {/* Quote icon - dynamic */}
+//               <div className={`absolute top-6 right-6 transition-colors duration-500 ${
+//                 isDarkMode ? 'text-blue-600/30' : 'text-blue-200/80'
+//               }`}>
+//                 <FiMessageCircle className="text-3xl" />
+//               </div>
+
+//               {/* User Info */}
+//               <div className="flex items-center gap-4 mb-6">
+//                 <div className="relative">
+//                   <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 
+//                                 rounded-full blur-md opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
+//                   <img
+//                     src={item.image}
+//                     alt={item.name}
+//                     className={`relative w-16 h-16 rounded-full object-cover border-2 shadow-lg 
+//                               transition-all duration-300 group-hover:border-blue-300 ${
+//                                 isDarkMode 
+//                                   ? 'border-gray-700' 
+//                                   : 'border-white'
+//                               }`}
+//                   />
+//                 </div>
+//                 <div className="text-left">
+//                   <h4 className={`font-semibold transition-colors duration-500 ${
+//                     isDarkMode ? 'text-gray-200' : 'text-gray-900'
+//                   }`}>
+//                     {item.name}
+//                   </h4>
+//                   <p className="text-sm text-gray-500">
+//                     {item.role}
+//                   </p>
+//                 </div>
+//               </div>
+
+//               {/* Rating Stars */}
+//               <div className="flex items-center gap-0.5 mb-4">
+//                 {[...Array(5)].map((_, i) => (
+//                   <FiStar
+//                     key={i}
+//                     className={`text-base ${
+//                       i < item.rating 
+//                         ? 'text-blue-500 fill-current' 
+//                         : isDarkMode ? 'text-gray-600' : 'text-gray-300'
+//                     }`}
+//                   />
+//                 ))}
+//               </div>
+
+//               {/* Testimonial Text */}
+//               <p className={`leading-relaxed text-sm italic transition-colors duration-500 ${
+//                 isDarkMode ? 'text-gray-400' : 'text-gray-600'
+//               }`}>
+//                 "{item.text}"
+//               </p>
+//             </div>
+//           ))}
+//         </div>
+
+//       </div>
+
+//       <style jsx>{`
+//         @keyframes fade-in-up {
+//           from {
+//             opacity: 0;
+//             transform: translateY(20px);
+//           }
+//           to {
+//             opacity: 1;
+//             transform: translateY(0);
+//           }
+//         }
+        
+//         .animate-fade-in-up {
+//           animation: fade-in-up 0.6s ease-out forwards;
+//         }
+//       `}</style>
+//     </section>
+//   );
+// };
+
+// export default TestimonialSection;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useEffect, useRef, useState } from "react";
+// import { FiStar, FiMessageCircle } from "react-icons/fi";
+// import axios from "axios";
+
+// const API_URL = 'http://127.0.0.1:8000/api';
+
+// const TestimonialSection = () => {
+//   const sectionRef = useRef(null);
+//   const [isDarkMode, setIsDarkMode] = useState(false);
+//   const [testimonials, setTestimonials] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+
+//   // Check for dark mode class on html element
+//   useEffect(() => {
+//     const checkDarkMode = () => {
+//       setIsDarkMode(document.documentElement.classList.contains('dark'));
+//     };
+
+//     checkDarkMode();
+//     const observer = new MutationObserver(checkDarkMode);
+//     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+//     return () => observer.disconnect();
+//   }, []);
+
+//   // Fetch comments from API
+//   useEffect(() => {
+//     fetchTestimonials();
+//   }, []);
+
+//   const fetchTestimonials = async () => {
+//     try {
+//       setLoading(true);
+//       setError(null);
+//       console.log('Fetching testimonials from API...');
+      
+//       const response = await axios.get(`${API_URL}/all-comments`);
+//       console.log('API Response:', response.data);
+      
+//       if (response.data.success && response.data.comments) {
+//         // Filter comments with rating >= 4
+//         const highRatedComments = response.data.comments.filter(
+//           comment => comment.rating >= 4
+//         );
+        
+//         console.log('High rated comments:', highRatedComments.length);
+        
+//         if (highRatedComments.length > 0) {
+//           // Transform API data to testimonial format
+//           const transformed = highRatedComments
+//             .map(comment => ({
+//               id: comment.id,
+//               name: comment.user?.name || "Anonymous User",
+//               role: comment.product?.name?.split('-')[0]?.trim() || "Customer",
+//               text: comment.comment || "No comment provided",
+//               rating: comment.rating,
+//               productName: comment.product?.name || "Product"
+//             }))
+//             .sort(() => 0.5 - Math.random()) // Shuffle
+//             .slice(0, 3); // Take 3
+
+//           console.log('Transformed testimonials:', transformed);
+//           setTestimonials(transformed);
+//         } else {
+//           console.log('No high rated comments found, using fallback');
+//           useFallbackTestimonials();
+//         }
+//       } else {
+//         console.log('Invalid API response, using fallback');
+//         useFallbackTestimonials();
+//       }
+//     } catch (err) {
+//       console.error('Error fetching testimonials:', err);
+//       setError('Failed to load testimonials');
+//       useFallbackTestimonials();
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const useFallbackTestimonials = () => {
+//     setTestimonials([
+//       {
+//         id: 'fallback-1',
+//         name: "Lisa Smith",
+//         role: "Barista",
+//         text: "Great! The products are high quality and delivery was super fast. I'm really satisfied with my purchase.",
+//         rating: 5,
+//         productName: "Vape Products"
+//       },
+//       {
+//         id: 'fallback-2',
+//         name: "Andrew Jons",
+//         role: "Waiter",
+//         text: "Amazing experience shopping here. The customer support team was very helpful and responsive.",
+//         rating: 5,
+//         productName: "Accessories"
+//       },
+//       {
+//         id: 'fallback-3',
+//         name: "Steve Parker",
+//         role: "Project Manager",
+//         text: "Professional service and premium products. Highly recommended for anyone looking for reliability.",
+//         rating: 4,
+//         productName: "Starter Kit"
+//       }
+//     ]);
+//   };
+
+//   useEffect(() => {
+//     const observer = new IntersectionObserver(
+//       (entries) => {
+//         entries.forEach((entry) => {
+//           if (entry.isIntersecting) {
+//             entry.target.classList.add('animate-fade-in-up');
+//           }
+//         });
+//       },
+//       { threshold: 0.1 }
+//     );
+
+//     if (sectionRef.current) {
+//       observer.observe(sectionRef.current);
+//     }
+
+//     return () => observer.disconnect();
+//   }, []);
+
+//   // Get user initials for avatar placeholder
+//   const getInitials = (name) => {
+//     if (!name) return 'U';
+//     return name
+//       .split(' ')
+//       .map(word => word[0])
+//       .join('')
+//       .toUpperCase()
+//       .slice(0, 2);
+//   };
+
+//   // Log state for debugging
+//   useEffect(() => {
+//     console.log('Current testimonials state:', testimonials);
+//     console.log('Loading state:', loading);
+//     console.log('Error state:', error);
+//   }, [testimonials, loading, error]);
+
+//   return (
+//     <section 
+//       className={`relative overflow-hidden py-20 md:py-24 transition-colors duration-500 ${
+//         isDarkMode ? 'bg-gray-900' : 'bg-white'
+//       }`} 
+//       id="testimonials"
+//     >
+//       {/* Gradient backgrounds */}
+//       <div className={`absolute top-0 right-0 w-3/4 h-3/4 rounded-full blur-3xl transition-colors duration-500 ${
+//         isDarkMode 
+//           ? 'bg-gradient-to-bl from-blue-900/30 via-blue-800/10 to-transparent' 
+//           : 'bg-gradient-to-bl from-blue-100/30 via-blue-50/20 to-transparent'
+//       }`}></div>
+      
+//       <div className={`absolute bottom-0 left-0 w-3/4 h-3/4 rounded-full blur-3xl transition-colors duration-500 ${
+//         isDarkMode 
+//           ? 'bg-gradient-to-tr from-cyan-900/30 via-transparent to-transparent' 
+//           : 'bg-gradient-to-tr from-cyan-100/30 via-transparent to-transparent'
+//       }`}></div>
+      
+//       {/* Overlay */}
+//       <div className={`absolute inset-0 transition-colors duration-500 ${
+//         isDarkMode ? 'bg-gray-900/50' : 'bg-white/50'
+//       }`}></div>
+      
+//       {/* Decorative quote marks */}
+//       <div className={`absolute top-40 left-20 text-[200px] font-serif select-none transition-colors duration-500 ${
+//         isDarkMode ? 'text-blue-800/20' : 'text-blue-200/50'
+//       }`}>"</div>
+      
+//       <div className={`absolute bottom-40 right-20 text-[200px] font-serif select-none transition-colors duration-500 ${
+//         isDarkMode ? 'text-cyan-800/20' : 'text-cyan-200/50'
+//       }`}>"</div>
+      
+//       <div ref={sectionRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 opacity-0">
+        
+//         {/* Header Section */}
+//         <div className="text-center max-w-3xl mx-auto mb-16">
+//           {/* Badge */}
+//           <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 transition-colors duration-500 ${
+//             isDarkMode 
+//               ? 'bg-gradient-to-r from-blue-900/50 to-cyan-800/30 border border-blue-700/50' 
+//               : 'bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200'
+//           }`}>
+//             <span className="relative flex h-2 w-2">
+//               <span className="animate-ping absolute inline-flex h-full w-full rounded-full 
+//                              bg-blue-400 opacity-75"></span>
+//               <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+//             </span>
+//             <span className={`text-xs sm:text-sm font-medium tracking-wide ${
+//               isDarkMode ? 'text-blue-300' : 'text-blue-600'
+//             }`}>
+//               TESTIMONIALS
+//             </span>
+//           </div>
+
+//           {/* Heading */}
+//           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-6">
+//             <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>
+//               Hear from our
+//             </span>
+//             <br />
+//             <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+//               happy clients
+//             </span>
+//           </h2>
+
+//           {/* Description */}
+//           <p className={`text-sm sm:text-base leading-relaxed transition-colors duration-500 ${
+//             isDarkMode ? 'text-gray-400' : 'text-gray-600'
+//           }`}>
+//             Real reviews from our valued customers who love our products and service.
+//           </p>
+//         </div>
+
+//         {/* Testimonials Grid */}
+//         {loading ? (
+//           <div className="flex justify-center items-center h-64">
+//             <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
+//           </div>
+//         ) : testimonials.length > 0 ? (
+//           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+//             {testimonials.map((item) => (
+//               <div
+//                 key={item.id}
+//                 className={`group rounded-2xl p-8 transition-all duration-300 
+//                          relative border ${
+//                            isDarkMode 
+//                              ? 'bg-gray-800 border-gray-700 hover:shadow-xl hover:shadow-blue-900/30 hover:border-blue-700' 
+//                              : 'bg-white border-gray-200 hover:shadow-xl hover:shadow-blue-200/50 hover:border-blue-300'
+//                          }`}
+//               >
+//                 {/* Quote icon */}
+//                 <div className={`absolute top-6 right-6 transition-colors duration-500 ${
+//                   isDarkMode ? 'text-blue-600/30' : 'text-blue-200/80'
+//                 }`}>
+//                   <FiMessageCircle className="text-3xl" />
+//                 </div>
+
+//                 {/* User Info - Without Image */}
+//                 <div className="flex items-center gap-4 mb-6">
+//                   <div className="relative">
+//                     <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 
+//                                   rounded-full blur-md opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
+//                     <div className={`relative w-16 h-16 rounded-full flex items-center justify-center font-bold text-lg
+//                                   bg-gradient-to-br from-blue-500 to-cyan-600 text-white shadow-lg
+//                                   border-2 transition-all duration-300 group-hover:border-blue-300 ${
+//                                     isDarkMode ? 'border-gray-700' : 'border-white'
+//                                   }`}>
+//                       {getInitials(item.name)}
+//                     </div>
+//                   </div>
+//                   <div className="text-left">
+//                     <h4 className={`font-semibold transition-colors duration-500 ${
+//                       isDarkMode ? 'text-gray-200' : 'text-gray-900'
+//                     }`}>
+//                       {item.name}
+//                     </h4>
+//                     <p className="text-sm text-gray-500">
+//                       {item.role}
+//                     </p>
+//                     <p className={`text-xs mt-1 ${
+//                       isDarkMode ? 'text-gray-500' : 'text-gray-400'
+//                     }`}>
+//                       on {item.productName}
+//                     </p>
+//                   </div>
+//                 </div>
+
+//                 {/* Rating Stars */}
+//                 <div className="flex items-center gap-0.5 mb-4">
+//                   {[...Array(5)].map((_, i) => (
+//                     <FiStar
+//                       key={i}
+//                       className={`text-base ${
+//                         i < item.rating 
+//                           ? 'text-blue-500 fill-current' 
+//                           : isDarkMode ? 'text-gray-600' : 'text-gray-300'
+//                       }`}
+//                     />
+//                   ))}
+//                 </div>
+
+//                 {/* Testimonial Text */}
+//                 <p className={`leading-relaxed text-sm italic transition-colors duration-500 ${
+//                   isDarkMode ? 'text-gray-400' : 'text-gray-600'
+//                 }`}>
+//                   "{item.text}"
+//                 </p>
+//               </div>
+//             ))}
+//           </div>
+//         ) : (
+//           <div className="text-center py-12">
+//             <p className={`text-lg ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+//               No testimonials available yet.
+//             </p>
+//           </div>
+//         )}
+//       </div>
+
+//       <style jsx>{`
+//         @keyframes fade-in-up {
+//           from {
+//             opacity: 0;
+//             transform: translateY(20px);
+//           }
+//           to {
+//             opacity: 1;
+//             transform: translateY(0);
+//           }
+//         }
+        
+//         .animate-fade-in-up {
+//           animation: fade-in-up 0.6s ease-out forwards;
+//         }
+//       `}</style>
+//     </section>
+//   );
+// };
+
+// export default TestimonialSection;
+
+
+
+import React, { useEffect, useRef, useState } from "react";
+import { FiStar, FiMessageCircle } from "react-icons/fi";
+import axios from "axios";
+
+const API_URL = 'http://127.0.0.1:8000/api';
 
 const TestimonialSection = () => {
   const sectionRef = useRef(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [testimonials, setTestimonials] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Check for dark mode class on html element
   useEffect(() => {
@@ -228,15 +802,125 @@ const TestimonialSection = () => {
       setIsDarkMode(document.documentElement.classList.contains('dark'));
     };
 
-    // Initial check
     checkDarkMode();
-
-    // Observe changes to html class
     const observer = new MutationObserver(checkDarkMode);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-
     return () => observer.disconnect();
   }, []);
+
+  // Fetch comments from API
+  useEffect(() => {
+    fetchTestimonials();
+  }, []);
+
+  const fetchTestimonials = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      console.log('Fetching testimonials from API...');
+      
+      const response = await axios.get(`${API_URL}/all-comments`);
+      console.log('API Response:', response.data);
+      
+      if (response.data.success && response.data.comments) {
+        const allComments = response.data.comments;
+        
+        // Filter comments with rating >= 4
+        const highRatedComments = allComments.filter(
+          comment => comment.rating >= 4
+        );
+        
+        console.log('Total high rated comments:', highRatedComments.length);
+        
+        if (highRatedComments.length > 0) {
+          // Transform API data to testimonial format
+          const transformed = highRatedComments.map(comment => ({
+            id: comment.id,
+            name: comment.user?.name || "Anonymous User",
+            role: comment.product?.name?.split('-')[0]?.trim() || "Customer",
+            text: comment.comment || "No comment provided",
+            rating: comment.rating,
+            productName: comment.product?.name || "Product"
+          }));
+
+          // 🎲 RANDOM SELECTION: Har baar naye comments select honge
+          const shuffled = [...transformed].sort(() => 0.5 - Math.random());
+          const selected = shuffled.slice(0, 3);
+
+          console.log('Randomly selected testimonials:', selected);
+          setTestimonials(selected);
+        } else {
+          console.log('No high rated comments found, using fallback');
+          useFallbackTestimonials();
+        }
+      } else {
+        console.log('Invalid API response, using fallback');
+        useFallbackTestimonials();
+      }
+    } catch (err) {
+      console.error('Error fetching testimonials:', err);
+      setError('Failed to load testimonials');
+      useFallbackTestimonials();
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const useFallbackTestimonials = () => {
+    // 🎲 RANDOM FALLBACK: Fallback comments bhi random order mein dikhenge
+    const fallbacks = [
+      {
+        id: 'fallback-1',
+        name: "Lisa Smith",
+        role: "Barista",
+        text: "Great! The products are high quality and delivery was super fast. I'm really satisfied with my purchase.",
+        rating: 5,
+        productName: "Vape Products"
+      },
+      {
+        id: 'fallback-2',
+        name: "Andrew Jons",
+        role: "Waiter",
+        text: "Amazing experience shopping here. The customer support team was very helpful and responsive.",
+        rating: 5,
+        productName: "Accessories"
+      },
+      {
+        id: 'fallback-3',
+        name: "Steve Parker",
+        role: "Project Manager",
+        text: "Professional service and premium products. Highly recommended for anyone looking for reliability.",
+        rating: 4,
+        productName: "Starter Kit"
+      },
+      {
+        id: 'fallback-4',
+        name: "Emma Watson",
+        role: "Designer",
+        text: "Excellent quality and fast shipping. Will definitely order again!",
+        rating: 5,
+        productName: "Vape Mods"
+      },
+      {
+        id: 'fallback-5',
+        name: "John Miller",
+        role: "Engineer",
+        text: "Best vape shop in town. Great prices and amazing customer service.",
+        rating: 5,
+        productName: "E-Liquids"
+      }
+    ];
+    
+    // 🎲 Randomly select 3 from fallbacks
+    const shuffled = [...fallbacks].sort(() => 0.5 - Math.random());
+    setTestimonials(shuffled.slice(0, 3));
+  };
+
+  // Manual refresh function - har baar naye comments load honge
+  const refreshTestimonials = () => {
+    setLoading(true);
+    fetchTestimonials();
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -257,11 +941,32 @@ const TestimonialSection = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Get user initials for avatar placeholder
+  const getInitials = (name) => {
+    if (!name) return 'U';
+    return name
+      .split(' ')
+      .map(word => word[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  // Log state for debugging
+  useEffect(() => {
+    console.log('Current testimonials state:', testimonials);
+    console.log('Loading state:', loading);
+    console.log('Error state:', error);
+  }, [testimonials, loading, error]);
+
   return (
-    <section className={`relative overflow-hidden py-20 md:py-24 transition-colors duration-500 ${
-      isDarkMode ? 'bg-gray-900' : 'bg-white'
-    }`} id="testimonials">
-      {/* Gradient backgrounds - dynamic */}
+    <section 
+      className={`relative overflow-hidden py-20 md:py-24 transition-colors duration-500 ${
+        isDarkMode ? 'bg-gray-900' : 'bg-white'
+      }`} 
+      id="testimonials"
+    >
+      {/* Gradient backgrounds */}
       <div className={`absolute top-0 right-0 w-3/4 h-3/4 rounded-full blur-3xl transition-colors duration-500 ${
         isDarkMode 
           ? 'bg-gradient-to-bl from-blue-900/30 via-blue-800/10 to-transparent' 
@@ -274,12 +979,12 @@ const TestimonialSection = () => {
           : 'bg-gradient-to-tr from-cyan-100/30 via-transparent to-transparent'
       }`}></div>
       
-      {/* Overlay for depth - dynamic */}
+      {/* Overlay */}
       <div className={`absolute inset-0 transition-colors duration-500 ${
         isDarkMode ? 'bg-gray-900/50' : 'bg-white/50'
       }`}></div>
       
-      {/* Decorative quote marks - dynamic */}
+      {/* Decorative quote marks */}
       <div className={`absolute top-40 left-20 text-[200px] font-serif select-none transition-colors duration-500 ${
         isDarkMode ? 'text-blue-800/20' : 'text-blue-200/50'
       }`}>"</div>
@@ -292,7 +997,7 @@ const TestimonialSection = () => {
         
         {/* Header Section */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          {/* Badge - dynamic */}
+          {/* Badge */}
           <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 transition-colors duration-500 ${
             isDarkMode 
               ? 'bg-gradient-to-r from-blue-900/50 to-cyan-800/30 border border-blue-700/50' 
@@ -321,86 +1026,101 @@ const TestimonialSection = () => {
             </span>
           </h2>
 
-          {/* Description */}
-          <p className={`text-sm sm:text-base leading-relaxed transition-colors duration-500 ${
-            isDarkMode ? 'text-gray-400' : 'text-gray-600'
-          }`}>
-            We offer a wide range of quality products, an easy shopping
-            process, express delivery and first-class service.
-          </p>
+          {/* Description with Refresh Button */}
+          <div className="flex flex-col items-center gap-4">
+            <p className={`text-sm sm:text-base leading-relaxed transition-colors duration-500 ${
+              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+            }`}>
+              Real reviews from our valued customers who love our products and service.
+            </p>
+            
+          </div>
         </div>
 
         {/* Testimonials Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {testimonials.map((item, index) => (
-            <div
-              key={index}
-              className={`group rounded-2xl p-8 transition-all duration-300 
-                       relative border ${
-                         isDarkMode 
-                           ? 'bg-gray-800 border-gray-700 hover:shadow-xl hover:shadow-blue-900/30 hover:border-blue-700' 
-                           : 'bg-white border-gray-200 hover:shadow-xl hover:shadow-blue-200/50 hover:border-blue-300'
-                       }`}
-            >
-              {/* Quote icon - dynamic */}
-              <div className={`absolute top-6 right-6 transition-colors duration-500 ${
-                isDarkMode ? 'text-blue-600/30' : 'text-blue-200/80'
-              }`}>
-                <FiMessageCircle className="text-3xl" />
-              </div>
-
-              {/* User Info */}
-              <div className="flex items-center gap-4 mb-6">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 
-                                rounded-full blur-md opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className={`relative w-16 h-16 rounded-full object-cover border-2 shadow-lg 
-                              transition-all duration-300 group-hover:border-blue-300 ${
-                                isDarkMode 
-                                  ? 'border-gray-700' 
-                                  : 'border-white'
-                              }`}
-                  />
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
+          </div>
+        ) : testimonials.length > 0 ? (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {testimonials.map((item) => (
+              <div
+                key={item.id}
+                className={`group rounded-2xl p-8 transition-all duration-300 
+                         relative border ${
+                           isDarkMode 
+                             ? 'bg-gray-800 border-gray-700 hover:shadow-xl hover:shadow-blue-900/30 hover:border-blue-700' 
+                             : 'bg-white border-gray-200 hover:shadow-xl hover:shadow-blue-200/50 hover:border-blue-300'
+                         }`}
+              >
+                {/* Quote icon */}
+                <div className={`absolute top-6 right-6 transition-colors duration-500 ${
+                  isDarkMode ? 'text-blue-600/30' : 'text-blue-200/80'
+                }`}>
+                  <FiMessageCircle className="text-3xl" />
                 </div>
-                <div className="text-left">
-                  <h4 className={`font-semibold transition-colors duration-500 ${
-                    isDarkMode ? 'text-gray-200' : 'text-gray-900'
-                  }`}>
-                    {item.name}
-                  </h4>
-                  <p className="text-sm text-gray-500">
-                    {item.role}
-                  </p>
+
+                {/* User Info - Without Image */}
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 
+                                  rounded-full blur-md opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
+                    <div className={`relative w-16 h-16 rounded-full flex items-center justify-center font-bold text-lg
+                                  bg-gradient-to-br from-blue-500 to-cyan-600 text-white shadow-lg
+                                  border-2 transition-all duration-300 group-hover:border-blue-300 ${
+                                    isDarkMode ? 'border-gray-700' : 'border-white'
+                                  }`}>
+                      {getInitials(item.name)}
+                    </div>
+                  </div>
+                  <div className="text-left">
+                    <h4 className={`font-semibold transition-colors duration-500 ${
+                      isDarkMode ? 'text-gray-200' : 'text-gray-900'
+                    }`}>
+                      {item.name}
+                    </h4>
+                    <p className="text-sm text-gray-500">
+                      {item.role}
+                    </p>
+                    <p className={`text-xs mt-1 ${
+                      isDarkMode ? 'text-gray-500' : 'text-gray-400'
+                    }`}>
+                      on {item.productName}
+                    </p>
+                  </div>
                 </div>
+
+                {/* Rating Stars */}
+                <div className="flex items-center gap-0.5 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <FiStar
+                      key={i}
+                      className={`text-base ${
+                        i < item.rating 
+                          ? 'text-blue-500 fill-current' 
+                          : isDarkMode ? 'text-gray-600' : 'text-gray-300'
+                      }`}
+                    />
+                  ))}
+                </div>
+
+                {/* Testimonial Text */}
+                <p className={`leading-relaxed text-sm italic transition-colors duration-500 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
+                  "{item.text}"
+                </p>
               </div>
-
-              {/* Rating Stars */}
-              <div className="flex items-center gap-0.5 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <FiStar
-                    key={i}
-                    className={`text-base ${
-                      i < item.rating 
-                        ? 'text-blue-500 fill-current' 
-                        : isDarkMode ? 'text-gray-600' : 'text-gray-300'
-                    }`}
-                  />
-                ))}
-              </div>
-
-              {/* Testimonial Text */}
-              <p className={`leading-relaxed text-sm italic transition-colors duration-500 ${
-                isDarkMode ? 'text-gray-400' : 'text-gray-600'
-              }`}>
-                "{item.text}"
-              </p>
-            </div>
-          ))}
-        </div>
-
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <p className={`text-lg ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              No testimonials available yet.
+            </p>
+          </div>
+        )}
       </div>
 
       <style jsx>{`

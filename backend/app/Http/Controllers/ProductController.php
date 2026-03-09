@@ -37,6 +37,8 @@ public function store(Request $request)
         'name' => 'required',
         'price' => 'required',
         'stock' => 'required',
+        'colors' => 'nullable|array',
+        'colors.*' => 'string|max:50',
         'images.*' => 'image|mimes:jpg,png,jpeg|max:2048'
     ]);
 
@@ -50,8 +52,8 @@ public function store(Request $request)
         'stock' => $request->stock,
         'description' => $request->description,
         'bottle_size' => $request->bottle_size,
+        'colors' => $request->colors,
         'specifications' => $request->specifications,
-        'vendor_info' => $request->vendor_info,
         'status' => $request->status ?? 1,
     ]);
 
@@ -94,6 +96,8 @@ public function update(Request $request, $id)
         'name' => 'required',
         'price' => 'required',
         'stock' => 'required',
+        'colors' => 'nullable|array',
+        'colors.*' => 'string|max:50',
     ]);
 
     $product->update([
@@ -106,8 +110,8 @@ public function update(Request $request, $id)
         'stock' => $request->stock,
         'description' => $request->description,
         'bottle_size' => $request->bottle_size,
+        'colors' => $request->colors,
         'specifications' => $request->specifications,
-        'vendor_info' => $request->vendor_info,
         'status' => $request->status ?? 1,
     ]);
 

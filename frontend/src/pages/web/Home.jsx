@@ -15,16 +15,18 @@ import PromoFeaturesSection  from "../../components/home/PromoFeaturesSection";
 import PromoProductSection   from "../../components/home/PromoProductSection";
 import MobileAccessoriesSection   from "../../components/home/MobileAccessoriesSection";
 
+
+
 function Home() {
-  return (
+  return (  
     <div className="min-h-screen bg-white">
       <Navbar />
-      <HeroSection />
-      <MobileAccessoriesSection />
+      <HeroSection /> {/* Direct render - no delay */}
+      <WavesProductsSection />
       <AboutSection />
       <ProductsSection />
       <PromoSection />
-      <WavesProductsSection />
+      <MobileAccessoriesSection />
       <InteractivePromo />
       <FaqSection />
       <PromoProductSection />
@@ -32,7 +34,6 @@ function Home() {
       <ContactSection />
       <TestimonialSection />
       <Footer />
-      {/* You can add more sections here */}
     </div>
   );
 }

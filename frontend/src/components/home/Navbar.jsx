@@ -19,7 +19,7 @@ import { GiCigarette } from "react-icons/gi";
 import { useCart } from "../../context/CartContext"; // ✅ Import useCart
 
 // Import logo image as fallback
-import defaultLogo from "../../assets/logo/Untitled design.svg";
+import defaultLogo from "../../assets/logo/logo.png";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -314,7 +314,7 @@ function Navbar() {
     if (user?.role === 'admin') {
       navigate('/admin');
     } else {
-      navigate('/my-account');
+      navigate('/orders');
     }
   };
 
@@ -864,7 +864,7 @@ function Navbar() {
                         if (user?.role === 'admin') {
                           navigate('/admin');
                         } else {
-                          navigate('/my-account');
+                          navigate('/orders');
                         }
                         setIsOpen(false);
                       }}

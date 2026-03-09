@@ -8,6 +8,15 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+
+public function users()
+{
+    return response()->json([
+        'users' => User::all()
+    ]);
+}
+
+
     public function register(Request $request)
     {
         $request->validate([

@@ -12,6 +12,7 @@ import InteractivePromoCMS from "../../../components/admin/cms/InteractivePromoC
 import FaqCMS from "../../../components/admin/cms/FaqCMS";
 import PromoProductCMS from "../../../components/admin/cms/PromoProductCMS";
 import PromoFeaturesCMS from "../../../components/admin/cms/PromoFeaturesCMS";
+import PaymentSectionCMS from "../../../components/admin/cms/PaymentSectionCMS.jsx";
 
 const HomeCMS = () => {
     const { isDarkMode } = useOutletContext();
@@ -28,16 +29,9 @@ const HomeCMS = () => {
         faq: true,
         promoProduct: true,
         promoFeatures: true,
-        contact: true
+        contact: true,
+        payment: true // ✅ Fixed: Changed from PaymentSectionCMS to payment
     });
-
-    const handleSave = () => {
-        setSaving(true);
-        setTimeout(() => {
-            setSaving(false);
-            alert("Home page content saved successfully!");
-        }, 1000);
-    };
 
     const toggleSection = (section) => {
         setSectionVisibility(prev => ({
@@ -46,7 +40,7 @@ const HomeCMS = () => {
         }));
     };
 
-    // Tab configuration
+    // Tab configuration - ✅ Fixed: Added proper id for payment
     const tabs = [
         { id: "hero", label: "Hero Slider" },
         { id: "about", label: "About" },
@@ -55,7 +49,8 @@ const HomeCMS = () => {
         { id: "faq", label: "FAQ" },
         { id: "promoProduct", label: "Promo Product" },
         { id: "promoFeatures", label: "Promo Features" },
-        { id: "contact", label: "Contact" }
+        { id: "contact", label: "Contact" },
+        { id: "payment", label: "Payment Section" } // ✅ Fixed: Changed from PaymentSectionCMS to payment
     ];
 
     return (
@@ -191,27 +186,13 @@ const HomeCMS = () => {
                         isVisible={sectionVisibility.contact}
                     />
                 )}
-            </div>
 
-            {/* Save Button */}
-            <div className="flex justify-end gap-3 pt-4 border-t dark:border-gray-700">
-                <button
-                    onClick={() => navigate('/admin')}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium ${isDarkMode
-                            ? 'bg-gray-700 text-gray-300'
-                            : 'bg-gray-200 text-gray-700'
-                        }`}
-                >
-                    Cancel
-                </button>
-                <button
-                    onClick={handleSave}
-                    disabled={saving}
-                    className="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg text-sm font-medium flex items-center gap-2 disabled:opacity-50"
-                >
-                    {saving ? <FiClock className="animate-spin" /> : <FiSave />}
-                    {saving ? 'Saving...' : 'Save All Changes'}
-                </button>
+                {activeTab === "payment" && ( // ✅ Fixed: Changed from PaymentSection to payment
+                    <PaymentSectionCMS
+                        isDarkMode={isDarkMode}
+                        isVisible={sectionVisibility.payment} // ✅ Fixed: Changed from contact to payment
+                    />
+                )}
             </div>
         </div>
     );

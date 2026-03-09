@@ -240,7 +240,7 @@ const AdminHeader = ({
                 </p>
               </div>
               
-              <Link
+              {/* <Link
                 to="/admin/profile"
                 className={`flex items-center gap-2 px-4 py-2.5 text-sm transition-colors
                   ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-600 hover:bg-gray-100'}`}
@@ -248,17 +248,8 @@ const AdminHeader = ({
               >
                 <FiUser className="text-sm" />
                 <span>My Profile</span>
-              </Link>
+              </Link> */}
               
-              <Link
-                to="/admin/settings"
-                className={`flex items-center gap-2 px-4 py-2.5 text-sm transition-colors
-                  ${isDarkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-600 hover:bg-gray-100'}`}
-                onClick={() => setIsProfileDropdownOpen(false)}
-              >
-                <FiSettings className="text-sm" />
-                <span>Settings</span>
-              </Link>
               
               <div className={`border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
                 <button

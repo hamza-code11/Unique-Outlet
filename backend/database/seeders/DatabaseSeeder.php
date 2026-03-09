@@ -20,8 +20,17 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CategorySeeder::class,
             SubCategorySeeder::class,
-            ProductSeeder::class,
+            // ProductSeeder::class,
             FooterSettingSeeder::class,
+            SliderSeeder::class,
+            AboutSectionSeeder::class,
+            PromoSectionSeeder::class,
+            InteractivePromoSeeder::class,
+            FaqSectionSeeder::class,
+            PromoProductSectionSeeder::class,
+            PromoFeaturesSectionSeeder::class,
+            ContactSectionSeeder::class,
+            PaymentSectionSeeder::class,
     ]);
     }
 }

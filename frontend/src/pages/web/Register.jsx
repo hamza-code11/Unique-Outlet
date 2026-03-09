@@ -90,7 +90,7 @@ const Register = () => {
       }
 
       // Show success message (optional)
-      alert("Registration successful! Welcome to WAPO.");
+      alert("Registration successful! Welcome to Unique Outlet.");
 
       // Redirect to home page after successful registration
       navigate('/');

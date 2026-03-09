@@ -391,7 +391,7 @@ import vapeVideo from "../../assets/video/banner2.mp4";
 
 const Banner = ({ 
   title = "Shop", 
-  breadcrumbItems = [{ name: "WAPO", link: "/" }, { name: "SHOP" }],
+  breadcrumbItems = [{ name: "UNIQUE OUTLET", link: "/" }, { name: "SHOP" }],
   showStats = false,
   showButton = false,
   stats = { products: 0, support: "24/7", shipping: "Free" },
