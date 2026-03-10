@@ -178,3 +178,8 @@ Route::get('/flavours',[FlavourController::class,'index']);
 Route::get('/product-flavours/{id}',[FlavourController::class,'productFlavours']);
 Route::post('/update-flavour/{id}', [FlavourController::class,'update']);
 
+
+
+
+Route::get('/stats', [DashboardController::class, 'stats']);
+// Route::get('/products/top-selling', [DashboardController::class, 'topSelling']);

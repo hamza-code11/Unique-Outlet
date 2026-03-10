@@ -73,7 +73,7 @@ const SubCategoryCreate = () => {
     const newErrors = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Subcategory name is required';
+      newErrors.name = 'Brand name is required';
     }
 
     if (!formData.slug.trim()) {
@@ -112,12 +112,12 @@ const SubCategoryCreate = () => {
       // Send POST request
       await axios.post(`${API_URL}/subcategories`, submitData);
 
-      alert('Subcategory created successfully!');
+      alert('Brands created successfully!');
       navigate('/admin/subcategories');
 
     } catch (error) {
-      console.error("Error creating subcategory:", error);
-      alert(error.response?.data?.message || "Failed to create subcategory");
+      console.error("Error creating Brands:", error);
+      alert(error.response?.data?.message || "Failed to create Brands");
     } finally {
       setSaving(false);
     }
@@ -156,10 +156,10 @@ const SubCategoryCreate = () => {
           </button>
           <div>
             <h1 className={`text-xl sm:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-              Add New Subcategory
+              Add New Brands
             </h1>
             <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-              Create a new product subcategory
+              Create a new product Brands
             </p>
           </div>
         </div>
@@ -183,7 +183,7 @@ const SubCategoryCreate = () => {
         <div className={`p-5 rounded-lg border ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
           <h2 className={`text-base font-medium mb-4 pb-2 border-b ${isDarkMode ? 'border-gray-700 text-white' : 'border-gray-200 text-gray-900'
             }`}>
-            Subcategory Information
+            Brands Information
           </h2>
 
           <div className="space-y-4">
@@ -224,7 +224,7 @@ const SubCategoryCreate = () => {
             <div>
               <label className={`block text-xs sm:text-sm font-medium mb-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'
                 }`}>
-                Subcategory Name <span className="text-red-500">*</span>
+                Brands Name <span className="text-red-500">*</span>
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -292,7 +292,7 @@ const SubCategoryCreate = () => {
                 <p className="text-xs text-red-500 mt-1">{errors.slug}</p>
               )}
               <p className={`text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                URL-friendly version of the name. Auto-generated from subcategory name.
+                URL-friendly version of the name. Auto-generated from Brands name.
               </p>
             </div>
           </div>
@@ -324,7 +324,7 @@ const SubCategoryCreate = () => {
             ) : (
               <>
                 <FiSave className="text-sm" />
-                <span>Save Subcategory</span>
+                <span>Save Brands</span>
               </>
             )}
           </button>

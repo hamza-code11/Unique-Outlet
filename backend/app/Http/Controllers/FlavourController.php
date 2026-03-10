@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Flavour;
+use Illuminate\Support\Str;
 
 class FlavourController extends Controller
 {
     
-
-
 
 public function store(Request $request)
 {
@@ -18,10 +17,9 @@ public function store(Request $request)
         'subcategory_id' => 'required',
         'product_id' => 'required',
         'name' => 'required',
-        'flavour' => 'required',
         'price' => 'required|numeric',
         'stock' => 'required|integer',
-        'image' => 'nullable|image'
+        'image' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
     ]);
 
     $imagePath = null;
@@ -35,8 +33,8 @@ public function store(Request $request)
         'subcategory_id' => $request->subcategory_id,
         'product_id' => $request->product_id,
         'name' => $request->name,
+        'slug' => Str::slug($request->name), // automatic slug
         'desc' => $request->desc,
-        'flavour' => $request->flavour,
         'price' => $request->price,
         'stock' => $request->stock,
         'image' => $imagePath
@@ -64,10 +62,9 @@ public function update(Request $request, $id)
         'subcategory_id' => 'required',
         'product_id' => 'required',
         'name' => 'required',
-        'flavour' => 'required',
         'price' => 'required|numeric',
         'stock' => 'required|integer',
-        'image' => 'nullable|image'
+        'image' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
     ]);
 
     $imagePath = $flavour->image;
@@ -81,8 +78,8 @@ public function update(Request $request, $id)
         'subcategory_id' => $request->subcategory_id,
         'product_id' => $request->product_id,
         'name' => $request->name,
+        'slug' => Str::slug($request->name),
         'desc' => $request->desc,
-        'flavour' => $request->flavour,
         'price' => $request->price,
         'stock' => $request->stock,
         'image' => $imagePath

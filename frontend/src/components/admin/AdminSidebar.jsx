@@ -57,11 +57,11 @@ const AdminSidebar = ({ isDarkMode, isSidebarOpen, isMobileMenuOpen, closeMobile
 
     // Subcategories Section
     {
-      name: "Subcategories",
+      name: "Brands",
       icon: <FiLayers />,
       submenus: [
-        { name: "All Subcategories", path: "/admin/subcategories", icon: <FiList /> },
-        { name: "Add Subcategory", path: "/admin/subcategories/create", icon: <FiPlusCircle /> }
+        { name: "All Brands", path: "/admin/subcategories", icon: <FiList /> },
+        { name: "Add Brands", path: "/admin/subcategories/create", icon: <FiPlusCircle /> }
       ]
     },
 

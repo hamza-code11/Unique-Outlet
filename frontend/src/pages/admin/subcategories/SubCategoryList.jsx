@@ -57,7 +57,7 @@ const SubCategoryList = () => {
 
   // Handle single delete
   const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this subcategory?')) return;
+    if (!confirm('Are you sure you want to delete this Brands?')) return;
     
     setDeleteLoading(true);
     setDeleteId(id);
@@ -67,8 +67,8 @@ const SubCategoryList = () => {
       setSubCategories(subCategories.filter(s => s.id !== id));
       setSelectedSubCategories(selectedSubCategories.filter(sid => sid !== id));
     } catch (err) {
-      console.error("Error deleting subcategory:", err);
-      alert(err.response?.data?.message || "Failed to delete subcategory");
+      console.error("Error deleting Brands:", err);
+      alert(err.response?.data?.message || "Failed to delete Brands");
     } finally {
       setDeleteLoading(false);
       setDeleteId(null);
@@ -176,7 +176,7 @@ const SubCategoryList = () => {
           className="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all duration-300 flex items-center gap-2 text-sm sm:text-base"
         >
           <FiPlus className="text-base" />
-          <span>Add Subcategory</span>
+          <span>Add Brands</span>
         </button>
       </div>
 
@@ -202,7 +202,7 @@ const SubCategoryList = () => {
         <div className={`p-4 rounded-lg flex items-center justify-between
           ${isDarkMode ? 'bg-gray-800' : 'bg-blue-50'}`}>
           <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-            {selectedSubCategories.length} subcategory(ies) selected
+            {selectedSubCategories.length} Brands(ies) selected
           </span>
           <button
             onClick={handleBulkDelete}
@@ -239,7 +239,7 @@ const SubCategoryList = () => {
                   />
                 </th>
                 <th className={`p-4 text-left text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>ID</th>
-                <th className={`p-4 text-left text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Subcategory</th>
+                <th className={`p-4 text-left text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Brands</th>
                 <th className={`p-4 text-left text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Parent Category</th>
                 <th className={`p-4 text-left text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Status</th>
                 <th className={`p-4 text-left text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Created</th>

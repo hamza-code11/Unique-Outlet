@@ -135,7 +135,7 @@
 //         <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
 //           Flavors List ({filteredFlavors.length} flavors)
 //         </h3>
-        
+
 //         {/* Search Bar */}
 //         <div className="relative">
 //           <input
@@ -166,7 +166,7 @@
 //           </svg>
 //         </div>
 //       </div>
-      
+
 //       {/* Table View */}
 //       <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
 //         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -196,7 +196,7 @@
 //               </th>
 //             </tr>
 //           </thead>
-          
+
 //           {/* Table Body */}
 //           <tbody className={`divide-y divide-gray-200 dark:divide-gray-700 ${
 //             isDarkMode ? 'bg-gray-800' : 'bg-white'
@@ -227,7 +227,7 @@
 //                       </div>
 //                     </div>
 //                   </td>
-                  
+
 //                   {/* Flavor Details Column */}
 //                   <td className="px-6 py-4">
 //                     <div className="flex flex-col">
@@ -248,7 +248,7 @@
 //                       </p>
 //                     </div>
 //                   </td>
-                  
+
 //                   {/* Category Column */}
 //                   <td className="px-6 py-4 whitespace-nowrap">
 //                     <span className={`text-sm ${
@@ -257,14 +257,14 @@
 //                       {flavor.category}
 //                     </span>
 //                   </td>
-                  
+
 //                   {/* Price Column */}
 //                   <td className="px-6 py-4 whitespace-nowrap">
 //                     <span className="text-sm font-bold text-blue-600 dark:text-blue-400">
 //                       ${flavor.price.toFixed(2)}
 //                     </span>
 //                   </td>
-                  
+
 //                   {/* Stock Column */}
 //                   <td className="px-6 py-4 whitespace-nowrap">
 //                     <span className={`text-sm ${
@@ -277,7 +277,7 @@
 //                       {flavor.stock} units
 //                     </span>
 //                   </td>
-                  
+
 //                   {/* Status Column */}
 //                   <td className="px-6 py-4 whitespace-nowrap">
 //                     <span className={`px-2 py-1 text-xs rounded-full ${
@@ -288,7 +288,7 @@
 //                       {flavor.stock > 0 ? 'In Stock' : 'Out of Stock'}
 //                     </span>
 //                   </td>
-                  
+
 //                   {/* Action Column */}
 //                   <td className="px-6 py-4 whitespace-nowrap">
 //                     <Link
@@ -317,7 +317,7 @@
 //           </tbody>
 //         </table>
 //       </div>
-      
+
 //       {/* Pagination */}
 //       {filteredFlavors.length > 0 && (
 //         <Pagination 
@@ -339,7 +339,7 @@
 //     <div className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
 //       Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1} to {Math.min(currentPage * ITEMS_PER_PAGE, filteredFlavors.length)} of {filteredFlavors.length} flavors
 //     </div>
-    
+
 //     <div className="flex items-center gap-2">
 //       <button
 //         onClick={() => setCurrentPage(1)}
@@ -354,7 +354,7 @@
 //       >
 //         <FiChevronsLeft className="text-sm" />
 //       </button>
-      
+
 //       <button
 //         onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
 //         disabled={currentPage === 1}
@@ -368,7 +368,7 @@
 //       >
 //         <FiChevronLeft className="text-sm" />
 //       </button>
-      
+
 //       {/* Page Numbers */}
 //       <div className="flex items-center gap-1">
 //         {[...Array(totalPages)].map((_, i) => {
@@ -399,7 +399,7 @@
 //           return null;
 //         })}
 //       </div>
-      
+
 //       <button
 //         onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
 //         disabled={currentPage === totalPages}
@@ -413,7 +413,7 @@
 //       >
 //         <FiChevronRight className="text-sm" />
 //       </button>
-      
+
 //       <button
 //         onClick={() => setCurrentPage(totalPages)}
 //         disabled={currentPage === totalPages}
@@ -444,17 +444,20 @@
 
 
 
+
+
 // src/components/tabs/FlavorsTab.jsx
 import React, { useState, useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { 
-  FiEye, FiChevronLeft, FiChevronRight, 
+import {
+  FiEye, FiChevronLeft, FiChevronRight,
   FiChevronsLeft, FiChevronsRight, FiDroplet,
-  FiWind, FiCoffee
+  FiWind, FiCoffee, FiPackage
 } from "react-icons/fi";
 import axios from "axios";
 
 const API_URL = 'http://127.0.0.1:8000/api';
+const STORAGE_URL = 'http://127.0.0.1:8000/storage/';
 const ITEMS_PER_PAGE = 5;
 
 // Default image for flavors
@@ -472,6 +475,9 @@ const FlavorsTab = ({ isDarkMode, selectedFlavor, setSelectedFlavor, productId }
   useEffect(() => {
     if (productId) {
       fetchProductFlavors(productId);
+    } else {
+      setFlavors([]);
+      setLoading(false);
     }
   }, [productId]);
 
@@ -480,35 +486,28 @@ const FlavorsTab = ({ isDarkMode, selectedFlavor, setSelectedFlavor, productId }
       setLoading(true);
       setError(null);
       console.log('Fetching flavors for product:', productId);
-      
+
       const response = await axios.get(`${API_URL}/product-flavours/${productId}`);
       console.log('Flavors API Response:', response.data);
-      
+
       if (response.data.success && response.data.flavours) {
         // Transform API data to match component structure
-        const transformedFlavors = response.data.flavours.map(flavor => {
-          console.log('Processing flavor:', flavor);
-          console.log('Product data:', flavor.product);
-          
-          return {
-            id: flavor.id,
-            name: flavor.name,
-            description: flavor.desc || "No description available",
-            price: parseFloat(flavor.price),
-            stock: flavor.stock,
-            image: flavor.image ? `${API_URL.replace('/api', '')}/storage/${flavor.image}` : DEFAULT_FLAVOR_IMG,
-            category: "Flavor",
-            icon: getIconForFlavor(flavor.flavour || flavor.name),
-            color: getColorForFlavor(flavor.flavour || flavor.name),
-            isNew: false,
-            productId: flavor.product_id,
-            // ✅ FIXED: Get product data from the flavor object
-            product: flavor.product || null,
-            productSlug: flavor.product?.slug || null,
-            productName: flavor.product?.name || null
-          };
-        });
-        
+        const transformedFlavors = response.data.flavours.map(flavor => ({
+          id: flavor.id,
+          name: flavor.name,
+          description: flavor.desc || "No description available",
+          price: parseFloat(flavor.price),
+          stock: flavor.stock,
+          image: flavor.image ? `${STORAGE_URL}${flavor.image}` : DEFAULT_FLAVOR_IMG,
+          category: "Flavor",
+          icon: getIconForFlavor(flavor.flavour || flavor.name),
+          color: getColorForFlavor(flavor.flavour || flavor.name),
+          isNew: false,
+          productId: flavor.product_id,
+          productSlug: flavor.slug || flavor.product_id,
+          slug: flavor.slug
+        }));
+
         setFlavors(transformedFlavors);
       } else {
         setFlavors([]);
@@ -554,50 +553,15 @@ const FlavorsTab = ({ isDarkMode, selectedFlavor, setSelectedFlavor, productId }
     }
   };
 
-  // ✅ FIXED: Generate slug from product name
-  const generateSlug = (name) => {
-    if (!name) return null;
-    return name
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '');
-  };
-
-  // ✅ FIXED: Handle view flavor - navigate to product page
+  // Handle view flavor
   const handleViewFlavor = (flavor, e) => {
-    e.stopPropagation(); // Prevent row click
-    
-    console.log('View flavor clicked:', flavor);
-    
-    let productIdentifier = null;
-    
-    // Try to get slug from product
-    if (flavor.product?.slug) {
-      productIdentifier = flavor.product.slug;
-      console.log('Using product slug:', productIdentifier);
-    } 
-    // If no slug, try to get product name and generate slug
-    else if (flavor.product?.name) {
-      productIdentifier = generateSlug(flavor.product.name);
-      console.log('Generated slug from product name:', productIdentifier);
-    }
-    // If no product data, use productId as fallback
-    else if (flavor.productId) {
-      productIdentifier = flavor.productId;
-      console.log('Using product ID as fallback:', productIdentifier);
-    }
-    
-    if (productIdentifier) {
-      navigate(`/product/${productIdentifier}`);
-    } else {
-      console.error('No product identifier found for flavor:', flavor);
-      alert('Cannot find the associated product');
-    }
+    e.stopPropagation();
+    navigate(`/product/${flavor.productSlug}`);
   };
 
   // Filter flavors based on search
   const filteredFlavors = useMemo(() => {
-    return flavors.filter(flavor => 
+    return flavors.filter(flavor =>
       flavor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       flavor.description.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -640,7 +604,8 @@ const FlavorsTab = ({ isDarkMode, selectedFlavor, setSelectedFlavor, productId }
   if (flavors.length === 0) {
     return (
       <div className={`text-center py-8 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-        <p>No flavors available for this product.</p>
+        <FiPackage className="text-4xl mx-auto mb-3 opacity-50" />
+        <p className="text-sm">No flavors available for this product.</p>
       </div>
     );
   }
@@ -651,7 +616,7 @@ const FlavorsTab = ({ isDarkMode, selectedFlavor, setSelectedFlavor, productId }
         <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
           Flavors List ({filteredFlavors.length} flavors)
         </h3>
-        
+
         {/* Search Bar */}
         <div className="relative">
           <input
@@ -660,15 +625,14 @@ const FlavorsTab = ({ isDarkMode, selectedFlavor, setSelectedFlavor, productId }
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className={`px-4 py-2 pl-9 rounded-lg border text-sm w-full sm:w-64
-              ${isDarkMode 
-                ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+              ${isDarkMode
+                ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                 : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
               } focus:outline-none focus:ring-2 focus:ring-blue-500`}
           />
           <svg
-            className={`absolute left-3 top-2.5 h-4 w-4 ${
-              isDarkMode ? 'text-gray-400' : 'text-gray-500'
-            }`}
+            className={`absolute left-3 top-2.5 h-4 w-4 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -682,7 +646,7 @@ const FlavorsTab = ({ isDarkMode, selectedFlavor, setSelectedFlavor, productId }
           </svg>
         </div>
       </div>
-      
+
       {/* Table View */}
       <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -705,18 +669,17 @@ const FlavorsTab = ({ isDarkMode, selectedFlavor, setSelectedFlavor, productId }
                 Status
               </th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
-                Actions
+                Action
               </th>
             </tr>
           </thead>
-          
+
           {/* Table Body */}
-          <tbody className={`divide-y divide-gray-200 dark:divide-gray-700 ${
-            isDarkMode ? 'bg-gray-800' : 'bg-white'
-          }`}>
+          <tbody className={`divide-y divide-gray-200 dark:divide-gray-700 ${isDarkMode ? 'bg-gray-800' : 'bg-white'
+            }`}>
             {paginatedFlavors.length > 0 ? (
               paginatedFlavors.map((flavor) => (
-                <tr 
+                <tr
                   key={flavor.id}
                   onClick={() => handleFlavorClick(flavor.id)}
                   className={`cursor-pointer transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/50
@@ -726,8 +689,8 @@ const FlavorsTab = ({ isDarkMode, selectedFlavor, setSelectedFlavor, productId }
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
                       <div className="relative">
-                        <img 
-                          src={flavor.image} 
+                        <img
+                          src={flavor.image}
                           alt={flavor.name}
                           className="h-12 w-12 rounded-full object-cover border-2 border-gray-200 dark:border-gray-600"
                           onError={(e) => {
@@ -743,67 +706,64 @@ const FlavorsTab = ({ isDarkMode, selectedFlavor, setSelectedFlavor, productId }
                       </div>
                     </div>
                   </td>
-                  
+
                   {/* Flavor Details Column */}
                   <td className="px-6 py-4">
                     <div className="flex flex-col">
-                      <span className={`text-sm font-semibold ${
-                        isDarkMode ? 'text-white' : 'text-gray-900'
-                      }`}>
+                      <span className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'
+                        }`}>
                         {flavor.name}
                       </span>
-                      <p className={`text-xs mt-1 max-w-xs ${
-                        isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                      }`}>
-                        {flavor.description}
+                      <p className={`text-xs mt-1 max-w-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                        }`}>
+                        {flavor.description && flavor.description.length > 100
+                          ? `${flavor.description.substring(0, 100)}...`
+                          : flavor.description
+                        }
                       </p>
                     </div>
                   </td>
-                  
+
                   {/* Price Column */}
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className="text-sm font-bold text-blue-600 dark:text-blue-400">
                       ${flavor.price.toFixed(2)}
                     </span>
                   </td>
-                  
+
                   {/* Stock Column */}
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`text-sm ${
-                      flavor.stock > 30 
-                        ? 'text-green-600 dark:text-green-400' 
-                        : flavor.stock > 10 
+                    <span className={`text-sm ${flavor.stock > 30
+                        ? 'text-green-600 dark:text-green-400'
+                        : flavor.stock > 10
                           ? 'text-yellow-600 dark:text-yellow-400'
                           : 'text-red-600 dark:text-red-400'
-                    }`}>
+                      }`}>
                       {flavor.stock} units
                     </span>
                   </td>
-                  
+
                   {/* Status Column */}
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 py-1 text-xs rounded-full ${
-                      flavor.stock > 0 
-                        ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' 
+                    <span className={`px-2 py-1 text-xs rounded-full ${flavor.stock > 0
+                        ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
                         : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
-                    }`}>
+                      }`}>
                       {flavor.stock > 0 ? 'In Stock' : 'Out of Stock'}
                     </span>
                   </td>
-                  
-                  {/* Actions Column - View Button */}
+
+                  {/* Action Column */}
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button
                       onClick={(e) => handleViewFlavor(flavor, e)}
-                      className={`p-1.5 rounded-lg transition-colors inline-flex items-center gap-1
-                        ${isDarkMode 
-                          ? 'text-blue-400 hover:bg-blue-500/20' 
-                          : 'text-blue-600 hover:bg-blue-100'
-                        }`}
-                      title="View Product"
+                      className="inline-flex items-center gap-1 px-3 py-1.5 text-xs 
+                               bg-gradient-to-r from-blue-600 to-cyan-600 
+                               text-white rounded-lg hover:from-blue-700 
+                               hover:to-cyan-700 transition-all duration-300"
                     >
                       <FiEye className="text-sm" />
-                      <span className="text-xs">View</span>
+                      <span>View</span>
                     </button>
                   </td>
                 </tr>
@@ -820,10 +780,10 @@ const FlavorsTab = ({ isDarkMode, selectedFlavor, setSelectedFlavor, productId }
           </tbody>
         </table>
       </div>
-      
+
       {/* Pagination */}
       {filteredFlavors.length > 0 && (
-        <Pagination 
+        <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           setCurrentPage={setCurrentPage}
@@ -842,7 +802,7 @@ const Pagination = ({ currentPage, totalPages, setCurrentPage, filteredFlavors, 
     <div className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
       Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1} to {Math.min(currentPage * ITEMS_PER_PAGE, filteredFlavors.length)} of {filteredFlavors.length} flavors
     </div>
-    
+
     <div className="flex items-center gap-2">
       <button
         onClick={() => setCurrentPage(1)}
@@ -857,7 +817,7 @@ const Pagination = ({ currentPage, totalPages, setCurrentPage, filteredFlavors, 
       >
         <FiChevronsLeft className="text-sm" />
       </button>
-      
+
       <button
         onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
         disabled={currentPage === 1}
@@ -871,7 +831,7 @@ const Pagination = ({ currentPage, totalPages, setCurrentPage, filteredFlavors, 
       >
         <FiChevronLeft className="text-sm" />
       </button>
-      
+
       {/* Page Numbers */}
       <div className="flex items-center gap-1">
         {[...Array(totalPages)].map((_, i) => {
@@ -902,7 +862,7 @@ const Pagination = ({ currentPage, totalPages, setCurrentPage, filteredFlavors, 
           return null;
         })}
       </div>
-      
+
       <button
         onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
         disabled={currentPage === totalPages}
@@ -916,7 +876,7 @@ const Pagination = ({ currentPage, totalPages, setCurrentPage, filteredFlavors, 
       >
         <FiChevronRight className="text-sm" />
       </button>
-      
+
       <button
         onClick={() => setCurrentPage(totalPages)}
         disabled={currentPage === totalPages}

@@ -162,10 +162,10 @@ import FlavorsTab from "./FlavorsTab";
 import SpecificationsTab from "./SpecificationsTab";
 import ReviewsTab from "./ReviewsTab";
 
-const TabsSection = ({ 
-  activeTab, 
-  onTabChange, 
-  isDarkMode, 
+const TabsSection = ({
+  activeTab,
+  onTabChange,
+  isDarkMode,
   selectedFlavor,
   setSelectedFlavor,
   specifications,
@@ -180,9 +180,8 @@ const TabsSection = ({
   return (
     <div className="mt-12">
       {/* Tab Headers */}
-      <div className={`flex flex-wrap gap-1 border-b ${
-        isDarkMode ? 'border-gray-800' : 'border-gray-200'
-      }`}>
+      <div className={`flex flex-wrap gap-1 border-b ${isDarkMode ? 'border-gray-800' : 'border-gray-200'
+        }`}>
         {tabs.map((tab) => (
           <button
             key={tab.id}
@@ -201,11 +200,10 @@ const TabsSection = ({
       </div>
 
       {/* Tab Content */}
-      <div className={`mt-6 p-6 rounded-lg border ${
-        isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
-      }`}>
+      <div className={`mt-6 p-6 rounded-lg border ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+        }`}>
         {activeTab === "flavors" && (
-          <FlavorsTab 
+          <FlavorsTab
             isDarkMode={isDarkMode}
             selectedFlavor={selectedFlavor}
             setSelectedFlavor={setSelectedFlavor}
@@ -213,15 +211,17 @@ const TabsSection = ({
           />
         )}
 
+
         {activeTab === "specifications" && (
-          <SpecificationsTab 
+          <SpecificationsTab
             isDarkMode={isDarkMode}
             specifications={product?.specifications}
+            product={product} // ✅ Pass full product
           />
         )}
 
         {activeTab === "reviews" && (
-          <ReviewsTab 
+          <ReviewsTab
             isDarkMode={isDarkMode}
             productId={product?.id}
           />

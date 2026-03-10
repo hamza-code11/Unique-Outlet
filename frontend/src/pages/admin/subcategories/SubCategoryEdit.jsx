@@ -100,7 +100,7 @@ const SubCategoryEdit = () => {
     const newErrors = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Subcategory name is required';
+      newErrors.name = 'Brands name is required';
     }
 
     if (!formData.slug.trim()) {
@@ -143,12 +143,12 @@ const SubCategoryEdit = () => {
         }
       });
 
-      alert('Subcategory updated successfully!');
+      alert('Brand name updated successfully!');
       navigate('/admin/subcategories');
       
     } catch (error) {
-      console.error("Error updating subcategory:", error);
-      alert(error.response?.data?.message || "Failed to update subcategory");
+      console.error("Error updating Brand Name:", error);
+      alert(error.response?.data?.message || "Failed to update Brand Name");
     } finally {
       setSaving(false);
     }
@@ -160,7 +160,7 @@ const SubCategoryEdit = () => {
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-            Loading subcategory data...
+            Loading Brands data...
           </p>
         </div>
       </div>
@@ -175,7 +175,7 @@ const SubCategoryEdit = () => {
           onClick={() => navigate('/admin/subcategories')}
           className="px-4 py-2 bg-blue-600 text-white rounded-lg"
         >
-          Back to Subcategories
+          Back to Brands
         </button>
       </div>
     );
@@ -201,7 +201,7 @@ const SubCategoryEdit = () => {
           </button>
           <div>
             <h1 className={`text-xl sm:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-              Edit Subcategory
+              Edit Brands
             </h1>
             <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
               ID: {id} • {formData.name || 'Loading...'}
@@ -218,7 +218,7 @@ const SubCategoryEdit = () => {
             }`}
         >
           <FiList className="text-base" />
-          <span>Show Subcategories</span>
+          <span>Show Brands</span>
         </button>
       </div>
 
@@ -229,7 +229,7 @@ const SubCategoryEdit = () => {
           <h2 className={`text-base font-medium mb-4 pb-2 border-b ${
             isDarkMode ? 'border-gray-700 text-white' : 'border-gray-200 text-gray-900'
           }`}>
-            Subcategory Information
+            Brands Information
           </h2>
 
           <div className="space-y-4">
@@ -272,7 +272,7 @@ const SubCategoryEdit = () => {
               <label className={`block text-xs sm:text-sm font-medium mb-1 ${
                 isDarkMode ? 'text-gray-300' : 'text-gray-700'
               }`}>
-                Subcategory Name <span className="text-red-500">*</span>
+                Brands Name <span className="text-red-500">*</span>
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -341,7 +341,7 @@ const SubCategoryEdit = () => {
                 <p className="text-xs text-red-500 mt-1">{errors.slug}</p>
               )}
               <p className={`text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                URL-friendly version of the name. Auto-generated from subcategory name.
+                URL-friendly version of the name. Auto-generated from Brands name.
               </p>
             </div>
           </div>
@@ -373,7 +373,7 @@ const SubCategoryEdit = () => {
             ) : (
               <>
                 <FiSave className="text-sm" />
-                <span>Update Subcategory</span>
+                <span>Update Brands</span>
               </>
             )}
           </button>

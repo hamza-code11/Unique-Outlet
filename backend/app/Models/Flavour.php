@@ -11,8 +11,8 @@ class Flavour extends Model
         'subcategory_id',
         'product_id',
         'name',
+        'slug',
         'desc',
-        'flavour',
         'price',
         'stock',
         'image'

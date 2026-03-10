@@ -5,7 +5,7 @@ import { useOutletContext } from "react-router-dom";
 import { 
   FiSave, FiPackage, FiList, FiDollarSign, 
   FiBox, FiTag, FiLayers, FiX, FiCheck,
-  FiArrowLeft, FiUpload, FiImage
+  FiArrowLeft, FiUpload, FiImage, FiType
 } from "react-icons/fi";
 import axios from "axios";
 
@@ -31,14 +31,14 @@ const FlavourEdit = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
-  // Form state
+  // Form state - exactly matching database fields
   const [formData, setFormData] = useState({
     category_id: "",
     subcategory_id: "",
     product_id: "",
     name: "",
+    slug: "",
     desc: "",
-    flavour: "",
     price: "",
     stock: "",
     image: null,
@@ -109,8 +109,8 @@ const FlavourEdit = () => {
             subcategory_id: flavour.subcategory_id?.toString() || "",
             product_id: flavour.product_id?.toString() || "",
             name: flavour.name || "",
+            slug: flavour.slug || "",
             desc: flavour.desc || "",
-            flavour: flavour.flavour || "",
             price: flavour.price?.toString() || "",
             stock: flavour.stock?.toString() || "",
             image: null,
@@ -121,24 +121,18 @@ const FlavourEdit = () => {
             setImagePreview(`${STORAGE_URL}${flavour.image}`);
           }
 
-          // ✅ FIXED: Wait for products and subcategories to be loaded
-          setTimeout(() => {
-            // Filter subcategories based on selected category
-            if (flavour.category_id) {
-              const filtered = subcategories.filter(
-                sub => sub.category_id === flavour.category_id
-              );
-              setFilteredSubs(filtered);
-              console.log('Filtered subcategories:', filtered);
+          // Filter subcategories and products based on selected category
+          if (flavour.category_id) {
+            const filtered = subcategories.filter(
+              sub => sub.category_id === parseInt(flavour.category_id)
+            );
+            setFilteredSubs(filtered);
 
-              // Filter products based on selected category
-              const filteredProds = products.filter(
-                p => p.category_id === flavour.category_id
-              );
-              setFilteredProducts(filteredProds);
-              console.log('Filtered products:', filteredProds);
-            }
-          }, 100);
+            const filteredProds = products.filter(
+              p => p.category_id === parseInt(flavour.category_id)
+            );
+            setFilteredProducts(filteredProds);
+          }
         } else {
           setFetchError('Flavour not found');
         }
@@ -184,10 +178,30 @@ const FlavourEdit = () => {
     }
   }, [formData.subcategory_id, formData.category_id, products]);
 
+  // Generate slug from name
+  const generateSlug = (name) => {
+    if (!name) return "";
+    return name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+  };
+
   // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    if (name === 'name') {
+      // Auto-generate slug when name changes
+      const slug = generateSlug(value);
+      setFormData(prev => ({ 
+        ...prev, 
+        [name]: value,
+        slug: slug
+      }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   // Handle category change
@@ -254,14 +268,22 @@ const FlavourEdit = () => {
       setError('Please enter price');
       return false;
     }
+    if (isNaN(formData.price) || parseFloat(formData.price) <= 0) {
+      setError('Price must be a valid positive number');
+      return false;
+    }
     if (!formData.stock) {
       setError('Please enter stock quantity');
+      return false;
+    }
+    if (isNaN(formData.stock) || parseInt(formData.stock) < 0) {
+      setError('Stock must be a valid non-negative number');
       return false;
     }
     return true;
   };
 
-  // ✅ FIXED: Handle form submit with proper data
+  // Handle form submit - exactly matching API expectations
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -282,18 +304,18 @@ const FlavourEdit = () => {
       
       submitData.append('product_id', formData.product_id);
       submitData.append('name', formData.name);
+      submitData.append('slug', formData.slug); // Add slug field
       submitData.append('desc', formData.desc || '');
-      submitData.append('flavour', formData.flavour || '');
       submitData.append('price', formData.price);
       submitData.append('stock', formData.stock);
       
-      // ✅ FIXED: Only append image if changed
+      // Only append image if changed
       if (imageChanged && imageFile) {
         submitData.append('image', imageFile);
       }
 
       // Log FormData for debugging
-      console.log('Submitting form data:');
+      console.log('Submitting flavour data for update:');
       for (let pair of submitData.entries()) {
         console.log(pair[0] + ': ' + (pair[1] instanceof File ? pair[1].name : pair[1]));
       }
@@ -317,7 +339,6 @@ const FlavourEdit = () => {
     } catch (err) {
       console.error('Error updating flavour:', err);
       
-      // Show detailed error message
       if (err.response) {
         console.error('Error response:', err.response.data);
         setError(err.response.data?.message || `Server error: ${err.response.status}`);
@@ -524,7 +545,7 @@ const FlavourEdit = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                placeholder="e.g., Mint Vape"
+                placeholder="e.g., Dragon Melon"
                 className={`w-full px-4 py-2 rounded-lg border text-sm
                   focus:outline-none focus:ring-2 focus:ring-blue-500
                   ${isDarkMode
@@ -532,6 +553,30 @@ const FlavourEdit = () => {
                     : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'
                   }`}
               />
+            </div>
+
+            {/* Slug - Auto-generated, read-only for reference */}
+            <div>
+              <label className={`block text-xs sm:text-sm font-medium mb-1 ${
+                isDarkMode ? 'text-gray-300' : 'text-gray-700'
+              }`}>
+                Slug (URL)
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <FiType className={`text-sm ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} />
+                </div>
+                <input
+                  type="text"
+                  value={formData.slug}
+                  readOnly
+                  className={`w-full pl-10 pr-4 py-2 rounded-lg border text-sm bg-gray-100
+                    ${isDarkMode 
+                      ? 'bg-gray-600 border-gray-600 text-gray-300' 
+                      : 'bg-gray-100 border-gray-300 text-gray-600'
+                    }`}
+                />
+              </div>
             </div>
 
             {/* Description */}
@@ -549,28 +594,6 @@ const FlavourEdit = () => {
                 placeholder="Brief description of the flavour..."
                 className={`w-full px-4 py-2 rounded-lg border text-sm
                   focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none
-                  ${isDarkMode
-                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
-                    : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'
-                  }`}
-              />
-            </div>
-
-            {/* Flavour Type */}
-            <div>
-              <label className={`block text-xs sm:text-sm font-medium mb-1 ${
-                isDarkMode ? 'text-gray-300' : 'text-gray-700'
-              }`}>
-                Flavour Type
-              </label>
-              <input
-                type="text"
-                name="flavour"
-                value={formData.flavour}
-                onChange={handleChange}
-                placeholder="e.g., Mint"
-                className={`w-full px-4 py-2 rounded-lg border text-sm
-                  focus:outline-none focus:ring-2 focus:ring-blue-500
                   ${isDarkMode
                     ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                     : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'
@@ -719,4 +742,3 @@ const FlavourEdit = () => {
 };
 
 export default FlavourEdit;
-

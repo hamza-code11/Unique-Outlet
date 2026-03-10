@@ -39,7 +39,7 @@ public function store(Request $request)
         'stock' => 'required',
         'colors' => 'nullable|array',
         'colors.*' => 'string|max:50',
-        'images.*' => 'image|mimes:jpg,png,jpeg|max:2048'
+        'images.*' => 'image|mimes:jpg,png,jpeg,webp|max:2048'
     ]);
 
     $product = Product::create([
@@ -98,6 +98,7 @@ public function update(Request $request, $id)
         'stock' => 'required',
         'colors' => 'nullable|array',
         'colors.*' => 'string|max:50',
+        'images.*' => 'image|mimes:jpg,png,jpeg,webp|max:2048',
     ]);
 
     $product->update([

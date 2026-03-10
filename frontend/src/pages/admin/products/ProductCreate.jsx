@@ -1733,7 +1733,7 @@ const ProductCreate = () => {
     }
 
     if (!formData.sub_category_id) {
-      newErrors.sub_category_id = 'Subcategory is required';
+      newErrors.sub_category_id = 'Brand is required';
     }
 
     if (!formData.name.trim()) {
@@ -1925,7 +1925,7 @@ const ProductCreate = () => {
                 <label className={`block text-xs sm:text-sm font-medium mb-1 ${
                   isDarkMode ? 'text-gray-300' : 'text-gray-700'
                 }`}>
-                  Subcategory <span className="text-red-500">*</span>
+                  Brand Name <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -1945,7 +1945,7 @@ const ProductCreate = () => {
                         : 'bg-white border-gray-300 text-gray-900'
                       }`}
                   >
-                    <option value="">Select Subcategory</option>
+                    <option value="">Select Brand</option>
                     {filteredSubs.map(sub => (
                       <option key={sub.id} value={sub.id}>{sub.name}</option>
                     ))}
@@ -1988,19 +1988,19 @@ const ProductCreate = () => {
               )}
             </div>
 
-            {/* Brand Name */}
+            {/* Edition  */}
             <div>
               <label className={`block text-xs sm:text-sm font-medium mb-1 ${
                 isDarkMode ? 'text-gray-300' : 'text-gray-700'
               }`}>
-                Brand Name
+                Edition 
               </label>
               <input
                 type="text"
                 name="brand_name"
                 value={formData.brand_name}
                 onChange={handleChange}
-                placeholder="e.g., RockMe"
+                placeholder="Enter Edition"
                 className={`w-full px-4 py-2 rounded-lg border text-sm
                   focus:outline-none focus:ring-2 focus:ring-blue-500
                   ${isDarkMode

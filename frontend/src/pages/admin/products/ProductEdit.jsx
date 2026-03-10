@@ -1357,7 +1357,7 @@ const ProductEdit = () => {
     }
 
     if (!formData.sub_category_id) {
-      newErrors.sub_category_id = 'Subcategory is required';
+      newErrors.sub_category_id = 'Brands is required';
     }
 
     if (!formData.name.trim()) {
@@ -1591,7 +1591,7 @@ const ProductEdit = () => {
                 <label className={`block text-xs sm:text-sm font-medium mb-1 ${
                   isDarkMode ? 'text-gray-300' : 'text-gray-700'
                 }`}>
-                  Subcategory <span className="text-red-500">*</span>
+                  Brands <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -1609,7 +1609,7 @@ const ProductEdit = () => {
                         : 'bg-white border-gray-300 text-gray-900'
                       }`}
                   >
-                    <option value="">Select Subcategory</option>
+                    <option value="">Select Brands</option>
                     {filteredSubs.map(sub => (
                       <option key={sub.id} value={sub.id}>{sub.name}</option>
                     ))}

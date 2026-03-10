@@ -14,15 +14,16 @@ return new class extends Migration
         Schema::create('flavours', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
-    $table->foreignId('subcategory_id')->constrained('sub_categories')->cascadeOnDelete();
-    $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
-    $table->string('name');
-    $table->text('desc')->nullable();
-    $table->string('flavour');
-    $table->decimal('price',8,2);
-    $table->integer('stock')->default(0);
-    $table->string('image')->nullable();
+        $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
+        $table->foreignId('subcategory_id')->constrained('sub_categories')->cascadeOnDelete();
+        $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
+
+        $table->string('name');
+        $table->string('slug')->unique(); // yaha change
+        $table->text('desc')->nullable();
+        $table->decimal('price',8,2);
+        $table->integer('stock')->default(0);
+        $table->string('image')->nullable();
     
             $table->timestamps();
         });
