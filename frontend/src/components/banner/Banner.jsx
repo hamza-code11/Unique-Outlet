@@ -1,6 +1,6 @@
 // import React from "react";
 // import { FiShoppingBag } from "react-icons/fi";
-// import wavesBg from "../../assets/home/waves-bg.jfif";
+// import VapesBg from "../../assets/home/Vapes-bg.jfif";
 
 // const Banner = ({ 
 //   title = "Shop", 
@@ -13,11 +13,11 @@
 // }) => {
 //   return (
 //     <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-600 py-14 md:py-14">
-//       {/* Waves Background Image */}
+//       {/* Vapes Background Image */}
 //       <div className="absolute inset-0 z-0">
 //         <img 
-//           src={wavesBg} 
-//           alt="Waves Background" 
+//           src={VapesBg} 
+//           alt="Vapes Background" 
 //           className="w-full h-full object-cover opacity-20 md:opacity-30 mix-blend-overlay"
 //           style={{ 
 //             maskImage: 'linear-gradient(to bottom, transparent, black, transparent)',
@@ -201,7 +201,7 @@
 
 // import React from "react";
 // import { FiShoppingBag } from "react-icons/fi";
-// import wavesBg from "../../assets/home/footer.jfif";
+// import VapesBg from "../../assets/home/footer.jfif";
 
 // const Banner = ({ 
 //   title = "Shop", 
@@ -214,11 +214,11 @@
 // }) => {
 //   return (
 //     <div className="relative overflow-hidden bg-black py-14 md:py-14">
-//       {/* Waves Background Image */}
+//       {/* Vapes Background Image */}
 //       <div className="absolute inset-0 z-0">
 //         <img 
-//           src={wavesBg} 
-//           alt="Waves Background" 
+//           src={VapesBg} 
+//           alt="Vapes Background" 
 //           className="w-full h-full object-cover opacity-10 mix-blend-overlay"
 //           style={{ 
 //             maskImage: 'linear-gradient(to bottom, transparent, black, transparent)',

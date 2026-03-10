@@ -14,13 +14,13 @@
 //   const [heroSlides, setHeroSlides] = useState([
 //     {
 //       id: 1,
-//       brand: "WAVES",
-//       title: "Ride the waves of",
+//       brand: "Vapes",
+//       title: "Ride the Vapes of",
 //       highlight: "smooth vaping",
-//       description: "Premium Waves vaping products curated for enthusiasts. Quality you can trust, support you deserve.",
-//       badge: "WAVES COLLECTION • 25% OFF",
-//       buttonText: "Shop Waves Collection",
-//       demoText: "Watch Waves Demo",
+//       description: "Premium Vapes vaping products curated for enthusiasts. Quality you can trust, support you deserve.",
+//       badge: "Vapes COLLECTION • 25% OFF",
+//       buttonText: "Shop Vapes Collection",
+//       demoText: "Watch Vapes Demo",
 //       image: "/assets/home/01.png",
 //       imagePreview: null,
 //       active: true,
@@ -364,7 +364,7 @@
 //                         type="text"
 //                         value={slide.brand}
 //                         onChange={(e) => updateSlide(slide.id, 'brand', e.target.value)}
-//                         placeholder="e.g., WAVES"
+//                         placeholder="e.g., Vapes"
 //                         className={`w-full px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
 //                           isDarkMode 
 //                             ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
@@ -382,7 +382,7 @@
 //                         type="text"
 //                         value={slide.badge}
 //                         onChange={(e) => updateSlide(slide.id, 'badge', e.target.value)}
-//                         placeholder="e.g., WAVES COLLECTION • 25% OFF"
+//                         placeholder="e.g., Vapes COLLECTION • 25% OFF"
 //                         className={`w-full px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
 //                           isDarkMode 
 //                             ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
@@ -404,7 +404,7 @@
 //                         type="text"
 //                         value={slide.title}
 //                         onChange={(e) => updateSlide(slide.id, 'title', e.target.value)}
-//                         placeholder="e.g., Ride the waves of"
+//                         placeholder="e.g., Ride the Vapes of"
 //                         className={`w-full px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
 //                           isDarkMode 
 //                             ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
@@ -464,7 +464,7 @@
 //                         type="text"
 //                         value={slide.buttonText}
 //                         onChange={(e) => updateSlide(slide.id, 'buttonText', e.target.value)}
-//                         placeholder="e.g., Shop Waves Collection"
+//                         placeholder="e.g., Shop Vapes Collection"
 //                         className={`w-full px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
 //                           isDarkMode 
 //                             ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
@@ -482,7 +482,7 @@
 //                         type="text"
 //                         value={slide.demoText}
 //                         onChange={(e) => updateSlide(slide.id, 'demoText', e.target.value)}
-//                         placeholder="e.g., Watch Waves Demo"
+//                         placeholder="e.g., Watch Vapes Demo"
 //                         className={`w-full px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
 //                           isDarkMode 
 //                             ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
@@ -584,8 +584,8 @@
 //         // Transform API data to match component structure
 //         const transformedSlides = response.data.sliders.map((slider, index) => ({
 //           id: slider.id,
-//           brand: slider.badge_product_name || "WAVES",
-//           title: slider.heading?.split('\n')[0] || "Ride the waves of",
+//           brand: slider.badge_product_name || "Vapes",
+//           title: slider.heading?.split('\n')[0] || "Ride the Vapes of",
 //           highlight: slider.heading?.split('\n')[1] || "smooth vaping",
 //           description: slider.paragraph || "",
 //           badge: slider.offer_tag || "",
@@ -1162,7 +1162,7 @@
 //                         type="text"
 //                         value={slide.badge}
 //                         onChange={(e) => updateSlide(slide.id, 'badge', e.target.value)}
-//                         placeholder="e.g., WAVES COLLECTION • 25% OFF"
+//                         placeholder="e.g., Vapes COLLECTION • 25% OFF"
 //                         disabled={saving}
 //                         className={`w-full px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
 //                           isDarkMode 
@@ -1185,7 +1185,7 @@
 //                         type="text"
 //                         value={slide.title}
 //                         onChange={(e) => updateSlide(slide.id, 'title', e.target.value)}
-//                         placeholder="e.g., Ride the waves of"
+//                         placeholder="e.g., Ride the Vapes of"
 //                         disabled={saving}
 //                         className={`w-full px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
 //                           isDarkMode 
@@ -1326,8 +1326,8 @@ const HeroSliderCMS = ({ isDarkMode, isVisible }) => {
         // Transform API data to match component structure
         const transformedSlides = response.data.sliders.map((slider, index) => ({
           id: slider.id,
-          brand: slider.badge_product_name || "WAVES",
-          title: slider.heading?.split('\n')[0] || "Ride the waves of",
+          brand: slider.badge_product_name || "Vapes",
+          title: slider.heading?.split('\n')[0] || "Ride the Vapes of",
           highlight: slider.heading?.split('\n')[1] || "smooth vaping",
           description: slider.paragraph || "",
           badge: slider.offer_tag || "",
@@ -1847,7 +1847,7 @@ const HeroSliderCMS = ({ isDarkMode, isVisible }) => {
                         type="text"
                         value={slide.badge}
                         onChange={(e) => updateSlide(slide.id, 'badge', e.target.value)}
-                        placeholder="e.g., WAVES COLLECTION • 25% OFF"
+                        placeholder="e.g., Vapes COLLECTION • 25% OFF"
                         disabled={saving}
                         className={`w-full px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
                           isDarkMode 
@@ -1870,7 +1870,7 @@ const HeroSliderCMS = ({ isDarkMode, isVisible }) => {
                         type="text"
                         value={slide.title}
                         onChange={(e) => updateSlide(slide.id, 'title', e.target.value)}
-                        placeholder="e.g., Ride the waves of"
+                        placeholder="e.g., Ride the Vapes of"
                         disabled={saving}
                         className={`w-full px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
                           isDarkMode 

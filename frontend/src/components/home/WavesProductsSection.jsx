@@ -9,10 +9,10 @@
 // import w8 from "../assets/vapes/08.png";
 // import { FiShoppingBag, FiStar, FiArrowRight, FiClock, FiTrendingUp, FiZap } from "react-icons/fi";
 
-// const wavesProducts = [
+// const VapesProducts = [
 //   {
 //     image: w1,
-//     name: "Waves E-liquid 30ml",
+//     name: "Vapes E-liquid 30ml",
 //     price: "$4.50",
 //     rating: 4,
 //     isNew: true,
@@ -20,7 +20,7 @@
 //   },
 //   {
 //     image: w2,
-//     name: "Waves Starter Kit",
+//     name: "Vapes Starter Kit",
 //     price: "$54.00",
 //     rating: 5,
 //     isNew: false,
@@ -28,7 +28,7 @@
 //   },
 //   {
 //     image: w3,
-//     name: "Waves Pod System",
+//     name: "Vapes Pod System",
 //     price: "$267.00",
 //     rating: 4,
 //     isNew: true,
@@ -36,7 +36,7 @@
 //   },
 //   {
 //     image: w4,
-//     name: "Waves Pro Kit",
+//     name: "Vapes Pro Kit",
 //     price: "$65.00",
 //     rating: 4,
 //     isNew: false,
@@ -44,7 +44,7 @@
 //   },
 //   {
 //     image: w5,
-//     name: "Waves Disposable",
+//     name: "Vapes Disposable",
 //     price: "$65.00",
 //     rating: 5,
 //     isNew: false,
@@ -52,7 +52,7 @@
 //   },
 //   {
 //     image: w6,
-//     name: "Waves Nicotine Salt",
+//     name: "Vapes Nicotine Salt",
 //     price: "$450.00",
 //     rating: 3,
 //     isNew: true,
@@ -60,7 +60,7 @@
 //   },
 //   {
 //     image: w7,
-//     name: "Waves Coil Pack",
+//     name: "Vapes Coil Pack",
 //     price: "$89.00",
 //     rating: 4,
 //     isNew: false,
@@ -68,7 +68,7 @@
 //   },
 //   {
 //     image: w8,
-//     name: "Waves Premium Set",
+//     name: "Vapes Premium Set",
 //     price: "$120.00",
 //     rating: 5,
 //     isNew: true,
@@ -76,7 +76,7 @@
 //   },
 // ];
 
-// const WavesProductsSection = () => {
+// const VapesProductsSection = () => {
 //   const [activeFilter, setActiveFilter] = useState("latest");
 //   const sectionRef = useRef(null);
 
@@ -89,13 +89,13 @@
 //   const getFilteredProducts = () => {
 //     switch (activeFilter) {
 //       case "latest":
-//         return wavesProducts.filter(p => p.isNew);
+//         return VapesProducts.filter(p => p.isNew);
 //       case "rating":
-//         return [...wavesProducts].sort((a, b) => b.rating - a.rating);
+//         return [...VapesProducts].sort((a, b) => b.rating - a.rating);
 //       case "featured":
-//         return wavesProducts.filter(p => p.featured);
+//         return VapesProducts.filter(p => p.featured);
 //       default:
-//         return wavesProducts;
+//         return VapesProducts;
 //     }
 //   };
 
@@ -138,9 +138,9 @@
 //             {/* Dynamic Heading */}
 //             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
 //               <span className="text-white">
-//                 {activeFilter === "latest" && "Latest Waves"}
-//                 {activeFilter === "rating" && "Top Rated Waves"}
-//                 {activeFilter === "featured" && "Featured Waves"}
+//                 {activeFilter === "latest" && "Latest Vapes"}
+//                 {activeFilter === "rating" && "Top Rated Vapes"}
+//                 {activeFilter === "featured" && "Featured Vapes"}
 //               </span>{' '}
 //               <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
 //                 Products
@@ -194,7 +194,7 @@
 //               {product.featured && (
 //                 <div className="absolute top-3 left-3 bg-gradient-to-r from-purple-600 to-pink-600 
 //                               text-white text-xs font-bold px-2 py-1 rounded-full z-10 flex items-center gap-1">
-//                   <FiTrendingUp className="text-xs" /> WAVES
+//                   <FiTrendingUp className="text-xs" /> Vapes
 //                 </div>
 //               )}
 
@@ -258,7 +258,7 @@
 //             className="group inline-flex items-center gap-2 text-blue-400 font-semibold 
 //                      hover:text-blue-300 transition-colors duration-300"
 //           >
-//             <span>View all Waves products</span>
+//             <span>View all Vapes products</span>
 //             <FiArrowRight className="group-hover:translate-x-1 transition-transform duration-300" />
 //           </a>
 //         </div>
@@ -284,7 +284,7 @@
 //   );
 // };
 
-// export default WavesProductsSection;
+// export default VapesProductsSection;
 
 
 
@@ -295,7 +295,7 @@ import { FiShoppingBag, FiStar, FiArrowRight, FiClock, FiCheck } from "react-ico
 import axios from 'axios';
 import { useCart } from "../../context/CartContext";
 
-const WavesProductsSection = () => {
+const VapesProductsSection = () => {
   const { addToCart } = useCart();
   const [activeFilter, setActiveFilter] = useState("latest");
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -314,9 +314,9 @@ const WavesProductsSection = () => {
     { id: "rating", label: "Top Rating", icon: FiStar },
   ];
 
-  // Fetch all products and filter by category ID 1 (Waves/Vapes)
+  // Fetch all products and filter by category ID 1 (Vapes/Vapes)
   useEffect(() => {
-    const fetchWavesProducts = async () => {
+    const fetchVapesProducts = async () => {
       try {
         setLoading(true);
         
@@ -327,28 +327,28 @@ const WavesProductsSection = () => {
         const rawData = response.data.data || response.data;
         const allProducts = Array.isArray(rawData) ? rawData : [];
         
-        // Filter products where category_id is 1 (Waves/Vapes category)
-        const wavesProducts = allProducts.filter(product => {
+        // Filter products where category_id is 1 (Vapes/Vapes category)
+        const VapesProducts = allProducts.filter(product => {
           // Check different possible category field names
           const categoryId = product.category_id || product.categoryId || product.category?.id;
           return categoryId == 1; // Use == for comparison (string/number)
         });
         
         console.log('All products:', allProducts.length);
-        console.log('Waves products:', wavesProducts.length);
+        console.log('Vapes products:', VapesProducts.length);
         
-        setProducts(wavesProducts);
+        setProducts(VapesProducts);
         setError(null);
       } catch (err) {
         console.error('Error fetching products:', err);
-        setError('Failed to load Waves products');
+        setError('Failed to load Vapes products');
         setProducts([]);
       } finally {
         setLoading(false);
       }
     };
     
-    fetchWavesProducts();
+    fetchVapesProducts();
   }, []);
 
   // Dark Mode Observer
@@ -442,7 +442,7 @@ const WavesProductsSection = () => {
   if (loading) return (
     <div className={`py-20 text-center ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
       <div className="animate-spin inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full mb-2"></div>
-      <p>Loading Waves products...</p>
+      <p>Loading Vapes products...</p>
     </div>
   );
 
@@ -483,7 +483,7 @@ const WavesProductsSection = () => {
           <div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
               <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>
-                {activeFilter === "latest" ? "Latest Waves" : "Top Rated Waves"}
+                {activeFilter === "latest" ? "Latest Vapes" : "Top Rated Vapes"}
               </span>{' '}
               <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
                 Products
@@ -492,7 +492,7 @@ const WavesProductsSection = () => {
             {/* Show count if needed */}
             {products.length > 0 && (
               <p className={`text-sm mt-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                {products.length} Waves products available
+                {products.length} Vapes products available
               </p>
             )}
           </div>
@@ -567,7 +567,7 @@ const WavesProductsSection = () => {
                         alt={product.name}
                         className="relative w-28 h-28 object-contain group-hover:scale-105 transition-transform duration-500"
                         onError={(e) => { 
-                          e.target.src = "https://via.placeholder.com/150?text=Waves" 
+                          e.target.src = "https://via.placeholder.com/150?text=Vapes" 
                         }}
                       />
                     </div>
@@ -644,7 +644,7 @@ const WavesProductsSection = () => {
           </div>
         ) : (
           <div className={`text-center py-10 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-            <p className="text-lg mb-2">No Waves products found</p>
+            <p className="text-lg mb-2">No Vapes products found</p>
             <p className="text-sm">Check back later for new arrivals</p>
           </div>
         )}
@@ -657,7 +657,7 @@ const WavesProductsSection = () => {
               className="group inline-flex items-center gap-2 font-semibold 
                        transition-colors duration-300 text-blue-600 hover:text-blue-700"
             >
-              <span>View all Waves products</span>
+              <span>View all Vapes products</span>
               <FiArrowRight className="group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
           </div>
@@ -691,4 +691,4 @@ const WavesProductsSection = () => {
   );
 };
 
-export default WavesProductsSection;
+export default VapesProductsSection;

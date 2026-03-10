@@ -5,7 +5,7 @@
 // import Footer from "../../components/home/Footer";
 // import ShopBanner from "../../components/banner/Banner";
 // import aboutImg from "../../assets/home/9w45ht.png";
-// import wavesBg from "../../assets/home/download.jfif";
+// import VapesBg from "../../assets/home/download.jfif";
 
 // // Team members data
 // const teamMembers = [
@@ -324,7 +324,7 @@ import Navbar from "../../components/home/Navbar";
 import Footer from "../../components/home/Footer";
 import ShopBanner from "../../components/banner/Banner";
 import aboutImg from "../../assets/home/9w45ht.png";
-import wavesBg from "../../assets/home/download.jfif";
+import VapesBg from "../../assets/home/download.jfif";
 import axios from "axios";
 
 // Pre-fetch data immediately

@@ -9,7 +9,7 @@ import Footer from "../../components/home/Footer";
 import ProductsSection from "../../components/home/ProductsSection";
 import TestimonialSection from "../../components/home/TestimonialSection";
 import ContactSection from "../../components/home/ContactSection";
-import WavesProductsSection  from "../../components/home/WavesProductsSection";
+import VapesProductsSection  from "../../components/home/WavesProductsSection";
 import InteractivePromo  from "../../components/home/InteractivePromo";
 import PromoFeaturesSection  from "../../components/home/PromoFeaturesSection";
 import PromoProductSection   from "../../components/home/PromoProductSection";
@@ -22,7 +22,7 @@ function Home() {
     <div className="min-h-screen bg-white">
       <Navbar />
       <HeroSection /> {/* Direct render - no delay */}
-      <WavesProductsSection />
+      <VapesProductsSection />
       <AboutSection />
       <ProductsSection />
       <PromoSection />

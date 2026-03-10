@@ -7,8 +7,8 @@
 
 // const PromoProductCMS = ({ isDarkMode, isVisible }) => {
 //   const fileInputRef = useRef(null);
-//   const wavesInputRef = useRef(null);
-//   const [uploading, setUploading] = useState({ main: false, waves: false });
+//   const VapesInputRef = useRef(null);
+//   const [uploading, setUploading] = useState({ main: false, Vapes: false });
 //   const [activeFeature, setActiveFeature] = useState(null);
 
 //   // Promo Product Section Data
@@ -23,8 +23,8 @@
 //     hungryText: "HUNGRY UP!",
 //     image: "/assets/home/get-image2.png",
 //     imagePreview: null,
-//     wavesImage: "/assets/home/Vertical Garden Wall With Neon Light.jfif",
-//     wavesPreview: null,
+//     VapesImage: "/assets/home/Vertical Garden Wall With Neon Light.jfif",
+//     VapesPreview: null,
 //     active: true,
 //     features: [
 //       {
@@ -89,8 +89,8 @@
 //         } else {
 //           setPromoData(prev => ({
 //             ...prev,
-//             wavesImage: reader.result,
-//             wavesPreview: reader.result
+//             VapesImage: reader.result,
+//             VapesPreview: reader.result
 //           }));
 //         }
 //         setUploading(prev => ({ ...prev, [type]: false }));
@@ -102,8 +102,8 @@
 //   const triggerFileInput = (type) => {
 //     if (type === 'main' && fileInputRef.current) {
 //       fileInputRef.current.click();
-//     } else if (type === 'waves' && wavesInputRef.current) {
-//       wavesInputRef.current.click();
+//     } else if (type === 'Vapes' && VapesInputRef.current) {
+//       VapesInputRef.current.click();
 //     }
 //   };
 
@@ -180,12 +180,12 @@
 //       />
 //       <input
 //         type="file"
-//         ref={wavesInputRef}
+//         ref={VapesInputRef}
 //         className="hidden"
 //         accept="image/*"
 //         onChange={(e) => {
 //           if (e.target.files[0]) {
-//             handleImageUpload('waves', e.target.files[0]);
+//             handleImageUpload('Vapes', e.target.files[0]);
 //           }
 //         }}
 //       />
@@ -277,19 +277,19 @@
 //             </p>
 //           </div>
 
-//           {/* Waves Background Image */}
+//           {/* Vapes Background Image */}
 //           <div>
 //             <h3 className={`text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-//               Waves Background Image
+//               Vapes Background Image
 //             </h3>
 //             <div className={`relative rounded-xl border-2 border-dashed overflow-hidden ${
 //               isDarkMode ? 'border-gray-600' : 'border-gray-300'
 //             }`}>
 //               <div className="aspect-video relative group">
-//                 {promoData.wavesImage || promoData.wavesPreview ? (
+//                 {promoData.VapesImage || promoData.VapesPreview ? (
 //                   <img 
-//                     src={promoData.wavesPreview || promoData.wavesImage} 
-//                     alt="Waves Background"
+//                     src={promoData.VapesPreview || promoData.VapesImage} 
+//                     alt="Vapes Background"
 //                     className="w-full h-full object-cover"
 //                   />
 //                 ) : (
@@ -298,7 +298,7 @@
 //                   }`}>
 //                     <FiImage className={`text-4xl mb-2 ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`} />
 //                     <p className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>
-//                       No waves image
+//                       No Vapes image
 //                     </p>
 //                   </div>
 //                 )}
@@ -306,11 +306,11 @@
 //                 {/* Upload Overlay */}
 //                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
 //                   <button
-//                     onClick={() => triggerFileInput('waves')}
-//                     disabled={uploading.waves}
+//                     onClick={() => triggerFileInput('Vapes')}
+//                     disabled={uploading.Vapes}
 //                     className="px-4 py-2 bg-white text-gray-900 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors flex items-center gap-2 disabled:opacity-50"
 //                   >
-//                     {uploading.waves ? (
+//                     {uploading.Vapes ? (
 //                       <>
 //                         <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
 //                         Uploading...
@@ -326,7 +326,7 @@
 //               </div>
 //             </div>
 //             <p className={`text-xs mt-1 text-center ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>
-//               Background smoke/waves • 1920x1080px • Max 2MB
+//               Background smoke/Vapes • 1920x1080px • Max 2MB
 //             </p>
 //           </div>
 //         </div>

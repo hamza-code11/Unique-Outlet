@@ -1,6 +1,6 @@
 // import React from "react";
 // import productImg from "../assets/home/get-image2.png"; // apni product image ka path
-// import wavesBg from "../assets/home/Vertical Garden Wall With Neon Light.jfif"; // smoke/waves background image
+// import VapesBg from "../assets/home/Vertical Garden Wall With Neon Light.jfif"; // smoke/Vapes background image
 // import { FiShoppingBag, FiArrowRight, FiClock, FiTag, FiShield, FiWind, FiSmile, FiStar } from "react-icons/fi";
 
 // const PromoProductSection = () => {
@@ -42,10 +42,10 @@
 //           <div className="relative">
 //             {/* Main Background Container - Smoke attached to background */}
 //             <div className="absolute inset-0 -m-10 rounded-3xl overflow-hidden">
-//               {/* Smoke/Waves Background Image */}
+//               {/* Smoke/Vapes Background Image */}
 //               <div className="absolute inset-0">
 //                 <img 
-//                   src={wavesBg} 
+//                   src={VapesBg} 
 //                   alt="Smoke Effect" 
 //                   className="w-full h-full object-cover opacity-40 mix-blend-screen"
 //                   style={{ 
@@ -266,7 +266,7 @@
 // src/components/home/PromoProductSection.jsx
 import React, { useState, useEffect } from "react";
 import productImg from "../../assets/home/get-image2.png";
-import wavesBg from "../../assets/home/Vertical Garden Wall With Neon Light.jfif";
+import VapesBg from "../../assets/home/Vertical Garden Wall With Neon Light.jfif";
 import { FiShoppingBag, FiArrowRight, FiShield, FiWind, FiSmile } from "react-icons/fi";
 import axios from "axios";
 
@@ -407,10 +407,10 @@ const PromoProductSection = () => {
           <div className="relative">
             {/* Main Background Container - Smoke attached to background */}
             <div className="absolute inset-0 -m-10 rounded-3xl overflow-hidden">
-              {/* Smoke/Waves Background Image */}
+              {/* Smoke/Vapes Background Image */}
               <div className="absolute inset-0">
                 <img 
-                  src={wavesBg} 
+                  src={VapesBg} 
                   alt="Smoke Effect" 
                   className={`w-full h-full object-cover transition-all duration-500 ${
                     isDarkMode 

@@ -15,10 +15,10 @@ class SliderSeeder extends Seeder
     {
 
         Slider::create([
-            'heading' => "Ride the waves of\nsmooth vaping updates",
-            'paragraph' => "Premium Waves vaping products curated for enthusiasts. Quality you can trust, support you deserve.",
+            'heading' => "Ride the Vapes of\nsmooth vaping updates",
+            'paragraph' => "Premium Vapes vaping products curated for enthusiasts. Quality you can trust, support you deserve.",
             'image' => "sliders/vapes.png",
-            'offer_tag' => "WAVES COLLECTION • 25% OFF",
+            'offer_tag' => "Vapes COLLECTION • 25% OFF",
             'badge_product_name' => "Vapes",
             'badge_trusted_text' => "Trusted by 10,000+ Customers"
         ]);

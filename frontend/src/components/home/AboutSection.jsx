@@ -1,6 +1,6 @@
 // import React, { useEffect, useRef } from "react";
 // import vape from "../assets/home/9w45ht.png";
-// import wavesBg from "../assets/home/download.jfif"; // waves background image yahan add karo
+// import VapesBg from "../assets/home/download.jfif"; // Vapes background image yahan add karo
 // import { FiShield, FiZap, FiUsers, FiSmile, FiArrowRight } from "react-icons/fi";
 
 // const AboutSection = () => {
@@ -27,11 +27,11 @@
 
 //   return (
 //     <section className="relative overflow-hidden bg-[#0a0a0f] py-20" id="about">
-//       {/* Waves Background Image */}
+//       {/* Vapes Background Image */}
 //       <div className="absolute inset-0 z-0">
 //         <img 
-//           src={wavesBg} 
-//           alt="Waves Background" 
+//           src={VapesBg} 
+//           alt="Vapes Background" 
 //           className="w-full h-full object-cover opacity-20 md:opacity-30"
 //           style={{ 
 //             maskImage: 'linear-gradient(to bottom, transparent, black, transparent)',
@@ -44,7 +44,7 @@
 //       <div className="absolute top-0 left-0 w-3/4 h-3/4 bg-gradient-to-br from-blue-900/30 via-blue-800/10 to-transparent rounded-full blur-3xl"></div>
 //       <div className="absolute bottom-0 right-0 w-3/4 h-3/4 bg-gradient-to-tl from-cyan-900/30 via-transparent to-transparent rounded-full blur-3xl"></div>
       
-//       {/* Dark overlay for depth - slightly reduced opacity to show waves */}
+//       {/* Dark overlay for depth - slightly reduced opacity to show Vapes */}
 //       <div className="absolute inset-0 bg-[#0a0a0f]/70"></div>
       
 //       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -248,7 +248,7 @@
 
 // import React, { useEffect, useRef } from "react";
 // import vape from "../../assets/home/9w45ht.png";
-// import wavesBg from "../../assets/home/download.jfif"; // waves background image yahan add karo
+// import VapesBg from "../../assets/home/download.jfif"; // Vapes background image yahan add karo
 // import { FiShield, FiZap, FiUsers, FiSmile, FiArrowRight } from "react-icons/fi";
 
 // const AboutSection = () => {
@@ -294,11 +294,11 @@
 //     <section className={`relative overflow-hidden py-20 transition-colors duration-500 ${
 //       isDarkMode ? 'bg-gray-900' : 'bg-white'
 //     }`} id="about">
-//       {/* Waves Background Image */}
+//       {/* Vapes Background Image */}
 //       <div className="absolute inset-0 z-0">
 //         <img 
-//           src={wavesBg} 
-//           alt="Waves Background" 
+//           src={VapesBg} 
+//           alt="Vapes Background" 
 //           className={`w-full h-full object-cover transition-opacity duration-500 ${
 //             isDarkMode ? 'opacity-10 md:opacity-20' : 'opacity-5 md:opacity-10'
 //           }`}
@@ -572,7 +572,7 @@
 // src/components/home/AboutSection.jsx
 import React, { useEffect, useRef, useState } from "react";
 import vape from "../../assets/home/9w45ht.png";
-import wavesBg from "../../assets/home/download.jfif";
+import VapesBg from "../../assets/home/download.jfif";
 import { FiShield, FiZap, FiUsers, FiSmile, FiArrowRight, FiHeadphones, FiPackage, FiClock } from "react-icons/fi";
 import axios from "axios";
 
@@ -716,11 +716,11 @@ const AboutSection = () => {
       isDarkMode ? 'bg-gray-900' : 'bg-white'
     } ${isVisible ? 'opacity-100' : 'opacity-0'}`} id="about">
       
-      {/* Waves Background Image */}
+      {/* Vapes Background Image */}
       <div className="absolute inset-0 z-0">
         <img 
-          src={wavesBg} 
-          alt="Waves Background" 
+          src={VapesBg} 
+          alt="Vapes Background" 
           className={`w-full h-full object-cover transition-opacity duration-500 ${
             isDarkMode ? 'opacity-10 md:opacity-20' : 'opacity-5 md:opacity-10'
           }`}

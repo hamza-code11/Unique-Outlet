@@ -9,10 +9,10 @@
 //     <section className="relative overflow-hidden bg-[#0a0a0f] py-16 md:py-20">
 //       {/* Simple Background */}
 //       <div className="absolute inset-0 bg-gradient-to-b from-blue-900/10 via-transparent to-cyan-900/10"></div>
-      
+
 //       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 //         <div className="grid md:grid-cols-2 gap-6">
-          
+
 //           {/* LEFT BIG CARD */}
 //           <div className="relative h-[500px] rounded-2xl overflow-hidden group">
 //             {/* Image */}
@@ -21,10 +21,10 @@
 //               alt="E-Liquid Bundles"
 //               className="absolute inset-0 w-full h-full object-cover"
 //             />
-            
+
 //             {/* Simple Dark Overlay */}
 //             <div className="absolute inset-0 bg-black/60"></div>
-            
+
 //             {/* Content */}
 //             <div className="absolute inset-0 flex flex-col justify-end p-8">
 //               <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
@@ -55,7 +55,7 @@
 
 //           {/* RIGHT SIDE */}
 //           <div className="flex flex-col gap-6">
-            
+
 //             {/* Top Card */}
 //             <div className="relative h-[240px] rounded-2xl overflow-hidden group">
 //               <img
@@ -63,10 +63,10 @@
 //                 alt="New to vaping"
 //                 className="absolute inset-0 w-full h-full object-cover"
 //               />
-              
+
 //               {/* Simple Dark Overlay */}
 //               <div className="absolute inset-0 bg-black/60"></div>
-              
+
 //               {/* Content */}
 //               <div className="absolute inset-0 flex flex-col justify-center p-6">
 //                 <h3 className="text-xl font-bold text-white mb-2">
@@ -92,10 +92,10 @@
 //                 alt="Vap Mode"
 //                 className="absolute inset-0 w-full h-full object-cover"
 //               />
-              
+
 //               {/* Simple Dark Overlay */}
 //               <div className="absolute inset-0 bg-black/60"></div>
-              
+
 //               {/* Content */}
 //               <div className="absolute inset-0 flex flex-col justify-center p-6">
 //                 <h3 className="text-xl font-bold text-white mb-2">
@@ -165,10 +165,10 @@
 //           ? 'bg-gradient-to-b from-blue-900/20 via-transparent to-cyan-900/20' 
 //           : 'bg-gradient-to-b from-blue-100/30 via-transparent to-cyan-100/30'
 //       }`}></div>
-      
+
 //       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 //         <div className="grid md:grid-cols-2 gap-6">
-          
+
 //           {/* LEFT BIG CARD */}
 //           <div className="relative h-[500px] rounded-2xl overflow-hidden group shadow-lg">
 //             {/* Image */}
@@ -177,10 +177,10 @@
 //               alt="E-Liquid Bundles"
 //               className="absolute inset-0 w-full h-full object-cover"
 //             />
-            
+
 //             {/* Dark Overlay - consistent for both themes (images ke liye) */}
 //             <div className="absolute inset-0 bg-black/60"></div>
-            
+
 //             {/* Content */}
 //             <div className="absolute inset-0 flex flex-col justify-end p-8">
 //               <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
@@ -211,7 +211,7 @@
 
 //           {/* RIGHT SIDE */}
 //           <div className="flex flex-col gap-6">
-            
+
 //             {/* Top Card */}
 //             <div className="relative h-[240px] rounded-2xl overflow-hidden group shadow-md">
 //               <img
@@ -219,10 +219,10 @@
 //                 alt="New to vaping"
 //                 className="absolute inset-0 w-full h-full object-cover"
 //               />
-              
+
 //               {/* Dark Overlay - consistent */}
 //               <div className="absolute inset-0 bg-black/60"></div>
-              
+
 //               {/* Content */}
 //               <div className="absolute inset-0 flex flex-col justify-center p-6">
 //                 <h3 className="text-xl font-bold text-white mb-2">
@@ -248,10 +248,10 @@
 //                 alt="Vap Mode"
 //                 className="absolute inset-0 w-full h-full object-cover"
 //               />
-              
+
 //               {/* Dark Overlay - consistent */}
 //               <div className="absolute inset-0 bg-black/60"></div>
-              
+
 //               {/* Content */}
 //               <div className="absolute inset-0 flex flex-col justify-center p-6">
 //                 <h3 className="text-xl font-bold text-white mb-2">
@@ -305,7 +305,7 @@
 // // Start fetching data immediately
 // const fetchData = async () => {
 //   if (dataPromise) return dataPromise;
-  
+
 //   dataPromise = axios.get('http://127.0.0.1:8000/api/interactive-promo', { timeout: 3000 })
 //     .then(response => {
 //       if (response.data.success && response.data.promo) {
@@ -331,7 +331,7 @@
 //       };
 //       return promoDataCache;
 //     });
-  
+
 //   return dataPromise;
 // };
 
@@ -390,17 +390,17 @@
 //     <section className={`relative overflow-hidden py-16 md:py-20 transition-opacity duration-700 ${
 //       isDarkMode ? 'bg-gray-900' : 'bg-white'
 //     } ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-      
+
 //       {/* Background - dynamic */}
 //       <div className={`absolute inset-0 transition-colors duration-500 ${
 //         isDarkMode 
 //           ? 'bg-gradient-to-b from-blue-900/20 via-transparent to-cyan-900/20' 
 //           : 'bg-gradient-to-b from-blue-100/30 via-transparent to-cyan-100/30'
 //       }`}></div>
-      
+
 //       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 //         <div className="grid md:grid-cols-2 gap-6">
-          
+
 //           {/* LEFT BIG CARD */}
 //           <div className="relative h-[500px] rounded-2xl overflow-hidden group shadow-lg">
 //             {/* Image */}
@@ -412,10 +412,10 @@
 //                 e.target.src = leftImg; // fallback to local image
 //               }}
 //             />
-            
+
 //             {/* Dark Overlay - consistent for both themes */}
 //             <div className="absolute inset-0 bg-black/60"></div>
-            
+
 //             {/* Content */}
 //             <div className="absolute inset-0 flex flex-col justify-end p-8">
 //               <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
@@ -439,7 +439,7 @@
 
 //           {/* RIGHT SIDE */}
 //           <div className="flex flex-col gap-6">
-            
+
 //             {/* Top Card */}
 //             <div className="relative h-[240px] rounded-2xl overflow-hidden group shadow-md">
 //               <img
@@ -450,10 +450,10 @@
 //                   e.target.src = rightTop; // fallback to local image
 //                 }}
 //               />
-              
+
 //               {/* Dark Overlay - consistent */}
 //               <div className="absolute inset-0 bg-black/60"></div>
-              
+
 //               {/* Content */}
 //               <div className="absolute inset-0 flex flex-col justify-center p-6">
 //                 <h3 className="text-xl font-bold text-white mb-2">
@@ -482,10 +482,10 @@
 //                   e.target.src = rightBottom; // fallback to local image
 //                 }}
 //               />
-              
+
 //               {/* Dark Overlay - consistent */}
 //               <div className="absolute inset-0 bg-black/60"></div>
-              
+
 //               {/* Content */}
 //               <div className="absolute inset-0 flex flex-col justify-center p-6">
 //                 <h3 className="text-xl font-bold text-white mb-2">
@@ -534,7 +534,7 @@ let dataPromise = null;
 // Start fetching data immediately
 const fetchData = async () => {
   if (dataPromise) return dataPromise;
-  
+
   dataPromise = axios.get('http://127.0.0.1:8000/api/interactive-promo', { timeout: 3000 })
     .then(response => {
       if (response.data.success && response.data.promo) {
@@ -560,7 +560,7 @@ const fetchData = async () => {
       };
       return promoDataCache;
     });
-  
+
   return dataPromise;
 };
 
@@ -603,33 +603,31 @@ const InteractivePromo = () => {
   }, [promoData]);
 
   // Construct image URLs
-  const leftImageUrl = promoData?.left_image 
+  const leftImageUrl = promoData?.left_image
     ? `http://127.0.0.1:8000/storage/${promoData.left_image}`
     : leftImg;
 
-  const rightTopImageUrl = promoData?.right_top_image 
+  const rightTopImageUrl = promoData?.right_top_image
     ? `http://127.0.0.1:8000/storage/${promoData.right_top_image}`
     : rightTop;
 
-  const rightBottomImageUrl = promoData?.right_bottom_image 
+  const rightBottomImageUrl = promoData?.right_bottom_image
     ? `http://127.0.0.1:8000/storage/${promoData.right_bottom_image}`
     : rightBottom;
 
   return (
-    <section className={`relative overflow-hidden py-16 md:py-20 transition-opacity duration-700 ${
-      isDarkMode ? 'bg-gray-900' : 'bg-white'
-    } ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-      
+    <section className={`relative overflow-hidden py-16 md:py-20 transition-opacity duration-700 ${isDarkMode ? 'bg-gray-900' : 'bg-white'
+      } ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+
       {/* Background - dynamic */}
-      <div className={`absolute inset-0 transition-colors duration-500 ${
-        isDarkMode 
-          ? 'bg-gradient-to-b from-blue-900/20 via-transparent to-cyan-900/20' 
-          : 'bg-gradient-to-b from-blue-100/30 via-transparent to-cyan-100/30'
-      }`}></div>
-      
+      <div className={`absolute inset-0 transition-colors duration-500 ${isDarkMode
+        ? 'bg-gradient-to-b from-blue-900/20 via-transparent to-cyan-900/20'
+        : 'bg-gradient-to-b from-blue-100/30 via-transparent to-cyan-100/30'
+        }`}></div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid md:grid-cols-2 gap-6">
-          
+
           {/* LEFT BIG CARD */}
           <div className="relative h-[500px] rounded-2xl overflow-hidden group shadow-lg">
             {/* Image */}
@@ -641,12 +639,12 @@ const InteractivePromo = () => {
                 e.target.src = leftImg; // fallback to local image
               }}
             />
-            
+
             {/* Content with semi-transparent background for text readability */}
             <div className="absolute inset-0 flex flex-col justify-end p-8">
               {/* Semi-transparent background for text */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-              
+
               {/* Text content - positioned above the gradient */}
               <div className="relative z-10">
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
@@ -658,8 +656,14 @@ const InteractivePromo = () => {
                 </p>
 
                 <div className="flex flex-wrap gap-3">
-                  <button className="px-5 py-2.5 bg-blue-600 text-white font-medium rounded-full text-sm
-                                   hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-md">
+                  <button
+                    className="px-5 py-2.5 text-black font-medium rounded-full text-sm
+             transition-all duration-300 transform hover:scale-105
+             flex items-center gap-2 shadow-md"
+                    style={{
+                      background: 'linear-gradient(135deg, #90ff00 0%, #d7fe00 100%)'
+                    }}
+                  >
                     <FiShoppingBag className="text-sm" />
                     <span>{promoData?.left_button_text || "Shop Now"}</span>
                   </button>
@@ -670,7 +674,7 @@ const InteractivePromo = () => {
 
           {/* RIGHT SIDE */}
           <div className="flex flex-col gap-6">
-            
+
             {/* Top Card */}
             <div className="relative h-[240px] rounded-2xl overflow-hidden group shadow-md">
               <img
@@ -681,12 +685,12 @@ const InteractivePromo = () => {
                   e.target.src = rightTop; // fallback to local image
                 }}
               />
-              
+
               {/* Content with semi-transparent background */}
               <div className="absolute inset-0 flex flex-col justify-center p-6">
                 {/* Semi-transparent background overlay */}
                 <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent"></div>
-                
+
                 {/* Text content */}
                 <div className="relative z-10">
                   <h3 className="text-xl font-bold text-white mb-2">
@@ -697,9 +701,14 @@ const InteractivePromo = () => {
                     {promoData?.right_top_paragraph || "Learn how vaping works and choose the right starter kit."}
                   </p>
 
-                  <button className="px-4 py-2 bg-blue-600 text-white font-medium rounded-full text-sm w-fit
-                                   hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-md">
-                    <span>{promoData?.right_top_button_text || "Start Here"}</span>
+                  <button
+                    className="px-5 py-2.5 text-black font-medium rounded-full text-sm
+             transition-all duration-300 transform hover:scale-105
+             flex items-center gap-2 shadow-md"
+                    style={{
+                      background: 'linear-gradient(135deg, #90ff00 0%, #d7fe00 100%)'
+                    }}>
+                    <span>{promoData?.right_top_button_text || "Shop Now"}</span>
                     <FiArrowRight className="text-sm" />
                   </button>
                 </div>
@@ -716,12 +725,12 @@ const InteractivePromo = () => {
                   e.target.src = rightBottom; // fallback to local image
                 }}
               />
-              
+
               {/* Content with semi-transparent background */}
               <div className="absolute inset-0 flex flex-col justify-center p-6">
                 {/* Semi-transparent background overlay */}
                 <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent"></div>
-                
+
                 {/* Text content */}
                 <div className="relative z-10">
                   <h3 className="text-xl font-bold text-white mb-2">
@@ -732,8 +741,13 @@ const InteractivePromo = () => {
                     {promoData?.right_bottom_paragraph || "Discover advanced devices and customize your experience."}
                   </p>
 
-                  <button className="px-4 py-2 bg-blue-600 text-white font-medium rounded-full text-sm w-fit
-                                   hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-md">
+                  <button
+                    className="px-5 py-2.5 text-black font-medium rounded-full text-sm
+             transition-all duration-300 transform hover:scale-105
+             flex items-center gap-2 shadow-md"
+                    style={{
+                      background: 'linear-gradient(135deg, #90ff00 0%, #d7fe00 100%)'
+                    }}>
                     <FiShoppingBag className="text-sm" />
                     <span>{promoData?.right_bottom_button_text || "Shop Now"}</span>
                   </button>

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import wavesBg from "../../assets/home/footer.jfif"; // fallback image
+import VapesBg from "../../assets/home/footer.jfif"; // fallback image
 import { FiMapPin, FiPhone, FiMail, FiSend, FiHeart, FiFacebook, FiTwitter, FiInstagram, FiYoutube } from "react-icons/fi";
 
 const Footer = () => {
@@ -93,7 +93,7 @@ const Footer = () => {
         contact: "800.275.8777",
         gmail: "alex@company.com",
         newsletter_desc: "Sign up with your email address to receive news and updates.",
-        wavesImage: wavesBg,
+        VapesImage: VapesBg,
         active: true
     };
 
@@ -123,13 +123,13 @@ const Footer = () => {
         <footer className={`relative overflow-hidden transition-colors duration-500 pt-20 pb-8 ${
             isDarkMode ? 'bg-gray-900' : 'bg-white'
         }`}>
-            {/* Smoke/Waves Background Image - Full Footer */}
+            {/* Smoke/Vapes Background Image - Full Footer */}
             <div className="absolute inset-0 z-0">
                 <div className={`absolute inset-0 transition-colors duration-500 ${
                     isDarkMode ? 'bg-gray-900/60' : 'bg-white/60'
                 }`}></div>
                 <img 
-                    src={data.wavesImage || wavesBg} 
+                    src={data.VapesImage || VapesBg} 
                     alt="Smoke Effect" 
                     className={`w-full h-full object-cover transition-all duration-500 ${
                         isDarkMode 
@@ -140,7 +140,7 @@ const Footer = () => {
                         filter: isDarkMode ? 'brightness(1.2) contrast(1.1)' : 'brightness(1.1) contrast(1.05)',
                     }}
                     onError={(e) => {
-                        e.target.src = wavesBg; // Fallback to default if image fails to load
+                        e.target.src = VapesBg; // Fallback to default if image fails to load
                     }}
                 />
             </div>

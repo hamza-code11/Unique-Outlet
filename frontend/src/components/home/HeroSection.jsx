@@ -1,7 +1,7 @@
 // // src/components/HeroSection.jsx
 // import React, { useEffect, useRef } from "react";
 // import vapeImg from "../assets/home/01.png";
-// import wavesBg from "../assets/home/waves-bg.jfif"; // waves background image yahan add karo
+// import VapesBg from "../assets/home/Vapes-bg.jfif"; // Vapes background image yahan add karo
 // import {
 //   FiShoppingBag,
 //   FiShield,
@@ -38,11 +38,11 @@
 
 //   return (
 //     <section ref={sectionRef} className="relative overflow-hidden bg-[#0a0a0f] min-h-screen flex items-center py-12 md:py-16">
-//       {/* Waves Background Image */}
+//       {/* Vapes Background Image */}
 //       <div className="absolute inset-0 z-0">
 //         <img 
-//           src={wavesBg} 
-//           alt="Waves Background" 
+//           src={VapesBg} 
+//           alt="Vapes Background" 
 //           className="w-full h-full object-cover opacity-20 md:opacity-30"
 //           style={{ 
 //             maskImage: 'linear-gradient(to bottom, transparent, black, transparent)',
@@ -55,7 +55,7 @@
 //       <div className="absolute top-0 right-0 w-3/4 h-3/4 bg-gradient-to-bl from-blue-900/40 via-blue-800/20 to-transparent rounded-full blur-3xl"></div>
 //       <div className="absolute bottom-0 left-0 w-3/4 h-3/4 bg-gradient-to-tr from-cyan-900/40 via-transparent to-transparent rounded-full blur-3xl"></div>
       
-//       {/* Dark overlay for depth - slightly reduced opacity to show waves */}
+//       {/* Dark overlay for depth - slightly reduced opacity to show Vapes */}
 //       <div className="absolute inset-0 bg-[#0a0a0f]/70"></div>
 
 //       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -72,14 +72,14 @@
 //                 <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
 //               </span>
 //               <span className="text-xs sm:text-sm font-medium text-blue-300 tracking-wide">
-//                 WAVES COLLECTION • 25% OFF
+//                 Vapes COLLECTION • 25% OFF
 //               </span>
 //             </div>
 
 //             {/* Heading */}
 //             <div className="space-y-2">
 //               <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
-//                 <span className="text-white">Ride the waves of</span>
+//                 <span className="text-white">Ride the Vapes of</span>
 //                 <br />
 //                 <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
 //                   smooth vaping
@@ -293,7 +293,7 @@
 // // src/components/HeroSection.jsx
 // import React, { useEffect, useRef } from "react";
 // import vapeImg from "../assets/home/01.png";
-// import wavesBg from "../assets/home/waves-bg.jfif"; // waves background image yahan add karo
+// import VapesBg from "../assets/home/Vapes-bg.jfif"; // Vapes background image yahan add karo
 // import {
 //   FiShoppingBag,
 //   FiShield,
@@ -330,11 +330,11 @@
 
 //   return (
 //     <section ref={sectionRef} className="relative overflow-hidden bg-white min-h-screen flex items-center py-12 md:py-16">
-//       {/* Waves Background Image */}
+//       {/* Vapes Background Image */}
 //       <div className="absolute inset-0 z-0">
 //         <img 
-//           src={wavesBg} 
-//           alt="Waves Background" 
+//           src={VapesBg} 
+//           alt="Vapes Background" 
 //           className="w-full h-full object-cover opacity-5 md:opacity-10"
 //           style={{ 
 //             maskImage: 'linear-gradient(to bottom, transparent, black, transparent)',
@@ -364,14 +364,14 @@
 //                 <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
 //               </span>
 //               <span className="text-xs sm:text-sm font-medium text-blue-600 tracking-wide">
-//                 WAVES COLLECTION • 25% OFF
+//                 Vapes COLLECTION • 25% OFF
 //               </span>
 //             </div>
 
 //             {/* Heading */}
 //             <div className="space-y-2">
 //               <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
-//                 <span className="text-gray-900">Ride the waves of</span>
+//                 <span className="text-gray-900">Ride the Vapes of</span>
 //                 <br />
 //                 <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
 //                   smooth vaping
@@ -591,7 +591,7 @@
 // import vapeImg1 from "../../assets/home/01.png";
 // import vapeImg2 from "../../assets/home/p5.png"; // accessories ki image
 // import vapeImg3 from "../../assets/home/p7.png"; // additional product image
-// import wavesBg from "../../assets/home/waves-bg.jfif";
+// import VapesBg from "../../assets/home/Vapes-bg.jfif";
 // import {
 //   FiShoppingBag,
 //   FiShield,
@@ -629,20 +629,20 @@
 //   const slides = [
 //     {
 //       id: 1,
-//       brand: "WAVES",
+//       brand: "Vapes",
 //       image: vapeImg1,
-//       title: "Ride the waves of",
+//       title: "Ride the Vapes of",
 //       highlight: "smooth vaping",
-//       description: "Premium Waves vaping products curated for enthusiasts. Quality you can trust, support you deserve.",
-//       badge: "WAVES COLLECTION • 25% OFF",
+//       description: "Premium Vapes vaping products curated for enthusiasts. Quality you can trust, support you deserve.",
+//       badge: "Vapes COLLECTION • 25% OFF",
 //       features: {
-//         quality: "Premium Waves Quality",
+//         quality: "Premium Vapes Quality",
 //         shipping: "Free Shipping",
-//         support: "24/7 Waves Support",
+//         support: "24/7 Vapes Support",
 //         payment: "Secure Payment"
 //       },
-//       buttonText: "Shop Waves Collection",
-//       demoText: "Watch Waves Demo",
+//       buttonText: "Shop Vapes Collection",
+//       demoText: "Watch Vapes Demo",
 //       imageSize: "w-2/3 sm:w-1/2 md:w-3/4"
 //     },
 //     {
@@ -718,11 +718,11 @@
 //     <section ref={sectionRef} className={`relative overflow-hidden min-h-screen flex items-center py-12 md:py-16 transition-colors duration-500 ${
 //       isDarkMode ? 'bg-gray-900' : 'bg-white'
 //     }`}>
-//       {/* Waves Background Image */}
+//       {/* Vapes Background Image */}
 //       <div className="absolute inset-0 z-0">
 //         <img 
-//           src={wavesBg} 
-//           alt="Waves Background" 
+//           src={VapesBg} 
+//           alt="Vapes Background" 
 //           className={`w-full h-full object-cover transition-opacity duration-500 ${
 //             isDarkMode ? 'opacity-10 md:opacity-20' : 'opacity-5 md:opacity-10'
 //           }`}
@@ -1120,7 +1120,7 @@
 // import React, { useState, useEffect, useRef, memo, useCallback } from "react";
 // import { useNavigate } from "react-router-dom";
 // import vapeImg1 from "../../assets/home/01.png";
-// import wavesBg from "../../assets/home/waves-bg.jfif";
+// import VapesBg from "../../assets/home/Vapes-bg.jfif";
 // import {
 //   FiShoppingBag,
 //   FiShield,
@@ -1153,10 +1153,10 @@
 //       // Fallback data (single slider)
 //       slidersCache = [{
 //         id: 1,
-//         heading: "Ride the waves of\nsmooth vaping",
-//         paragraph: "Premium Waves vaping products curated for enthusiasts. Quality you can trust, support you deserve.",
+//         heading: "Ride the Vapes of\nsmooth vaping",
+//         paragraph: "Premium Vapes vaping products curated for enthusiasts. Quality you can trust, support you deserve.",
 //         image: "sliders/SYUZRB0Mp7YQH0fuwV2VizuvnxgP4UerdyYw3fUS.png",
-//         offer_tag: "WAVES COLLECTION • 25% OFF",
+//         offer_tag: "Vapes COLLECTION • 25% OFF",
 //         badge_product_name: "Vapes",
 //         badge_trusted_text: "Trusted by 10,000+ Customers"
 //       }];
@@ -1267,7 +1267,7 @@
 //   const currentSlider = sliders[currentIndex];
 
 //   // Format heading
-//   const heading = currentSlider?.heading?.split('\n') || ["Ride the waves of", "smooth vaping"];
+//   const heading = currentSlider?.heading?.split('\n') || ["Ride the Vapes of", "smooth vaping"];
   
 //   const imageUrl = currentSlider?.image 
 //     ? `http://127.0.0.1:8000/storage/${currentSlider.image}`
@@ -1291,7 +1291,7 @@
 //           isDarkMode ? 'bg-gray-900' : 'bg-white'
 //         }`}></div>
 //         <img 
-//           src={wavesBg} 
+//           src={VapesBg} 
 //           alt="" 
 //           className="w-full h-full object-cover opacity-5"
 //           loading="eager"
@@ -1375,7 +1375,7 @@
 //               <span className={`text-xs sm:text-sm font-medium tracking-wide ${
 //                 isDarkMode ? 'text-blue-300' : 'text-blue-600'
 //               }`}>
-//                 {currentSlider?.offer_tag || "WAVES COLLECTION • 25% OFF"}
+//                 {currentSlider?.offer_tag || "Vapes COLLECTION • 25% OFF"}
 //               </span>
 //             </div>
 
@@ -1394,7 +1394,7 @@
 //               <p className={`text-sm sm:text-base max-w-lg leading-relaxed transition-colors duration-300 ${
 //                 isDarkMode ? 'text-gray-400' : 'text-gray-600'
 //               }`}>
-//                 {currentSlider?.paragraph || "Premium Waves vaping products curated for enthusiasts. Quality you can trust, support you deserve."}
+//                 {currentSlider?.paragraph || "Premium Vapes vaping products curated for enthusiasts. Quality you can trust, support you deserve."}
 //               </p>
 //             </div>
 
@@ -1601,7 +1601,7 @@
 import React, { useState, useEffect, useRef, memo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import vapeImg1 from "../../assets/home/01.png";
-import wavesBg from "../../assets/home/waves-bg.jfif";
+import VapesBg from "../../assets/home/Waves-bg.jfif";
 import {
   FiShoppingBag,
   FiShield,
@@ -1634,10 +1634,10 @@ const fetchData = async () => {
       // Fallback data (single slider)
       slidersCache = [{
         id: 1,
-        heading: "Ride the waves of\nsmooth vaping",
-        paragraph: "Premium Waves vaping products curated for enthusiasts. Quality you can trust, support you deserve.",
+        heading: "Ride the Vapes of\nsmooth vaping",
+        paragraph: "Premium Vapes vaping products curated for enthusiasts. Quality you can trust, support you deserve.",
         image: "sliders/SYUZRB0Mp7YQH0fuwV2VizuvnxgP4UerdyYw3fUS.png",
-        offer_tag: "WAVES COLLECTION • 25% OFF",
+        offer_tag: "Vapes COLLECTION • 25% OFF",
         badge_product_name: "Vapes",
         badge_trusted_text: "Trusted by 10,000+ Customers"
       }];
@@ -1748,7 +1748,7 @@ function HeroSection() {
   const currentSlider = sliders[currentIndex];
 
   // Format heading
-  const heading = currentSlider?.heading?.split('\n') || ["Ride the waves of", "smooth vaping"];
+  const heading = currentSlider?.heading?.split('\n') || ["Ride the Vapes of", "smooth vaping"];
   
   const imageUrl = currentSlider?.image 
     ? `http://127.0.0.1:8000/storage/${currentSlider.image}`
@@ -1772,7 +1772,7 @@ function HeroSection() {
           isDarkMode ? 'bg-gray-900' : 'bg-white'
         }`}></div>
         <img 
-          src={wavesBg} 
+          src={VapesBg} 
           alt="" 
           className="w-full h-full object-cover opacity-5"
           loading="eager"
@@ -1856,7 +1856,7 @@ function HeroSection() {
               <span className={`text-xs sm:text-sm font-medium tracking-wide ${
                 isDarkMode ? 'text-blue-300' : 'text-blue-600'
               }`}>
-                {currentSlider?.offer_tag || "WAVES COLLECTION • 25% OFF"}
+                {currentSlider?.offer_tag || "Vapes COLLECTION • 25% OFF"}
               </span>
             </div>
 
@@ -1875,7 +1875,7 @@ function HeroSection() {
               <p className={`text-sm sm:text-base max-w-lg leading-relaxed transition-colors duration-300 ${
                 isDarkMode ? 'text-gray-400' : 'text-gray-600'
               }`}>
-                {currentSlider?.paragraph || "Premium Waves vaping products curated for enthusiasts. Quality you can trust, support you deserve."}
+                {currentSlider?.paragraph || "Premium Vapes vaping products curated for enthusiasts. Quality you can trust, support you deserve."}
               </p>
             </div>
 
