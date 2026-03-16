@@ -7,8 +7,8 @@ import {
   FiFolder, FiPackage, FiEye, FiEyeOff, FiImage
 } from "react-icons/fi";
 import axios from "axios";
+import { API_URL, STORAGE_URL } from "../../../config";
 
-const API_URL = 'http://127.0.0.1:8000/api';
 
 const ProductList = () => {
   const { isDarkMode } = useOutletContext();
@@ -83,7 +83,7 @@ const ProductList = () => {
     const image = product.image1 || product.image2 || product.image3 || product.image4 || product.image5 || product.image6 || product.image;
     if (!image) return null;
     if (image.startsWith('http')) return image;
-    return `${API_URL.replace('/api', '')}/storage/${image}`;
+    return `${STORAGE_URL}/${image.replace(/^\/?storage\//, '')}`;
   };
 
   // Handle single delete

@@ -5,8 +5,8 @@ import { FiArrowRight, FiEye } from "react-icons/fi";
 import { useOutletContext } from "react-router-dom";
 import axios from "axios";
 import AdminStats from "../../components/admin/AdminStats";
+import { API_URL, STORAGE_URL } from "../../config";
 
-const API_URL = 'http://127.0.0.1:8000/api';
 
 // Pre-fetch data immediately
 let ordersCache = null;

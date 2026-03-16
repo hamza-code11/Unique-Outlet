@@ -582,10 +582,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { FiMapPin, FiMail, FiSend, FiHeadphones } from "react-icons/fi";
 import axios from "axios";
 
+import { API_URL, STORAGE_URL } from "../../config";
+
 // Pre-fetch data immediately
 let contactDataCache = null;
 let dataPromise = null;
-const API_URL = 'http://127.0.0.1:8000/api';
 
 // Start fetching data immediately
 const fetchData = async () => {

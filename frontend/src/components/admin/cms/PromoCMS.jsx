@@ -529,8 +529,8 @@ import {
   FiSave, FiRefreshCw, FiCheck, FiX
 } from "react-icons/fi";
 import axios from "axios";
+import { API_URL, STORAGE_URL } from "../../../config";
 
-const API_URL = 'http://127.0.0.1:8000/api';
 
 const PromoCMS = ({ isDarkMode, isVisible }) => {
   const fileInputRef = useRef(null);
@@ -579,7 +579,7 @@ const PromoCMS = ({ isDarkMode, isVisible }) => {
           description: promo.paragraph || "",
           buttonText: "Go to shop",
           trustText: promo.customers || "Join 5k+ happy customers",
-          image: promo.image ? `http://127.0.0.1:8000/storage/${promo.image}` : "",
+          image: promo.image ? `${STORAGE_URL}/${promo.image}` : "",
           imagePreview: null,
           active: true,
           feature_one: promo.feature_one || "Premium Quality",

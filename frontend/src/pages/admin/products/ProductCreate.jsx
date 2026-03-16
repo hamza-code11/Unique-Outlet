@@ -1551,8 +1551,8 @@ import {
 } from "react-icons/fi";
 import { HexColorPicker } from "react-colorful";
 import axios from "axios";
+import { API_URL, STORAGE_URL } from "../../../config";
 
-const API_URL = 'http://127.0.0.1:8000/api';
 
 const ProductCreate = () => {
   const { isDarkMode } = useOutletContext();
@@ -1756,96 +1756,99 @@ const ProductCreate = () => {
   };
 
   // ✅ FIXED: Handle form submission with proper data structure
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  const newErrors = validateForm();
+  if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+    return;
+  }
+
+  setLoading(true);
+
+  try {
+    const submitData = new FormData();
     
-    const newErrors = validateForm();
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const submitData = new FormData();
-      
-      // Append all form fields
-      submitData.append('category_id', formData.category_id);
-      submitData.append('sub_category_id', formData.sub_category_id);
-      submitData.append('name', formData.name);
-      submitData.append('brand_name', formData.brand_name || '');
-      submitData.append('price', formData.price);
-      submitData.append('stock', formData.stock);
-      submitData.append('description', formData.description || '');
-      submitData.append('bottle_size', formData.bottle_size || '');
-      
-      // ✅ FIXED: Properly format colors as JSON array
-      if (formData.colors.length > 0) {
-        submitData.append('colors', JSON.stringify(formData.colors));
-      }
-      
-      // ✅ FIXED: Properly format specifications as JSON
-      if (Object.keys(formData.specifications).length > 0) {
-        submitData.append('specifications', JSON.stringify(formData.specifications));
-      }
-      
-      submitData.append('status', formData.status);
-
-      // ✅ FIXED: Append images with proper naming
-      if (images.length > 0) {
-        images.forEach((image, index) => {
-          submitData.append(`images[${index}]`, image);
-        });
-      }
-
-      // Log FormData for debugging
-      console.log('Submitting form data:');
-      for (let pair of submitData.entries()) {
-        console.log(pair[0] + ': ' + (pair[1] instanceof File ? pair[1].name : pair[1]));
-      }
-
-      const response = await axios.post(`${API_URL}/products`, submitData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+    // Append all form fields
+    submitData.append('category_id', formData.category_id);
+    submitData.append('sub_category_id', formData.sub_category_id);
+    submitData.append('name', formData.name);
+    submitData.append('brand_name', formData.brand_name || '');
+    submitData.append('price', formData.price);
+    submitData.append('stock', formData.stock);
+    submitData.append('description', formData.description || '');
+    submitData.append('bottle_size', formData.bottle_size || '');
+    
+    // ✅ FIXED: Colors ko array format me bhejna (jese ProductEdit mein hai)
+    if (formData.colors.length > 0) {
+      formData.colors.forEach((color, index) => {
+        submitData.append(`colors[${index}]`, color);
       });
-
-      console.log('Product created:', response.data);
-      alert('Product created successfully!');
-      navigate('/admin/products');
-      
-    } catch (error) {
-      console.error('Error creating product:', error);
-      
-      // ✅ FIXED: Show detailed error message
-      if (error.response) {
-        console.error('Error response data:', error.response.data);
-        console.error('Error response status:', error.response.status);
-        console.error('Error response headers:', error.response.headers);
-        
-        if (error.response.data.errors) {
-          // Validation errors from Laravel
-          const validationErrors = error.response.data.errors;
-          let errorMessage = 'Validation failed:\n';
-          Object.keys(validationErrors).forEach(key => {
-            errorMessage += `- ${key}: ${validationErrors[key].join(', ')}\n`;
-          });
-          alert(errorMessage);
-        } else if (error.response.data.message) {
-          alert(`Error: ${error.response.data.message}`);
-        } else {
-          alert(`Server error (${error.response.status}): Failed to create product`);
-        }
-      } else if (error.request) {
-        alert('No response from server. Please check your connection.');
-      } else {
-        alert(`Error: ${error.message}`);
-      }
-    } finally {
-      setLoading(false);
+    } else {
+      // Agar koi color nahi hai to empty array bhejo
+      submitData.append('colors', '[]');
     }
-  };
+    
+    // ✅ Specifications as JSON
+    if (Object.keys(formData.specifications).length > 0) {
+      submitData.append('specifications', JSON.stringify(formData.specifications));
+    }
+    
+    submitData.append('status', formData.status);
+
+    // Append images
+    if (images.length > 0) {
+      images.forEach((image, index) => {
+        submitData.append(`images[${index}]`, image);
+      });
+    }
+
+    // Log FormData for debugging
+    console.log('Submitting form data:');
+    for (let pair of submitData.entries()) {
+      console.log(pair[0] + ': ' + (pair[1] instanceof File ? pair[1].name : pair[1]));
+    }
+
+    const response = await axios.post(`${API_URL}/products`, submitData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    console.log('Product created:', response.data);
+    alert('Product created successfully!');
+    navigate('/admin/products');
+    
+  } catch (error) {
+    console.error('Error creating product:', error);
+    
+    if (error.response) {
+      console.error('Error response data:', error.response.data);
+      console.error('Error response status:', error.response.status);
+      
+      if (error.response.data.errors) {
+        // Validation errors from Laravel
+        const validationErrors = error.response.data.errors;
+        let errorMessage = 'Validation failed:\n';
+        Object.keys(validationErrors).forEach(key => {
+          errorMessage += `- ${key}: ${validationErrors[key].join(', ')}\n`;
+        });
+        alert(errorMessage);
+      } else if (error.response.data.message) {
+        alert(`Error: ${error.response.data.message}`);
+      } else {
+        alert(`Server error (${error.response.status}): Failed to create product`);
+      }
+    } else if (error.request) {
+      alert('No response from server. Please check your connection.');
+    } else {
+      alert(`Error: ${error.message}`);
+    }
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="space-y-6">

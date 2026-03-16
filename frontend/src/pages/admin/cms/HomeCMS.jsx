@@ -14,6 +14,8 @@ import PromoProductCMS from "../../../components/admin/cms/PromoProductCMS";
 import PromoFeaturesCMS from "../../../components/admin/cms/PromoFeaturesCMS";
 import PaymentSectionCMS from "../../../components/admin/cms/PaymentSectionCMS.jsx";
 
+import { API_URL, STORAGE_URL } from "../../../config";
+
 const HomeCMS = () => {
     const { isDarkMode } = useOutletContext();
     const navigate = useNavigate();

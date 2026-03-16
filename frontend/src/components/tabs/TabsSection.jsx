@@ -158,9 +158,11 @@
 
 // src/components/tabs/TabsSection.jsx
 import React, { useState } from "react";
+import { API_URL, STORAGE_URL } from "../../config";
 import FlavorsTab from "./FlavorsTab";
 import SpecificationsTab from "./SpecificationsTab";
 import ReviewsTab from "./ReviewsTab";
+
 
 const TabsSection = ({
   activeTab,

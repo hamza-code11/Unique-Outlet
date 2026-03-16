@@ -470,8 +470,8 @@ import ShopBanner from "../../components/banner/Banner";
 import { FiFilter, FiX } from "react-icons/fi";
 import axios from "axios";
 import { useCart } from "../../context/CartContext";
+import { API_URL, STORAGE_URL } from "../../config";
 
-const API_URL = 'http://127.0.0.1:8000/api';
 
 // Advanced caching system
 const cache = {

@@ -1671,8 +1671,8 @@ import Footer from "../../components/home/Footer";
 import ShopBanner from "../../components/banner/Banner";
 import { useCart } from "../../context/CartContext";
 import axios from "axios";
+import { API_URL, STORAGE_URL } from "../../config";
 
-const API_URL = 'http://127.0.0.1:8000/api';
 
 const Checkout = () => {
   const navigate = useNavigate();

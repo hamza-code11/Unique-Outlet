@@ -546,8 +546,8 @@ import {
   FiSave, FiRefreshCw, FiCheck
 } from "react-icons/fi";
 import axios from "axios";
+import { API_URL, STORAGE_URL } from "../../../config";
 
-const API_URL = 'http://127.0.0.1:8000/api';
 
 const AboutCMS = ({ isDarkMode, isVisible }) => {
   const fileInputRef = useRef(null);
@@ -599,7 +599,7 @@ const AboutCMS = ({ isDarkMode, isVisible }) => {
           description1: paragraphs[0] || "",
           description2: paragraphs[1] || "",
           buttonText: "Explore More",
-          image: about.image ? `http://127.0.0.1:8000/storage/${about.image}` : "",
+          image: about.image ? `${STORAGE_URL}/${about.image}` : "",
           imagePreview: null,
           active: true,
           years: about.years || "10+",

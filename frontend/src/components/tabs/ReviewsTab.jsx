@@ -231,8 +231,8 @@
 import React, { useState, useEffect } from "react";
 import { FiStar } from "react-icons/fi";
 import axios from "axios";
+import { API_URL, STORAGE_URL } from "../../config";
 
-const API_URL = 'http://127.0.0.1:8000/api';
 
 const ReviewsTab = ({ isDarkMode, productId }) => {
   const [showAllReviews, setShowAllReviews] = useState(false);

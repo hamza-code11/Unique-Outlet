@@ -658,8 +658,8 @@ import {
   FiStar, FiArrowRight, FiSave, FiRefreshCw, FiCheck, FiX
 } from "react-icons/fi";
 import axios from "axios";
+import { API_URL, STORAGE_URL } from "../../../config";
 
-const API_URL = 'http://127.0.0.1:8000/api';
 
 const PromoProductCMS = ({ isDarkMode, isVisible }) => {
   const fileInputRef = useRef(null);
@@ -704,7 +704,7 @@ const PromoProductCMS = ({ isDarkMode, isVisible }) => {
           price: product.price || "19.99",
           description: product.paragraph || "",
           buttonText: product.button_text || "Shop Now",
-          image: product.image ? `http://127.0.0.1:8000/storage/${product.image}` : "",
+          image: product.image ? `${STORAGE_URL}/${product.image}` : "",
           imagePreview: null,
           active: true,
           feature_one: product.feature_one || "100% Natural",

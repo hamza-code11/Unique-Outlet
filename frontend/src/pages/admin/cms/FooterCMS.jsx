@@ -5,6 +5,7 @@ import {
   FiSave, FiClock, FiWifiOff
 } from "react-icons/fi";
 import axios from "axios";
+import { API_URL, STORAGE_URL } from "../../../config";
 
 // Cache for footer data
 let footerDataCache = null;
@@ -75,7 +76,7 @@ const FooterCMS = ({ isDarkMode, isVisible }) => {
       setConnectionError(false);
       fetchRef.current = true;
       
-      const response = await axios.get("http://127.0.0.1:8000/api/footer-setting", {
+      const response = await axios.get(`${API_URL}/footer-setting`, {
         timeout: 8000,
         signal: abortControllerRef.current.signal,
         headers: {
@@ -154,7 +155,7 @@ const FooterCMS = ({ isDarkMode, isVisible }) => {
       console.log("Saving data:", dataToSave);
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/footer-setting",
+        `${API_URL}/footer-setting`,
         dataToSave,
         {
           headers: {
@@ -206,7 +207,6 @@ const FooterCMS = ({ isDarkMode, isVisible }) => {
           <p className={`text-sm mb-4 ${
             isDarkMode ? 'text-gray-400' : 'text-gray-600'
           }`}>
-            Unable to reach backend server at http://127.0.0.1:8000
           </p>
           <div className="flex justify-center gap-3">
             <button

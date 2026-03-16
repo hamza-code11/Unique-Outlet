@@ -483,8 +483,8 @@ import {
   FiSave, FiRefreshCw, FiCheck, FiX
 } from "react-icons/fi";
 import axios from "axios";
+import { API_URL, STORAGE_URL } from "../../../config";
 
-const API_URL = 'http://127.0.0.1:8000/api';
 
 const InteractivePromoCMS = ({ isDarkMode, isVisible }) => {
   const fileInputRefs = {
@@ -550,7 +550,7 @@ const InteractivePromoCMS = ({ isDarkMode, isVisible }) => {
             description: promo.left_paragraph || "",
             buttonText: promo.left_button_text || "Shop Now",
             secondaryButtonText: "Get 25% Off",
-            image: promo.left_image ? `http://127.0.0.1:8000/storage/${promo.left_image}` : "",
+            image: promo.left_image ? `${STORAGE_URL}/${promo.left_image}` : "",
             imagePreview: null,
             active: true
           },
@@ -559,7 +559,7 @@ const InteractivePromoCMS = ({ isDarkMode, isVisible }) => {
             title: promo.right_top_heading || "New To Vaping?",
             description: promo.right_top_paragraph || "",
             buttonText: promo.right_top_button_text || "Start Here",
-            image: promo.right_top_image ? `http://127.0.0.1:8000/storage/${promo.right_top_image}` : "",
+            image: promo.right_top_image ? `${STORAGE_URL}/${promo.right_top_image}` : "",
             imagePreview: null,
             active: true
           },
@@ -568,7 +568,7 @@ const InteractivePromoCMS = ({ isDarkMode, isVisible }) => {
             title: promo.right_bottom_heading || "Vap Mode",
             description: promo.right_bottom_paragraph || "",
             buttonText: promo.right_bottom_button_text || "Shop Now",
-            image: promo.right_bottom_image ? `http://127.0.0.1:8000/storage/${promo.right_bottom_image}` : "",
+            image: promo.right_bottom_image ? `${STORAGE_URL}/${promo.right_bottom_image}` : "",
             imagePreview: null,
             active: true
           }

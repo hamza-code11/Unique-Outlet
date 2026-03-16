@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { FiSearch, FiX } from "react-icons/fi";
 
+
 const FilterSidebar = ({
   categories = [],
   subcategories = [],

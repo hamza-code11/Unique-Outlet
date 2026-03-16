@@ -575,6 +575,7 @@ import vape from "../../assets/home/9w45ht.png";
 import VapesBg from "../../assets/home/download.jfif";
 import { FiShield, FiZap, FiUsers, FiSmile, FiArrowRight, FiHeadphones, FiPackage, FiClock } from "react-icons/fi";
 import axios from "axios";
+import { API_URL, STORAGE_URL } from "../../config";
 
 // Pre-fetch data immediately
 let aboutDataCache = null;
@@ -584,7 +585,7 @@ let dataPromise = null;
 const fetchData = async () => {
   if (dataPromise) return dataPromise;
   
-  dataPromise = axios.get('http://127.0.0.1:8000/api/about/', { timeout: 3000 })
+  dataPromise = axios.get(`${API_URL}/about/`, { timeout: 3000 })
     .then(response => {
       if (response.data.success && response.data.about) {
         aboutDataCache = response.data.about;
@@ -708,7 +709,7 @@ const AboutSection = () => {
   ];
 
   const imageUrl = aboutData?.image 
-    ? `http://127.0.0.1:8000/storage/${aboutData.image}`
+    ? `${STORAGE_URL}/${aboutData.image}`
     : vape;
 
   return (

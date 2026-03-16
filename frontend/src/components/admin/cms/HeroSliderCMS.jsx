@@ -228,7 +228,7 @@
 //                   </p>
 //                 </div>
 //               </div>
-              
+
 //               <div className="flex items-center gap-1">
 //                 {/* Move Up/Down */}
 //                 <button 
@@ -579,7 +579,7 @@
 //       setLoading(true);
 //       setError(null);
 //       const response = await axios.get(`${API_URL}/sliders`);
-      
+
 //       if (response.data.success && response.data.sliders) {
 //         // Transform API data to match component structure
 //         const transformedSlides = response.data.sliders.map((slider, index) => ({
@@ -597,7 +597,7 @@
 //           order: index + 1,
 //           originalData: slider // Keep original data for update
 //         }));
-        
+
 //         setHeroSlides(transformedSlides);
 //       }
 //     } catch (err) {
@@ -623,15 +623,15 @@
 //       // Update each slide individually (since API only supports single update)
 //       for (const slide of heroSlides) {
 //         const formData = new FormData();
-        
+
 //         // Prepare data for API
 //         const heading = slide.originalData?.heading || `${slide.title}\n${slide.highlight}`;
-        
+
 //         formData.append('heading', heading);
 //         formData.append('paragraph', slide.description);
 //         formData.append('offer_tag', slide.badge);
 //         formData.append('badge_product_name', slide.brand);
-        
+
 //         // Handle image if changed
 //         if (slide.imagePreview && slide.imagePreview.startsWith('data:image')) {
 //           // Convert base64 to blob
@@ -650,7 +650,7 @@
 
 //       setSuccessMessage('All slides saved successfully!');
 //       setTimeout(() => setSuccessMessage(''), 3000);
-      
+
 //       // Refresh data
 //       await fetchSliders();
 //     } catch (err) {
@@ -738,7 +738,7 @@
 //       setError(null);
 
 //       const slideToCopy = heroSlides.find(s => s.id === id);
-      
+
 //       // Create data based on copied slide
 //       const formData = new FormData();
 //       formData.append('heading', `${slideToCopy.title}\n${slideToCopy.highlight} (Copy)`);
@@ -1004,7 +1004,7 @@
 //                   </p>
 //                 </div>
 //               </div>
-              
+
 //               <div className="flex items-center gap-1">
 //                 {/* Move Up/Down */}
 //                 <button 
@@ -1295,21 +1295,715 @@
 
 
 
-import React, { useState, useRef, useEffect } from "react";
-import { 
-  FiImage, FiEye, FiEyeOff, FiChevronUp, 
-  FiChevronDown, FiPlus, FiTrash2, FiUpload,
-  FiMove, FiCopy, FiCheck, FiX, FiCamera, FiSave, FiRefreshCw
-} from "react-icons/fi";
+
+
+
+
+
+
+// import React, { useState, useRef, useEffect } from "react";
+// import { 
+//   FiImage, FiEye, FiEyeOff, FiChevronUp, 
+//   FiChevronDown, FiPlus, FiTrash2, FiUpload,
+//   FiMove, FiCopy, FiCheck, FiX, FiCamera, FiSave, FiRefreshCw
+// } from "react-icons/fi";
+// import axios from "axios";
+
+// const API_URL = 'http://127.0.0.1:8000/api';
+
+// const HeroSliderCMS = ({ isDarkMode, isVisible }) => {
+//   const fileInputRef = useRef(null);
+//   const [uploadingId, setUploadingId] = useState(null);
+//   const [previewImage, setPreviewImage] = useState(null);
+//   const [heroSlides, setHeroSlides] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [saving, setSaving] = useState(false);
+//   const [error, setError] = useState(null);
+//   const [successMessage, setSuccessMessage] = useState('');
+
+//   // Fetch sliders from API
+//   const fetchSliders = async () => {
+//     try {
+//       setLoading(true);
+//       setError(null);
+//       const response = await axios.get(`${API_URL}/sliders`);
+
+//       if (response.data.success && response.data.sliders) {
+//         // Transform API data to match component structure
+//         const transformedSlides = response.data.sliders.map((slider, index) => ({
+//           id: slider.id,
+//           brand: slider.badge_product_name || "Vapes",
+//           title: slider.heading?.split('\n')[0] || "Ride the Vapes of",
+//           highlight: slider.heading?.split('\n')[1] || "smooth vaping",
+//           description: slider.paragraph || "",
+//           badge: slider.offer_tag || "",
+//           buttonText: "Shop Now",
+//           demoText: "Watch Demo",
+//           image: slider.image ? `http://127.0.0.1:8000/storage/${slider.image}` : "",
+//           imagePreview: null,
+//           active: true,
+//           order: index + 1,
+//           isNew: false, // Flag to identify new slides
+//           originalData: slider // Keep original data for update
+//         }));
+
+//         setHeroSlides(transformedSlides);
+//       }
+//     } catch (err) {
+//       console.error('Error fetching sliders:', err);
+//       setError('Failed to load sliders. Please refresh the page.');
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   // Load sliders on mount
+//   useEffect(() => {
+//     fetchSliders();
+//   }, []);
+
+//   // Save all slides to API
+//   const saveAllSlides = async () => {
+//     setSaving(true);
+//     setError(null);
+//     setSuccessMessage('');
+
+//     try {
+//       let successCount = 0;
+
+//       for (const slide of heroSlides) {
+//         const formData = new FormData();
+
+//         // Prepare data for API
+//         const heading = `${slide.title}\n${slide.highlight}`;
+
+//         formData.append('heading', heading);
+//         formData.append('paragraph', slide.description);
+//         formData.append('offer_tag', slide.badge);
+//         formData.append('badge_product_name', slide.brand);
+
+//         // Handle image if changed
+//         if (slide.imagePreview && slide.imagePreview.startsWith('data:image')) {
+//           // Convert base64 to blob
+//           const response = await fetch(slide.imagePreview);
+//           const blob = await response.blob();
+//           formData.append('image', blob, `slider-${slide.id}-${Date.now()}.png`);
+//         }
+
+//         // Check if it's a new slide (not in DB yet)
+//         if (slide.isNew) {
+//           // Use store API for new slides
+//           await axios.post(`${API_URL}/sliders`, formData, {
+//             headers: {
+//               'Content-Type': 'multipart/form-data',
+//             }
+//           });
+//         } else {
+//           // Use update API for existing slides
+//           await axios.post(`${API_URL}/sliders/${slide.id}`, formData, {
+//             headers: {
+//               'Content-Type': 'multipart/form-data',
+//             }
+//           });
+//         }
+
+//         successCount++;
+//       }
+
+//       setSuccessMessage(`${successCount} slide(s) saved successfully!`);
+//       setTimeout(() => setSuccessMessage(''), 3000);
+
+//       // Refresh data to get updated IDs for new slides
+//       await fetchSliders();
+//     } catch (err) {
+//       console.error('Error saving sliders:', err);
+//       setError('Failed to save changes. Please try again.');
+//     } finally {
+//       setSaving(false);
+//     }
+//   };
+
+//   const moveSlide = (id, direction) => {
+//     setHeroSlides(prev => {
+//       const index = prev.findIndex(s => s.id === id);
+//       if (direction === 'up' && index > 0) {
+//         const newSlides = [...prev];
+//         [newSlides[index], newSlides[index - 1]] = [newSlides[index - 1], newSlides[index]];
+//         // Update order numbers
+//         return newSlides.map((slide, idx) => ({ ...slide, order: idx + 1 }));
+//       }
+//       if (direction === 'down' && index < prev.length - 1) {
+//         const newSlides = [...prev];
+//         [newSlides[index], newSlides[index + 1]] = [newSlides[index + 1], newSlides[index]];
+//         // Update order numbers
+//         return newSlides.map((slide, idx) => ({ ...slide, order: idx + 1 }));
+//       }
+//       return prev;
+//     });
+//   };
+
+//   // ✅ FIXED: Add Hero Slide - Creates a new blank slide in UI first
+//   const addHeroSlide = () => {
+//     // Create a temporary ID for the new slide (negative to avoid conflicts)
+//     const tempId = -Date.now();
+
+//     const newSlide = {
+//       id: tempId,
+//       brand: "",
+//       title: "",
+//       highlight: "",
+//       description: "",
+//       badge: "",
+//       buttonText: "Shop Now",
+//       demoText: "Watch Demo",
+//       image: "",
+//       imagePreview: null,
+//       active: true,
+//       order: heroSlides.length + 1,
+//       isNew: true, // Mark as new slide
+//       originalData: null
+//     };
+
+//     setHeroSlides([...heroSlides, newSlide]);
+//     setSuccessMessage('New slide added. Fill in the details and click Save All Changes.');
+//     setTimeout(() => setSuccessMessage(''), 5000);
+//   };
+
+//   // ✅ FIXED: Duplicate Slide - Creates a copy in UI
+//   const duplicateSlide = (id) => {
+//     const slideToCopy = heroSlides.find(s => s.id === id);
+//     const tempId = -Date.now();
+
+//     const newSlide = {
+//       ...slideToCopy,
+//       id: tempId,
+//       title: slideToCopy.title,
+//       highlight: slideToCopy.highlight,
+//       description: slideToCopy.description,
+//       badge: slideToCopy.badge,
+//       brand: slideToCopy.brand,
+//       image: slideToCopy.image,
+//       imagePreview: slideToCopy.imagePreview,
+//       order: heroSlides.length + 1,
+//       isNew: true, // Mark as new slide
+//       originalData: null
+//     };
+
+//     setHeroSlides([...heroSlides, newSlide]);
+//     setSuccessMessage('Slide duplicated. Click Save All Changes to store in database.');
+//     setTimeout(() => setSuccessMessage(''), 5000);
+//   };
+
+//   // ✅ FIXED: Delete Slide - Removes from UI
+//   const deleteHeroSlide = async (id) => {
+//     if (heroSlides.length <= 1) {
+//       alert("At least one slide must remain");
+//       return;
+//     }
+
+//     const slideToDelete = heroSlides.find(s => s.id === id);
+
+//     // If it's not a new slide (exists in DB), confirm deletion
+//     if (!slideToDelete.isNew) {
+//       if (!window.confirm('Are you sure you want to delete this slide from the database?')) {
+//         return;
+//       }
+
+//       try {
+//         setSaving(true);
+//         // Call delete API
+//         await axios.delete(`${API_URL}/sliders/${id}`);
+//         setSuccessMessage('Slide deleted successfully!');
+//         setTimeout(() => setSuccessMessage(''), 3000);
+//       } catch (err) {
+//         console.error('Error deleting slide:', err);
+//         setError('Failed to delete slide. Please try again.');
+//         setSaving(false);
+//         return;
+//       }
+//     }
+
+//     // Remove from UI
+//     setHeroSlides(prev => prev.filter(s => s.id !== id));
+//     setSaving(false);
+//   };
+
+//   const updateSlide = (id, field, value) => {
+//     setHeroSlides(prev => 
+//       prev.map(slide => {
+//         if (slide.id === id) {
+//           return { ...slide, [field]: value };
+//         }
+//         return slide;
+//       })
+//     );
+//   };
+
+//   const handleImageUpload = (id, file) => {
+//     if (!file) return;
+
+//     // Check file size (max 2MB)
+//     if (file.size > 2 * 1024 * 1024) {
+//       alert("File size must be less than 2MB");
+//       return;
+//     }
+
+//     // Check file type
+//     if (!file.type.startsWith('image/')) {
+//       alert("Please upload an image file");
+//       return;
+//     }
+
+//     setUploadingId(id);
+
+//     // Create preview
+//     const reader = new FileReader();
+//     reader.onloadend = () => {
+//       updateSlide(id, 'imagePreview', reader.result);
+//       updateSlide(id, 'image', reader.result);
+//       setUploadingId(null);
+//     };
+//     reader.readAsDataURL(file);
+//   };
+
+//   const triggerFileInput = (id) => {
+//     if (fileInputRef.current) {
+//       fileInputRef.current.click();
+//       setPreviewImage(id);
+//     }
+//   };
+
+//   if (loading) {
+//     return (
+//       <div className="flex items-center justify-center py-20">
+//         <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="space-y-6">
+//       {/* Hidden file input */}
+//       <input
+//         type="file"
+//         ref={fileInputRef}
+//         className="hidden"
+//         accept="image/*"
+//         onChange={(e) => {
+//           if (previewImage && e.target.files[0]) {
+//             handleImageUpload(previewImage, e.target.files[0]);
+//           }
+//         }}
+//       />
+
+//       {/* Header with Save Button */}
+//       <div className="flex items-center justify-between">
+//         <div>
+//           <h2 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+//             Hero Slider Manager
+//           </h2>
+//           <p className={`text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+//             {heroSlides.length} slide{heroSlides.length !== 1 ? 's' : ''} • {heroSlides.filter(s => s.active).length} active
+//             {heroSlides.filter(s => s.isNew).length > 0 && (
+//               <span className="ml-2 text-yellow-500">
+//                 ({heroSlides.filter(s => s.isNew).length} new unsaved)
+//               </span>
+//             )}
+//           </p>
+//         </div>
+//         <div className="flex items-center gap-2">
+//           {successMessage && (
+//             <span className="px-3 py-1.5 bg-green-500/20 text-green-600 rounded-lg text-sm flex items-center gap-1">
+//               <FiCheck /> {successMessage}
+//             </span>
+//           )}
+//           {error && (
+//             <span className="px-3 py-1.5 bg-red-500/20 text-red-600 rounded-lg text-sm flex items-center gap-1">
+//               <FiX /> {error}
+//             </span>
+//           )}
+//           <button
+//             onClick={fetchSliders}
+//             className="p-2 bg-gray-500/20 text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-500/30 transition-colors"
+//             title="Refresh"
+//             disabled={saving}
+//           >
+//             <FiRefreshCw className={`text-lg ${loading || saving ? 'animate-spin' : ''}`} />
+//           </button>
+//           <button
+//             onClick={saveAllSlides}
+//             disabled={saving}
+//             className="px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg text-sm hover:from-green-700 hover:to-emerald-700 transition-all duration-300 flex items-center gap-2 shadow-lg shadow-green-600/30 disabled:opacity-50"
+//           >
+//             {saving ? (
+//               <>
+//                 <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+//                 Saving...
+//               </>
+//             ) : (
+//               <>
+//                 <FiSave /> Save All Changes
+//               </>
+//             )}
+//           </button>
+//           <button 
+//             onClick={addHeroSlide} 
+//             disabled={saving}
+//             className="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg text-sm hover:from-blue-700 hover:to-cyan-700 transition-all duration-300 flex items-center gap-2 shadow-lg shadow-blue-600/30 disabled:opacity-50"
+//           >
+//             <FiPlus /> Add New Slide
+//           </button>
+//         </div>
+//       </div>
+
+//       {/* Slides Grid */}
+//       <div className="grid grid-cols-1 gap-6">
+//         {heroSlides.map((slide, index) => (
+//           <div 
+//             key={slide.id} 
+//             className={`relative rounded-xl border overflow-hidden transition-all duration-300 ${
+//               isDarkMode 
+//                 ? slide.active ? 'border-blue-500/30 bg-gray-800/90' : 'border-gray-700 bg-gray-800/50 opacity-60'
+//                 : slide.active ? 'border-blue-200 bg-white shadow-md' : 'border-gray-200 bg-gray-50 opacity-60'
+//             } ${slide.isNew ? 'ring-2 ring-yellow-500' : ''}`}
+//           >
+//             {/* New Badge */}
+//             {slide.isNew && (
+//               <div className="absolute top-2 right-2 z-10 px-2 py-1 bg-yellow-500 text-white text-xs rounded-full">
+//                 New (Not Saved)
+//               </div>
+//             )}
+
+//             {/* Slide Header */}
+//             <div className={`px-5 py-3 flex items-center justify-between border-b ${
+//               isDarkMode ? 'border-gray-700' : 'border-gray-200'
+//             } ${slide.active ? '' : 'opacity-75'}`}>
+//               <div className="flex items-center gap-3">
+//                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+//                   isDarkMode ? 'bg-gray-700' : 'bg-gray-100'
+//                 }`}>
+//                   <span className={`text-sm font-bold ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+//                     {index + 1}
+//                   </span>
+//                 </div>
+//                 <div>
+//                   <h3 className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+//                     {slide.brand || "New Slide"}
+//                   </h3>
+//                   <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+//                     {slide.isNew ? 'New (Unsaved)' : `ID: ${slide.id}`} • Order: {slide.order}
+//                   </p>
+//                 </div>
+//               </div>
+
+//               <div className="flex items-center gap-1">
+//                 {/* Move Up/Down */}
+//                 <button 
+//                   onClick={() => moveSlide(slide.id, 'up')} 
+//                   disabled={index === 0 || saving} 
+//                   className={`p-2 rounded-lg transition-colors ${
+//                     index === 0 || saving
+//                       ? 'opacity-30 cursor-not-allowed' 
+//                       : isDarkMode 
+//                         ? 'hover:bg-gray-700 text-gray-300' 
+//                         : 'hover:bg-gray-100 text-gray-600'
+//                   }`}
+//                   title="Move Up"
+//                 >
+//                   <FiChevronUp className="text-lg" />
+//                 </button>
+//                 <button 
+//                   onClick={() => moveSlide(slide.id, 'down')} 
+//                   disabled={index === heroSlides.length - 1 || saving} 
+//                   className={`p-2 rounded-lg transition-colors ${
+//                     index === heroSlides.length - 1 || saving
+//                       ? 'opacity-30 cursor-not-allowed' 
+//                       : isDarkMode 
+//                         ? 'hover:bg-gray-700 text-gray-300' 
+//                         : 'hover:bg-gray-100 text-gray-600'
+//                   }`}
+//                   title="Move Down"
+//                 >
+//                   <FiChevronDown className="text-lg" />
+//                 </button>
+
+//                 {/* Duplicate */}
+//                 <button 
+//                   onClick={() => duplicateSlide(slide.id)} 
+//                   disabled={saving}
+//                   className={`p-2 rounded-lg transition-colors ${
+//                     saving
+//                       ? 'opacity-30 cursor-not-allowed'
+//                       : isDarkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-600'
+//                   }`}
+//                   title="Duplicate Slide"
+//                 >
+//                   <FiCopy className="text-lg" />
+//                 </button>
+
+//                 {/* Active Toggle */}
+//                 <button 
+//                   className={`p-2 rounded-lg transition-colors ${
+//                     slide.active 
+//                       ? isDarkMode ? 'text-green-400 hover:bg-green-500/20' : 'text-green-600 hover:bg-green-50'
+//                       : isDarkMode ? 'text-gray-500 hover:bg-gray-700' : 'text-gray-400 hover:bg-gray-100'
+//                   }`}
+//                   onClick={() => updateSlide(slide.id, 'active', !slide.active)}
+//                   title={slide.active ? 'Active' : 'Inactive'}
+//                 >
+//                   {slide.active ? <FiEye className="text-lg" /> : <FiEyeOff className="text-lg" />}
+//                 </button>
+
+//                 {/* Delete */}
+//                 <button 
+//                   onClick={() => deleteHeroSlide(slide.id)} 
+//                   className="p-2 rounded-lg transition-colors hover:bg-red-100 dark:hover:bg-red-900/20 text-red-500"
+//                   title="Delete Slide"
+//                   disabled={heroSlides.length <= 1 || saving}
+//                 >
+//                   <FiTrash2 className="text-lg" />
+//                 </button>
+//               </div>
+//             </div>
+
+//             {/* Slide Content */}
+//             <div className="p-5">
+//               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+//                 {/* Left Column - Image Upload */}
+//                 <div className="lg:col-span-1">
+//                   <div className={`relative rounded-lg border-2 border-dashed overflow-hidden ${
+//                     isDarkMode ? 'border-gray-600' : 'border-gray-300'
+//                   }`}>
+//                     {/* Image Preview */}
+//                     <div className="aspect-square relative group">
+//                       {slide.image || slide.imagePreview ? (
+//                         <img 
+//                           src={slide.imagePreview || slide.image} 
+//                           alt={slide.brand || "Slide"}
+//                           className="w-full h-full object-cover"
+//                         />
+//                       ) : (
+//                         <div className={`w-full h-full flex flex-col items-center justify-center ${
+//                           isDarkMode ? 'bg-gray-800' : 'bg-gray-50'
+//                         }`}>
+//                           <FiImage className={`text-4xl mb-2 ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`} />
+//                           <p className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>
+//                             No image
+//                           </p>
+//                         </div>
+//                       )}
+
+//                       {/* Upload Overlay */}
+//                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+//                         <button
+//                           onClick={() => triggerFileInput(slide.id)}
+//                           disabled={uploadingId === slide.id || saving}
+//                           className="px-4 py-2 bg-white text-gray-900 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors flex items-center gap-2 disabled:opacity-50"
+//                         >
+//                           {uploadingId === slide.id ? (
+//                             <>
+//                               <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+//                               Uploading...
+//                             </>
+//                           ) : (
+//                             <>
+//                               <FiUpload />
+//                               Upload Image
+//                             </>
+//                           )}
+//                         </button>
+//                       </div>
+//                     </div>
+//                   </div>
+//                   <p className={`text-xs mt-2 text-center ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>
+//                     Click to upload • Recommended: 500x500px • Max 2MB
+//                   </p>
+//                 </div>
+
+//                 {/* Right Column - Text Fields */}
+//                 <div className="lg:col-span-2 space-y-4">
+//                   {/* Brand & Badge Row */}
+//                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//                     <div>
+//                       <label className={`block text-xs font-medium mb-1 ${
+//                         isDarkMode ? 'text-gray-300' : 'text-gray-700'
+//                       }`}>
+//                         Badge Product Name
+//                       </label>
+//                       <input
+//                         type="text"
+//                         value={slide.brand}
+//                         onChange={(e) => updateSlide(slide.id, 'brand', e.target.value)}
+//                         placeholder="e.g., Vapes"
+//                         disabled={saving}
+//                         className={`w-full px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
+//                           isDarkMode 
+//                             ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50' 
+//                             : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 disabled:opacity-50'
+//                         }`}
+//                       />
+//                     </div>
+//                     <div>
+//                       <label className={`block text-xs font-medium mb-1 ${
+//                         isDarkMode ? 'text-gray-300' : 'text-gray-700'
+//                       }`}>
+//                         Offer Tag
+//                       </label>
+//                       <input
+//                         type="text"
+//                         value={slide.badge}
+//                         onChange={(e) => updateSlide(slide.id, 'badge', e.target.value)}
+//                         placeholder="e.g., Vapes COLLECTION • 25% OFF"
+//                         disabled={saving}
+//                         className={`w-full px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
+//                           isDarkMode 
+//                             ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50' 
+//                             : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 disabled:opacity-50'
+//                         }`}
+//                       />
+//                     </div>
+//                   </div>
+
+//                   {/* Title & Highlight Row */}
+//                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//                     <div>
+//                       <label className={`block text-xs font-medium mb-1 ${
+//                         isDarkMode ? 'text-gray-300' : 'text-gray-700'
+//                       }`}>
+//                         Title (First Line)
+//                       </label>
+//                       <input
+//                         type="text"
+//                         value={slide.title}
+//                         onChange={(e) => updateSlide(slide.id, 'title', e.target.value)}
+//                         placeholder="e.g., Ride the Vapes of"
+//                         disabled={saving}
+//                         className={`w-full px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
+//                           isDarkMode 
+//                             ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50' 
+//                             : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 disabled:opacity-50'
+//                         }`}
+//                       />
+//                     </div>
+//                     <div>
+//                       <label className={`block text-xs font-medium mb-1 ${
+//                         isDarkMode ? 'text-gray-300' : 'text-gray-700'
+//                       }`}>
+//                         Highlight (Second Line)
+//                       </label>
+//                       <input
+//                         type="text"
+//                         value={slide.highlight}
+//                         onChange={(e) => updateSlide(slide.id, 'highlight', e.target.value)}
+//                         placeholder="e.g., smooth vaping"
+//                         disabled={saving}
+//                         className={`w-full px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
+//                           isDarkMode 
+//                             ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50' 
+//                             : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 disabled:opacity-50'
+//                         }`}
+//                       />
+//                     </div>
+//                   </div>
+
+//                   {/* Description */}
+//                   <div>
+//                     <label className={`block text-xs font-medium mb-1 ${
+//                       isDarkMode ? 'text-gray-300' : 'text-gray-700'
+//                     }`}>
+//                       Paragraph
+//                     </label>
+//                     <textarea
+//                       value={slide.description}
+//                       onChange={(e) => updateSlide(slide.id, 'description', e.target.value)}
+//                       rows="3"
+//                       placeholder="Enter slide description..."
+//                       disabled={saving}
+//                       className={`w-full px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 resize-none ${
+//                         isDarkMode 
+//                           ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50' 
+//                           : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 disabled:opacity-50'
+//                       }`}
+//                     />
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* Slide Footer */}
+//             <div className={`px-5 py-2 border-t flex items-center gap-3 text-xs ${
+//               isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-gray-50'
+//             }`}>
+//               <span className={`flex items-center gap-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+//                 <FiMove className="text-sm" />
+//                 Drag to reorder
+//               </span>
+//               <span className={`flex items-center gap-1 ${slide.active 
+//                 ? 'text-green-500' 
+//                 : isDarkMode ? 'text-gray-500' : 'text-gray-400'
+//               }`}>
+//                 {slide.active ? <FiEye className="text-sm" /> : <FiEyeOff className="text-sm" />}
+//                 {slide.active ? 'Active' : 'Inactive'}
+//               </span>
+//               {slide.isNew && (
+//                 <span className="text-yellow-500 flex items-center gap-1">
+//                   <FiX className="text-sm" /> Not saved yet
+//                 </span>
+//               )}
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+
+//       {/* Quick Actions Footer */}
+//       <div className={`mt-6 p-4 rounded-lg border flex items-center justify-between ${
+//         isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-gray-50'
+//       }`}>
+//         <div className="flex items-center gap-4">
+//           <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+//             Total Slides: <strong>{heroSlides.length}</strong>
+//           </span>
+//           <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+//             Active: <strong className="text-green-500">{heroSlides.filter(s => s.active).length}</strong>
+//           </span>
+//           <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+//             Unsaved: <strong className="text-yellow-500">{heroSlides.filter(s => s.isNew).length}</strong>
+//           </span>
+//         </div>
+//         <button
+//           onClick={addHeroSlide}
+//           disabled={saving}
+//           className="px-3 py-1.5 bg-blue-600/20 text-blue-600 rounded-lg text-xs hover:bg-blue-600/30 transition-colors flex items-center gap-1 disabled:opacity-50"
+//         >
+//           <FiPlus /> Quick Add
+//         </button>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default HeroSliderCMS;
+
+
+
+
+
+
+
+
+
+
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import {
+  UploadCloud, RefreshCw, Image as ImageIcon,
+  Trash2, PlusCircle, AlertCircle, Link, Type, Save
+} from "lucide-react";
+import { API_URL, STORAGE_URL } from "../../../config";
 
-const API_URL = 'http://127.0.0.1:8000/api';
 
-const HeroSliderCMS = ({ isDarkMode, isVisible }) => {
-  const fileInputRef = useRef(null);
-  const [uploadingId, setUploadingId] = useState(null);
-  const [previewImage, setPreviewImage] = useState(null);
-  const [heroSlides, setHeroSlides] = useState([]);
+const HeroSliderCMS = ({ isDarkMode }) => {
+  const [banners, setBanners] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
@@ -1323,25 +2017,17 @@ const HeroSliderCMS = ({ isDarkMode, isVisible }) => {
       const response = await axios.get(`${API_URL}/sliders`);
       
       if (response.data.success && response.data.sliders) {
-        // Transform API data to match component structure
-        const transformedSlides = response.data.sliders.map((slider, index) => ({
+        // Map API response to component state
+        const formattedSliders = response.data.sliders.map(slider => ({
           id: slider.id,
-          brand: slider.badge_product_name || "Vapes",
-          title: slider.heading?.split('\n')[0] || "Ride the Vapes of",
-          highlight: slider.heading?.split('\n')[1] || "smooth vaping",
-          description: slider.paragraph || "",
-          badge: slider.offer_tag || "",
-          buttonText: "Shop Now",
-          demoText: "Watch Demo",
-          image: slider.image ? `http://127.0.0.1:8000/storage/${slider.image}` : "",
-          imagePreview: null,
-          active: true,
-          order: index + 1,
-          isNew: false, // Flag to identify new slides
-          originalData: slider // Keep original data for update
+          title: `Banner ${slider.id}`, // API mein title nahi hai, isliye default
+          image: slider.image ? `${STORAGE_URL}/${slider.image}` : "",
+          btnText: slider.btn_text || "",
+          link: slider.link || "",
+          imageFile: null, // For new file upload
+          imagePreview: null // For preview
         }));
-        
-        setHeroSlides(transformedSlides);
+        setBanners(formattedSliders);
       }
     } catch (err) {
       console.error('Error fetching sliders:', err);
@@ -1356,184 +2042,51 @@ const HeroSliderCMS = ({ isDarkMode, isVisible }) => {
     fetchSliders();
   }, []);
 
-  // Save all slides to API
-  const saveAllSlides = async () => {
-    setSaving(true);
-    setError(null);
-    setSuccessMessage('');
+  // Handle Add New Empty Banner Slot
+  const addNewSlot = () => {
+    const newId = banners.length > 0 ? Math.max(...banners.map(b => b.id)) + 1 : 1;
+    const newBanner = {
+      id: newId,
+      title: `Banner ${newId}`,
+      image: "",
+      btnText: "",
+      link: "",
+      imageFile: null,
+      imagePreview: null,
+      isNew: true // Flag to identify new banners
+    };
+    setBanners([...banners, newBanner]);
+  };
+
+  // Handle Delete
+  const deleteBanner = async (id) => {
+    if (!window.confirm("Delete this banner?")) return;
 
     try {
-      let successCount = 0;
+      setSaving(true);
+      // API call to delete slider
+      await axios.delete(`${API_URL}/sliders/${id}`);
       
-      for (const slide of heroSlides) {
-        const formData = new FormData();
-        
-        // Prepare data for API
-        const heading = `${slide.title}\n${slide.highlight}`;
-        
-        formData.append('heading', heading);
-        formData.append('paragraph', slide.description);
-        formData.append('offer_tag', slide.badge);
-        formData.append('badge_product_name', slide.brand);
-        
-        // Handle image if changed
-        if (slide.imagePreview && slide.imagePreview.startsWith('data:image')) {
-          // Convert base64 to blob
-          const response = await fetch(slide.imagePreview);
-          const blob = await response.blob();
-          formData.append('image', blob, `slider-${slide.id}-${Date.now()}.png`);
-        }
-
-        // Check if it's a new slide (not in DB yet)
-        if (slide.isNew) {
-          // Use store API for new slides
-          await axios.post(`${API_URL}/sliders`, formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            }
-          });
-        } else {
-          // Use update API for existing slides
-          await axios.post(`${API_URL}/sliders/${slide.id}`, formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            }
-          });
-        }
-        
-        successCount++;
-      }
-
-      setSuccessMessage(`${successCount} slide(s) saved successfully!`);
+      // Remove from local state
+      setBanners(banners.filter(b => b.id !== id));
+      setSuccessMessage('Banner deleted successfully!');
       setTimeout(() => setSuccessMessage(''), 3000);
-      
-      // Refresh data to get updated IDs for new slides
-      await fetchSliders();
     } catch (err) {
-      console.error('Error saving sliders:', err);
-      setError('Failed to save changes. Please try again.');
+      console.error('Error deleting banner:', err);
+      setError('Failed to delete banner. Please try again.');
     } finally {
       setSaving(false);
     }
   };
 
-  const moveSlide = (id, direction) => {
-    setHeroSlides(prev => {
-      const index = prev.findIndex(s => s.id === id);
-      if (direction === 'up' && index > 0) {
-        const newSlides = [...prev];
-        [newSlides[index], newSlides[index - 1]] = [newSlides[index - 1], newSlides[index]];
-        // Update order numbers
-        return newSlides.map((slide, idx) => ({ ...slide, order: idx + 1 }));
-      }
-      if (direction === 'down' && index < prev.length - 1) {
-        const newSlides = [...prev];
-        [newSlides[index], newSlides[index + 1]] = [newSlides[index + 1], newSlides[index]];
-        // Update order numbers
-        return newSlides.map((slide, idx) => ({ ...slide, order: idx + 1 }));
-      }
-      return prev;
-    });
+  // Handle Text Changes
+  const handleInputChange = (id, field, value) => {
+    setBanners(banners.map(b => b.id === id ? { ...b, [field]: value } : b));
   };
 
-  // ✅ FIXED: Add Hero Slide - Creates a new blank slide in UI first
-  const addHeroSlide = () => {
-    // Create a temporary ID for the new slide (negative to avoid conflicts)
-    const tempId = -Date.now();
-    
-    const newSlide = {
-      id: tempId,
-      brand: "",
-      title: "",
-      highlight: "",
-      description: "",
-      badge: "",
-      buttonText: "Shop Now",
-      demoText: "Watch Demo",
-      image: "",
-      imagePreview: null,
-      active: true,
-      order: heroSlides.length + 1,
-      isNew: true, // Mark as new slide
-      originalData: null
-    };
-
-    setHeroSlides([...heroSlides, newSlide]);
-    setSuccessMessage('New slide added. Fill in the details and click Save All Changes.');
-    setTimeout(() => setSuccessMessage(''), 5000);
-  };
-
-  // ✅ FIXED: Duplicate Slide - Creates a copy in UI
-  const duplicateSlide = (id) => {
-    const slideToCopy = heroSlides.find(s => s.id === id);
-    const tempId = -Date.now();
-    
-    const newSlide = {
-      ...slideToCopy,
-      id: tempId,
-      title: slideToCopy.title,
-      highlight: slideToCopy.highlight,
-      description: slideToCopy.description,
-      badge: slideToCopy.badge,
-      brand: slideToCopy.brand,
-      image: slideToCopy.image,
-      imagePreview: slideToCopy.imagePreview,
-      order: heroSlides.length + 1,
-      isNew: true, // Mark as new slide
-      originalData: null
-    };
-
-    setHeroSlides([...heroSlides, newSlide]);
-    setSuccessMessage('Slide duplicated. Click Save All Changes to store in database.');
-    setTimeout(() => setSuccessMessage(''), 5000);
-  };
-
-  // ✅ FIXED: Delete Slide - Removes from UI
-  const deleteHeroSlide = async (id) => {
-    if (heroSlides.length <= 1) {
-      alert("At least one slide must remain");
-      return;
-    }
-
-    const slideToDelete = heroSlides.find(s => s.id === id);
-    
-    // If it's not a new slide (exists in DB), confirm deletion
-    if (!slideToDelete.isNew) {
-      if (!window.confirm('Are you sure you want to delete this slide from the database?')) {
-        return;
-      }
-
-      try {
-        setSaving(true);
-        // Call delete API
-        await axios.delete(`${API_URL}/sliders/${id}`);
-        setSuccessMessage('Slide deleted successfully!');
-        setTimeout(() => setSuccessMessage(''), 3000);
-      } catch (err) {
-        console.error('Error deleting slide:', err);
-        setError('Failed to delete slide. Please try again.');
-        setSaving(false);
-        return;
-      }
-    }
-
-    // Remove from UI
-    setHeroSlides(prev => prev.filter(s => s.id !== id));
-    setSaving(false);
-  };
-
-  const updateSlide = (id, field, value) => {
-    setHeroSlides(prev => 
-      prev.map(slide => {
-        if (slide.id === id) {
-          return { ...slide, [field]: value };
-        }
-        return slide;
-      })
-    );
-  };
-
-  const handleImageUpload = (id, file) => {
+  // Handle File Selection
+  const handleFileChange = (e, id) => {
+    const file = e.target.files[0];
     if (!file) return;
 
     // Check file size (max 2MB)
@@ -1548,22 +2101,65 @@ const HeroSliderCMS = ({ isDarkMode, isVisible }) => {
       return;
     }
 
-    setUploadingId(id);
-
     // Create preview
     const reader = new FileReader();
     reader.onloadend = () => {
-      updateSlide(id, 'imagePreview', reader.result);
-      updateSlide(id, 'image', reader.result);
-      setUploadingId(null);
+      setBanners(banners.map(b => 
+        b.id === id ? { 
+          ...b, 
+          imageFile: file,
+          imagePreview: reader.result 
+        } : b
+      ));
     };
     reader.readAsDataURL(file);
   };
 
-  const triggerFileInput = (id) => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-      setPreviewImage(id);
+  // Save all changes
+  const saveChanges = async () => {
+    setSaving(true);
+    setError(null);
+    setSuccessMessage('');
+
+    try {
+      // Process each banner
+      for (const banner of banners) {
+        const formData = new FormData();
+        
+        // Add fields
+        formData.append('btn_text', banner.btnText);
+        formData.append('link', banner.link);
+        
+        // Handle image upload
+        if (banner.imageFile) {
+          formData.append('image', banner.imageFile);
+        } else if (banner.image && !banner.image.startsWith('blob:')) {
+          // If image is existing URL, we need to handle it
+          // You might want to fetch the image and append it
+          // For now, we'll skip if no new file
+        }
+
+        if (banner.isNew) {
+          // Create new slider
+          await axios.post(`${API_URL}/sliders`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          });
+        } else {
+          // Update existing slider
+          await axios.post(`${API_URL}/sliders/${banner.id}`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          });
+        }
+      }
+
+      setSuccessMessage('All changes saved successfully!');
+      // Refresh data
+      await fetchSliders();
+    } catch (err) {
+      console.error('Error saving sliders:', err);
+      setError('Failed to save changes. Please try again.');
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -1576,58 +2172,47 @@ const HeroSliderCMS = ({ isDarkMode, isVisible }) => {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Hidden file input */}
-      <input
-        type="file"
-        ref={fileInputRef}
-        className="hidden"
-        accept="image/*"
-        onChange={(e) => {
-          if (previewImage && e.target.files[0]) {
-            handleImageUpload(previewImage, e.target.files[0]);
-          }
-        }}
-      />
-
-      {/* Header with Save Button */}
-      <div className="flex items-center justify-between">
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-4">
         <div>
           <h2 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-            Hero Slider Manager
+            Banner Stack Management
           </h2>
-          <p className={`text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-            {heroSlides.length} slide{heroSlides.length !== 1 ? 's' : ''} • {heroSlides.filter(s => s.active).length} active
-            {heroSlides.filter(s => s.isNew).length > 0 && (
-              <span className="ml-2 text-yellow-500">
-                ({heroSlides.filter(s => s.isNew).length} new unsaved)
-              </span>
-            )}
+          <p className={`text-[10px] font-bold uppercase tracking-widest italic ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+            Define visuals, buttons, and destinations
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           {successMessage && (
-            <span className="px-3 py-1.5 bg-green-500/20 text-green-600 rounded-lg text-sm flex items-center gap-1">
-              <FiCheck /> {successMessage}
+            <span className="px-3 py-1.5 bg-green-500/20 text-green-600 rounded-lg text-sm">
+              {successMessage}
             </span>
           )}
           {error && (
-            <span className="px-3 py-1.5 bg-red-500/20 text-red-600 rounded-lg text-sm flex items-center gap-1">
-              <FiX /> {error}
+            <span className="px-3 py-1.5 bg-red-500/20 text-red-600 rounded-lg text-sm">
+              {error}
             </span>
           )}
           <button
             onClick={fetchSliders}
             className="p-2 bg-gray-500/20 text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-500/30 transition-colors"
-            title="Refresh"
             disabled={saving}
           >
-            <FiRefreshCw className={`text-lg ${loading || saving ? 'animate-spin' : ''}`} />
+            <RefreshCw size={18} className={saving ? 'animate-spin' : ''} />
           </button>
           <button
-            onClick={saveAllSlides}
+            onClick={addNewSlot}
             disabled={saving}
-            className="px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg text-sm hover:from-green-700 hover:to-emerald-700 transition-all duration-300 flex items-center gap-2 shadow-lg shadow-green-600/30 disabled:opacity-50"
+            className="px-4 py-2 bg-blue-600 text-white text-[10px] font-black rounded-lg hover:bg-blue-700 flex items-center gap-2 shadow-md shadow-blue-100 dark:shadow-blue-900/20 uppercase tracking-widest transition-all active:scale-95 disabled:opacity-50"
+          >
+            <PlusCircle size={14} />
+            Add New Banner Slot
+          </button>
+          <button
+            onClick={saveChanges}
+            disabled={saving}
+            className="px-4 py-2 bg-green-600 text-white text-[10px] font-black rounded-lg hover:bg-green-700 flex items-center gap-2 shadow-md shadow-green-100 dark:shadow-green-900/20 uppercase tracking-widest transition-all active:scale-95 disabled:opacity-50"
           >
             {saving ? (
               <>
@@ -1636,341 +2221,180 @@ const HeroSliderCMS = ({ isDarkMode, isVisible }) => {
               </>
             ) : (
               <>
-                <FiSave /> Save All Changes
+                <Save size={14} />
+                Save Changes
               </>
             )}
           </button>
-          <button 
-            onClick={addHeroSlide} 
-            disabled={saving}
-            className="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg text-sm hover:from-blue-700 hover:to-cyan-700 transition-all duration-300 flex items-center gap-2 shadow-lg shadow-blue-600/30 disabled:opacity-50"
-          >
-            <FiPlus /> Add New Slide
-          </button>
         </div>
       </div>
 
-      {/* Slides Grid */}
-      <div className="grid grid-cols-1 gap-6">
-        {heroSlides.map((slide, index) => (
-          <div 
-            key={slide.id} 
-            className={`relative rounded-xl border overflow-hidden transition-all duration-300 ${
+      {/* Banners List */}
+      <div className="space-y-12">
+        {banners.length === 0 ? (
+          <div className={`py-20 text-center border-2 border-dashed rounded-2xl ${
+            isDarkMode 
+              ? 'border-gray-800 bg-gray-800/50' 
+              : 'border-gray-200 bg-gray-50/50'
+          }`}>
+            <AlertCircle className={`mx-auto mb-2 ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`} size={32} />
+            <p className={`text-xs font-bold uppercase tracking-widest ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
+              No slots available
+            </p>
+          </div>
+        ) : (
+          banners.map((banner) => (
+            <div key={banner.id} className={`border rounded-2xl p-4 shadow-sm space-y-4 ${
               isDarkMode 
-                ? slide.active ? 'border-blue-500/30 bg-gray-800/90' : 'border-gray-700 bg-gray-800/50 opacity-60'
-                : slide.active ? 'border-blue-200 bg-white shadow-md' : 'border-gray-200 bg-gray-50 opacity-60'
-            } ${slide.isNew ? 'ring-2 ring-yellow-500' : ''}`}
-          >
-            {/* New Badge */}
-            {slide.isNew && (
-              <div className="absolute top-2 right-2 z-10 px-2 py-1 bg-yellow-500 text-white text-xs rounded-full">
-                New (Not Saved)
-              </div>
-            )}
+                ? 'bg-gray-800 border-gray-700 shadow-gray-900/30' 
+                : 'bg-white border-gray-200'
+            }`}>
 
-            {/* Slide Header */}
-            <div className={`px-5 py-3 flex items-center justify-between border-b ${
-              isDarkMode ? 'border-gray-700' : 'border-gray-200'
-            } ${slide.active ? '' : 'opacity-75'}`}>
-              <div className="flex items-center gap-3">
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                  isDarkMode ? 'bg-gray-700' : 'bg-gray-100'
-                }`}>
-                  <span className={`text-sm font-bold ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                    {index + 1}
+              {/* Top Bar: Title & Delete */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 bg-blue-600 text-white text-[10px] font-black rounded flex items-center justify-center">
+                    {banner.id}
+                  </div>
+                  <span className={`text-[11px] font-black uppercase tracking-widest ${
+                    isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                  }`}>
+                    {banner.title}
                   </span>
                 </div>
-                <div>
-                  <h3 className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                    {slide.brand || "New Slide"}
-                  </h3>
-                  <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                    {slide.isNew ? 'New (Unsaved)' : `ID: ${slide.id}`} • Order: {slide.order}
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-1">
-                {/* Move Up/Down */}
-                <button 
-                  onClick={() => moveSlide(slide.id, 'up')} 
-                  disabled={index === 0 || saving} 
-                  className={`p-2 rounded-lg transition-colors ${
-                    index === 0 || saving
-                      ? 'opacity-30 cursor-not-allowed' 
-                      : isDarkMode 
-                        ? 'hover:bg-gray-700 text-gray-300' 
-                        : 'hover:bg-gray-100 text-gray-600'
-                  }`}
-                  title="Move Up"
-                >
-                  <FiChevronUp className="text-lg" />
-                </button>
-                <button 
-                  onClick={() => moveSlide(slide.id, 'down')} 
-                  disabled={index === heroSlides.length - 1 || saving} 
-                  className={`p-2 rounded-lg transition-colors ${
-                    index === heroSlides.length - 1 || saving
-                      ? 'opacity-30 cursor-not-allowed' 
-                      : isDarkMode 
-                        ? 'hover:bg-gray-700 text-gray-300' 
-                        : 'hover:bg-gray-100 text-gray-600'
-                  }`}
-                  title="Move Down"
-                >
-                  <FiChevronDown className="text-lg" />
-                </button>
-
-                {/* Duplicate */}
-                <button 
-                  onClick={() => duplicateSlide(slide.id)} 
+                <button
+                  onClick={() => deleteBanner(banner.id)}
                   disabled={saving}
-                  className={`p-2 rounded-lg transition-colors ${
-                    saving
-                      ? 'opacity-30 cursor-not-allowed'
-                      : isDarkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-600'
-                  }`}
-                  title="Duplicate Slide"
+                  className={`p-1.5 rounded-lg transition-all ${
+                    isDarkMode 
+                      ? 'text-gray-500 hover:text-red-400 hover:bg-red-500/10' 
+                      : 'text-gray-400 hover:text-red-500 hover:bg-red-50'
+                  } disabled:opacity-50`}
                 >
-                  <FiCopy className="text-lg" />
-                </button>
-
-                {/* Active Toggle */}
-                <button 
-                  className={`p-2 rounded-lg transition-colors ${
-                    slide.active 
-                      ? isDarkMode ? 'text-green-400 hover:bg-green-500/20' : 'text-green-600 hover:bg-green-50'
-                      : isDarkMode ? 'text-gray-500 hover:bg-gray-700' : 'text-gray-400 hover:bg-gray-100'
-                  }`}
-                  onClick={() => updateSlide(slide.id, 'active', !slide.active)}
-                  title={slide.active ? 'Active' : 'Inactive'}
-                >
-                  {slide.active ? <FiEye className="text-lg" /> : <FiEyeOff className="text-lg" />}
-                </button>
-
-                {/* Delete */}
-                <button 
-                  onClick={() => deleteHeroSlide(slide.id)} 
-                  className="p-2 rounded-lg transition-colors hover:bg-red-100 dark:hover:bg-red-900/20 text-red-500"
-                  title="Delete Slide"
-                  disabled={heroSlides.length <= 1 || saving}
-                >
-                  <FiTrash2 className="text-lg" />
+                  <Trash2 size={16} />
                 </button>
               </div>
-            </div>
 
-            {/* Slide Content */}
-            <div className="p-5">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Left Column - Image Upload */}
-                <div className="lg:col-span-1">
-                  <div className={`relative rounded-lg border-2 border-dashed overflow-hidden ${
-                    isDarkMode ? 'border-gray-600' : 'border-gray-300'
-                  }`}>
-                    {/* Image Preview */}
-                    <div className="aspect-square relative group">
-                      {slide.image || slide.imagePreview ? (
-                        <img 
-                          src={slide.imagePreview || slide.image} 
-                          alt={slide.brand || "Slide"}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div className={`w-full h-full flex flex-col items-center justify-center ${
-                          isDarkMode ? 'bg-gray-800' : 'bg-gray-50'
-                        }`}>
-                          <FiImage className={`text-4xl mb-2 ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`} />
-                          <p className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>
-                            No image
-                          </p>
-                        </div>
-                      )}
-
-                      {/* Upload Overlay */}
-                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <button
-                          onClick={() => triggerFileInput(slide.id)}
-                          disabled={uploadingId === slide.id || saving}
-                          className="px-4 py-2 bg-white text-gray-900 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors flex items-center gap-2 disabled:opacity-50"
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Left: Banner Preview */}
+                <div className={`relative rounded-xl border-2 border-dashed overflow-hidden h-48 group ${
+                  isDarkMode 
+                    ? 'border-gray-700 bg-gray-900' 
+                    : 'border-gray-200 bg-gray-50'
+                }`}>
+                  <input
+                    type="file"
+                    id={`file-${banner.id}`}
+                    className="hidden"
+                    accept="image/*"
+                    onChange={(e) => handleFileChange(e, banner.id)}
+                    disabled={saving}
+                  />
+                  {(banner.imagePreview || banner.image) ? (
+                    <>
+                      <img 
+                        src={banner.imagePreview || banner.image} 
+                        alt="" 
+                        className="w-full h-full object-cover group-hover:blur-[1px] transition-all" 
+                      />
+                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center">
+                        <label 
+                          htmlFor={`file-${banner.id}`} 
+                          className={`cursor-pointer px-4 py-2 rounded-lg font-black text-[10px] uppercase flex items-center gap-2 shadow-xl transition-all ${
+                            isDarkMode
+                              ? 'bg-gray-800 text-white hover:bg-blue-600'
+                              : 'bg-white text-gray-900 hover:bg-blue-600 hover:text-white'
+                          } ${saving ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
-                          {uploadingId === slide.id ? (
-                            <>
-                              <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-                              Uploading...
-                            </>
-                          ) : (
-                            <>
-                              <FiUpload />
-                              Upload Image
-                            </>
-                          )}
-                        </button>
+                          <RefreshCw size={14} /> Replace
+                        </label>
                       </div>
-                    </div>
-                  </div>
-                  <p className={`text-xs mt-2 text-center ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>
-                    Click to upload • Recommended: 500x500px • Max 2MB
-                  </p>
+                    </>
+                  ) : (
+                    <label 
+                      htmlFor={`file-${banner.id}`} 
+                      className={`w-full h-full flex flex-col items-center justify-center gap-2 cursor-pointer ${
+                        saving ? 'opacity-50 cursor-not-allowed' : ''
+                      }`}
+                    >
+                      <UploadCloud size={24} className={isDarkMode ? 'text-gray-600' : 'text-gray-400'} />
+                      <span className={`text-[10px] font-bold uppercase tracking-widest ${
+                        isDarkMode ? 'text-gray-500' : 'text-gray-500'
+                      }`}>
+                        Upload Banner
+                      </span>
+                    </label>
+                  )}
                 </div>
 
-                {/* Right Column - Text Fields */}
-                <div className="lg:col-span-2 space-y-4">
-                  {/* Brand & Badge Row */}
+                {/* Right: Controls */}
+                <div className="flex flex-col justify-center space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className={`block text-xs font-medium mb-1 ${
-                        isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                    {/* Button Text Input */}
+                    <div className="space-y-1">
+                      <label className={`text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5 ${
+                        isDarkMode ? 'text-gray-400' : 'text-gray-500'
                       }`}>
-                        Badge Product Name
+                        <Type size={12} className="text-blue-500 dark:text-blue-400" /> Button Text
                       </label>
                       <input
                         type="text"
-                        value={slide.brand}
-                        onChange={(e) => updateSlide(slide.id, 'brand', e.target.value)}
-                        placeholder="e.g., Vapes"
-                        disabled={saving}
-                        className={`w-full px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
+                        placeholder="e.g. Shop Now"
+                        className={`w-full px-3 py-2 border rounded-lg text-xs font-bold focus:border-blue-500 focus:ring-0 outline-none transition-all placeholder-gray-400 ${
                           isDarkMode 
-                            ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50' 
-                            : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 disabled:opacity-50'
-                        }`}
+                            ? 'bg-gray-700 border-gray-600 text-white focus:bg-gray-600 placeholder-gray-500' 
+                            : 'bg-gray-50 border-gray-200 text-gray-900 focus:bg-white'
+                        } ${saving ? 'opacity-50' : ''}`}
+                        value={banner.btnText}
+                        onChange={(e) => handleInputChange(banner.id, 'btnText', e.target.value)}
+                        disabled={saving}
                       />
                     </div>
-                    <div>
-                      <label className={`block text-xs font-medium mb-1 ${
-                        isDarkMode ? 'text-gray-300' : 'text-gray-700'
+
+                    {/* Link URL Input */}
+                    <div className="space-y-1">
+                      <label className={`text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5 ${
+                        isDarkMode ? 'text-gray-400' : 'text-gray-500'
                       }`}>
-                        Offer Tag
+                        <Link size={12} className="text-blue-500 dark:text-blue-400" /> Redirect Link
                       </label>
                       <input
                         type="text"
-                        value={slide.badge}
-                        onChange={(e) => updateSlide(slide.id, 'badge', e.target.value)}
-                        placeholder="e.g., Vapes COLLECTION • 25% OFF"
-                        disabled={saving}
-                        className={`w-full px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
+                        placeholder="e.g. /products/new"
+                        className={`w-full px-3 py-2 border rounded-lg text-xs font-bold focus:border-blue-500 focus:ring-0 outline-none transition-all placeholder-gray-400 ${
                           isDarkMode 
-                            ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50' 
-                            : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 disabled:opacity-50'
-                        }`}
+                            ? 'bg-gray-700 border-gray-600 text-white focus:bg-gray-600 placeholder-gray-500' 
+                            : 'bg-gray-50 border-gray-200 text-gray-900 focus:bg-white'
+                        } ${saving ? 'opacity-50' : ''}`}
+                        value={banner.link}
+                        onChange={(e) => handleInputChange(banner.id, 'link', e.target.value)}
+                        disabled={saving}
                       />
                     </div>
                   </div>
 
-                  {/* Title & Highlight Row */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className={`block text-xs font-medium mb-1 ${
-                        isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                      }`}>
-                        Title (First Line)
-                      </label>
-                      <input
-                        type="text"
-                        value={slide.title}
-                        onChange={(e) => updateSlide(slide.id, 'title', e.target.value)}
-                        placeholder="e.g., Ride the Vapes of"
-                        disabled={saving}
-                        className={`w-full px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
-                          isDarkMode 
-                            ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50' 
-                            : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 disabled:opacity-50'
-                        }`}
-                      />
-                    </div>
-                    <div>
-                      <label className={`block text-xs font-medium mb-1 ${
-                        isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                      }`}>
-                        Highlight (Second Line)
-                      </label>
-                      <input
-                        type="text"
-                        value={slide.highlight}
-                        onChange={(e) => updateSlide(slide.id, 'highlight', e.target.value)}
-                        placeholder="e.g., smooth vaping"
-                        disabled={saving}
-                        className={`w-full px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
-                          isDarkMode 
-                            ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50' 
-                            : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 disabled:opacity-50'
-                        }`}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Description */}
-                  <div>
-                    <label className={`block text-xs font-medium mb-1 ${
-                      isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                  {/* Preview Badge */}
+                  <div className={`p-3 rounded-lg border flex items-center justify-between ${
+                    isDarkMode 
+                      ? 'bg-blue-900/20 border-blue-800' 
+                      : 'bg-blue-50/50 border-blue-100'
+                  }`}>
+                    <span className={`text-[10px] font-bold uppercase tracking-tight ${
+                      isDarkMode ? 'text-blue-300' : 'text-blue-700'
                     }`}>
-                      Paragraph
-                    </label>
-                    <textarea
-                      value={slide.description}
-                      onChange={(e) => updateSlide(slide.id, 'description', e.target.value)}
-                      rows="3"
-                      placeholder="Enter slide description..."
-                      disabled={saving}
-                      className={`w-full px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 resize-none ${
-                        isDarkMode 
-                          ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50' 
-                          : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 disabled:opacity-50'
-                      }`}
-                    />
+                      Active Link:
+                    </span>
+                    <span className={`text-[10px] font-medium truncate max-w-[150px] italic ${
+                      isDarkMode ? 'text-blue-400' : 'text-blue-600'
+                    }`}>
+                      {banner.link || "no-link-set"}
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
-
-            {/* Slide Footer */}
-            <div className={`px-5 py-2 border-t flex items-center gap-3 text-xs ${
-              isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-gray-50'
-            }`}>
-              <span className={`flex items-center gap-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                <FiMove className="text-sm" />
-                Drag to reorder
-              </span>
-              <span className={`flex items-center gap-1 ${slide.active 
-                ? 'text-green-500' 
-                : isDarkMode ? 'text-gray-500' : 'text-gray-400'
-              }`}>
-                {slide.active ? <FiEye className="text-sm" /> : <FiEyeOff className="text-sm" />}
-                {slide.active ? 'Active' : 'Inactive'}
-              </span>
-              {slide.isNew && (
-                <span className="text-yellow-500 flex items-center gap-1">
-                  <FiX className="text-sm" /> Not saved yet
-                </span>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Quick Actions Footer */}
-      <div className={`mt-6 p-4 rounded-lg border flex items-center justify-between ${
-        isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-gray-50'
-      }`}>
-        <div className="flex items-center gap-4">
-          <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-            Total Slides: <strong>{heroSlides.length}</strong>
-          </span>
-          <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-            Active: <strong className="text-green-500">{heroSlides.filter(s => s.active).length}</strong>
-          </span>
-          <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-            Unsaved: <strong className="text-yellow-500">{heroSlides.filter(s => s.isNew).length}</strong>
-          </span>
-        </div>
-        <button
-          onClick={addHeroSlide}
-          disabled={saving}
-          className="px-3 py-1.5 bg-blue-600/20 text-blue-600 rounded-lg text-xs hover:bg-blue-600/30 transition-colors flex items-center gap-1 disabled:opacity-50"
-        >
-          <FiPlus /> Quick Add
-        </button>
+          ))
+        )}
       </div>
     </div>
   );

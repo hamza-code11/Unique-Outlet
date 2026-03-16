@@ -54,7 +54,7 @@
 //       {/* Gradient backgrounds - dark theme with blue tones */}
 //       <div className="absolute top-0 right-0 w-3/4 h-3/4 bg-gradient-to-bl from-blue-900/40 via-blue-800/20 to-transparent rounded-full blur-3xl"></div>
 //       <div className="absolute bottom-0 left-0 w-3/4 h-3/4 bg-gradient-to-tr from-cyan-900/40 via-transparent to-transparent rounded-full blur-3xl"></div>
-      
+
 //       {/* Dark overlay for depth - slightly reduced opacity to show Vapes */}
 //       <div className="absolute inset-0 bg-[#0a0a0f]/70"></div>
 
@@ -249,7 +249,7 @@
 //             transform: translateY(0);
 //           }
 //         }
-        
+
 //         .animate-fade-in-up {
 //           animation: fade-in-up 0.6s ease-out forwards;
 //         }
@@ -265,7 +265,7 @@
 //             transform: translateY(0);
 //           }
 //         }
-        
+
 //         .animate-up-down {
 //           animation: upDown 3s ease-in-out infinite;
 //         }
@@ -346,7 +346,7 @@
 //       {/* Gradient backgrounds - light theme with blue tones */}
 //       <div className="absolute top-0 right-0 w-3/4 h-3/4 bg-gradient-to-bl from-blue-100/40 via-blue-50/20 to-transparent rounded-full blur-3xl"></div>
 //       <div className="absolute bottom-0 left-0 w-3/4 h-3/4 bg-gradient-to-tr from-cyan-100/40 via-transparent to-transparent rounded-full blur-3xl"></div>
-      
+
 //       {/* Light overlay for depth */}
 //       <div className="absolute inset-0 bg-white/50"></div>
 
@@ -541,7 +541,7 @@
 //             transform: translateY(0);
 //           }
 //         }
-        
+
 //         .animate-fade-in-up {
 //           animation: fade-in-up 0.6s ease-out forwards;
 //         }
@@ -557,7 +557,7 @@
 //             transform: translateY(0);
 //           }
 //         }
-        
+
 //         .animate-up-down {
 //           animation: upDown 3s ease-in-out infinite;
 //         }
@@ -739,13 +739,13 @@
 //           ? 'bg-gradient-to-bl from-blue-900/40 via-blue-800/20 to-transparent' 
 //           : 'bg-gradient-to-bl from-blue-100/40 via-blue-50/20 to-transparent'
 //       }`}></div>
-      
+
 //       <div className={`absolute bottom-0 left-0 w-3/4 h-3/4 rounded-full blur-3xl transition-colors duration-500 ${
 //         isDarkMode 
 //           ? 'bg-gradient-to-tr from-cyan-900/40 via-transparent to-transparent' 
 //           : 'bg-gradient-to-tr from-cyan-100/40 via-transparent to-transparent'
 //       }`}></div>
-      
+
 //       {/* Overlay for depth - dynamic */}
 //       <div className={`absolute inset-0 transition-colors duration-500 ${
 //         isDarkMode ? 'bg-gray-900/70' : 'bg-white/50'
@@ -1036,7 +1036,7 @@
 //             transform: translateY(0);
 //           }
 //         }
-        
+
 //         .animate-fade-in-up {
 //           animation: fade-in-up 0.6s ease-out forwards;
 //         }
@@ -1052,7 +1052,7 @@
 //             transform: translateY(0);
 //           }
 //         }
-        
+
 //         .animate-up-down {
 //           animation: upDown 3s ease-in-out infinite;
 //         }
@@ -1141,7 +1141,7 @@
 // // Start fetching data immediately
 // const fetchData = async () => {
 //   if (dataPromise) return dataPromise;
-  
+
 //   dataPromise = axios.get('http://127.0.0.1:8000/api/sliders', { timeout: 3000 })
 //     .then(response => {
 //       if (response.data.success && response.data.sliders.length > 0) {
@@ -1162,7 +1162,7 @@
 //       }];
 //       return slidersCache;
 //     });
-  
+
 //   return dataPromise;
 // };
 
@@ -1201,11 +1201,11 @@
 //   // Check dark mode instantly
 //   useEffect(() => {
 //     setIsDarkMode(document.documentElement.classList.contains('dark'));
-    
+
 //     const observer = new MutationObserver(() => {
 //       setIsDarkMode(document.documentElement.classList.contains('dark'));
 //     });
-    
+
 //     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 //     return () => observer.disconnect();
 //   }, []);
@@ -1268,7 +1268,7 @@
 
 //   // Format heading
 //   const heading = currentSlider?.heading?.split('\n') || ["Ride the Vapes of", "smooth vaping"];
-  
+
 //   const imageUrl = currentSlider?.image 
 //     ? `http://127.0.0.1:8000/storage/${currentSlider.image}`
 //     : vapeImg1;
@@ -1284,7 +1284,7 @@
 //     <section className={`relative overflow-hidden min-h-screen flex items-center py-12 md:py-16 transition-opacity duration-700 ${
 //       isDarkMode ? 'bg-gray-900' : 'bg-white'
 //     } ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-      
+
 //       {/* Fixed Background */}
 //       <div className="absolute inset-0 z-0">
 //         <div className={`absolute inset-0 transition-colors duration-300 ${
@@ -1305,7 +1305,7 @@
 //           ? 'bg-gradient-to-bl from-blue-900/40 via-blue-800/20 to-transparent' 
 //           : 'bg-gradient-to-bl from-blue-100/40 via-blue-50/20 to-transparent'
 //       }`}></div>
-      
+
 //       <div className={`absolute bottom-0 left-0 w-3/4 h-3/4 rounded-full blur-3xl transition-colors duration-300 ${
 //         isDarkMode 
 //           ? 'bg-gradient-to-tr from-cyan-900/40 via-transparent to-transparent' 
@@ -1360,7 +1360,7 @@
 
 //           {/* Left Content */}
 //           <div className="flex-1 space-y-6 sm:space-y-8 w-full">
-            
+
 //             {/* Badge */}
 //             <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full transition-colors duration-300 ${
 //               isDarkMode 
@@ -1466,7 +1466,7 @@
 //           {/* Right Image */}
 //           <div className="flex-1 flex justify-center items-center">
 //             <div className="relative w-full max-w-xs md:max-w-sm lg:max-w-md">
-              
+
 //               {/* Main Image */}
 //               <div className="relative animate-up-down flex justify-center">
 //                 <div className={`absolute inset-0 rounded-full blur-2xl scale-110 transition-colors duration-300 ${
@@ -1492,7 +1492,7 @@
 //               <div className={`absolute -top-6 -right-6 w-32 h-32 border-2 rounded-full animate-ping-slow ${
 //                 isDarkMode ? 'border-blue-500/20' : 'border-blue-200/50'
 //               }`}></div>
-              
+
 //               <div className={`absolute -bottom-6 -left-6 w-40 h-40 border-2 rounded-full animate-ping-slow ${
 //                 isDarkMode ? 'border-cyan-500/20' : 'border-cyan-200/50'
 //               }`} style={{ animationDelay: '1s' }}></div>
@@ -1597,465 +1597,653 @@
 
 
 
-// src/components/home/HeroSection.jsx
-import React, { useState, useEffect, useRef, memo, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import vapeImg1 from "../../assets/home/01.png";
-import VapesBg from "../../assets/home/Waves-bg.jfif";
-import {
-  FiShoppingBag,
-  FiShield,
-  FiTruck,
-  FiClock,
-  FiArrowRight,
-  FiStar,
-  FiLock,
-  FiChevronLeft,
-  FiChevronRight
-} from "react-icons/fi";
-import axios from "axios";
 
-// Pre-fetch data immediately
-let slidersCache = [];
-let dataPromise = null;
 
-// Start fetching data immediately
-const fetchData = async () => {
-  if (dataPromise) return dataPromise;
-  
-  dataPromise = axios.get('http://127.0.0.1:8000/api/sliders', { timeout: 3000 })
-    .then(response => {
-      if (response.data.success && response.data.sliders.length > 0) {
-        slidersCache = response.data.sliders;
-      }
-      return slidersCache;
-    })
-    .catch(() => {
-      // Fallback data (single slider)
-      slidersCache = [{
-        id: 1,
-        heading: "Ride the Vapes of\nsmooth vaping",
-        paragraph: "Premium Vapes vaping products curated for enthusiasts. Quality you can trust, support you deserve.",
-        image: "sliders/SYUZRB0Mp7YQH0fuwV2VizuvnxgP4UerdyYw3fUS.png",
-        offer_tag: "Vapes COLLECTION • 25% OFF",
-        badge_product_name: "Vapes",
-        badge_trusted_text: "Trusted by 10,000+ Customers"
-      }];
-      return slidersCache;
-    });
-  
-  return dataPromise;
-};
 
-// Start fetching immediately
-fetchData();
 
-// Memoized components
-const FeatureItem = memo(({ icon: Icon, title, subtitle, isDarkMode }) => (
-  <div className="flex items-start gap-3">
-    <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 border transition-colors duration-300 ${
-      isDarkMode 
-        ? 'bg-gray-800 border-gray-700' 
-        : 'bg-gray-100 border-gray-200'
-    }`}>
-      <Icon className={`text-sm ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`} />
-    </div>
-    <div>
-      <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>
-        {title}
-      </h3>
-      <p className="text-xs text-gray-500">{subtitle}</p>
-    </div>
-  </div>
-));
 
-// Main component
-function HeroSection() {
-  const navigate = useNavigate();
-  const [sliders, setSliders] = useState(slidersCache);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // src/components/home/HeroSection.jsx
+// import React, { useState, useEffect, useRef, memo, useCallback } from "react";
+// import { useNavigate } from "react-router-dom";
+// import vapeImg1 from "../../assets/home/01.png";
+// import VapesBg from "../../assets/home/Waves-bg.jfif";
+// import {
+//   FiShoppingBag,
+//   FiShield,
+//   FiTruck,
+//   FiClock,
+//   FiArrowRight,
+//   FiStar,
+//   FiLock,
+//   FiChevronLeft,
+//   FiChevronRight
+// } from "react-icons/fi";
+// import axios from "axios";
+
+// // Pre-fetch data immediately
+// let slidersCache = [];
+// let dataPromise = null;
+
+// // Start fetching data immediately
+// const fetchData = async () => {
+//   if (dataPromise) return dataPromise;
+
+//   dataPromise = axios.get('http://127.0.0.1:8000/api/sliders', { timeout: 3000 })
+//     .then(response => {
+//       if (response.data.success && response.data.sliders.length > 0) {
+//         slidersCache = response.data.sliders;
+//       }
+//       return slidersCache;
+//     })
+//     .catch(() => {
+//       // Fallback data (single slider)
+//       slidersCache = [{
+//         id: 1,
+//         heading: "Ride the Vapes of\nsmooth vaping",
+//         paragraph: "Premium Vapes vaping products curated for enthusiasts. Quality you can trust, support you deserve.",
+//         image: "sliders/SYUZRB0Mp7YQH0fuwV2VizuvnxgP4UerdyYw3fUS.png",
+//         offer_tag: "Vapes COLLECTION • 25% OFF",
+//         badge_product_name: "Vapes",
+//         badge_trusted_text: "Trusted by 10,000+ Customers"
+//       }];
+//       return slidersCache;
+//     });
+
+//   return dataPromise;
+// };
+
+// // Start fetching immediately
+// fetchData();
+
+// // Memoized components
+// const FeatureItem = memo(({ icon: Icon, title, subtitle, isDarkMode }) => (
+//   <div className="flex items-start gap-3">
+//     <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 border transition-colors duration-300 ${
+//       isDarkMode 
+//         ? 'bg-gray-800 border-gray-700' 
+//         : 'bg-gray-100 border-gray-200'
+//     }`}>
+//       <Icon className={`text-sm ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`} />
+//     </div>
+//     <div>
+//       <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>
+//         {title}
+//       </h3>
+//       <p className="text-xs text-gray-500">{subtitle}</p>
+//     </div>
+//   </div>
+// ));
+
+// // Main component
+// function HeroSection() {
+//   const navigate = useNavigate();
+//   const [sliders, setSliders] = useState(slidersCache);
+//   const [currentIndex, setCurrentIndex] = useState(0);
+//   const [isVisible, setIsVisible] = useState(false);
+//   const [isDarkMode, setIsDarkMode] = useState(false);
+//   const contentRef = useRef(null);
+//   const autoPlayRef = useRef(null);
+
+//   // Check dark mode instantly
+//   useEffect(() => {
+//     setIsDarkMode(document.documentElement.classList.contains('dark'));
+
+//     const observer = new MutationObserver(() => {
+//       setIsDarkMode(document.documentElement.classList.contains('dark'));
+//     });
+
+//     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+//     return () => observer.disconnect();
+//   }, []);
+
+//   // Get data if not already cached
+//   useEffect(() => {
+//     if (sliders.length === 0) {
+//       fetchData().then(data => {
+//         if (data && data.length > 0) setSliders(data);
+//       });
+//     }
+//   }, [sliders]);
+
+//   // Auto-play functionality
+//   useEffect(() => {
+//     if (sliders.length <= 1) return; // No need to auto-play if only one slider
+
+//     autoPlayRef.current = setInterval(() => {
+//       setCurrentIndex((prev) => (prev + 1) % sliders.length);
+//     }, 5000); // Change slide every 5 seconds
+
+//     return () => {
+//       if (autoPlayRef.current) {
+//         clearInterval(autoPlayRef.current);
+//       }
+//     };
+//   }, [sliders.length]);
+
+//   // Show component immediately with smooth fade
+//   useEffect(() => {
+//     const raf = requestAnimationFrame(() => {
+//       setIsVisible(true);
+//     });
+//     return () => cancelAnimationFrame(raf);
+//   }, []);
+
+//   const handleShopNow = useCallback(() => {
+//     navigate('/shop', { replace: true });
+//   }, [navigate]);
+
+//   // Navigation handlers
+//   const goToPrevious = useCallback(() => {
+//     setCurrentIndex((prev) => (prev - 1 + sliders.length) % sliders.length);
+//   }, [sliders.length]);
+
+//   const goToNext = useCallback(() => {
+//     setCurrentIndex((prev) => (prev + 1) % sliders.length);
+//   }, [sliders.length]);
+
+//   const goToSlide = useCallback((index) => {
+//     setCurrentIndex(index);
+//   }, []);
+
+//   // If no sliders, don't render
+//   if (sliders.length === 0) {
+//     return null;
+//   }
+
+//   const currentSlider = sliders[currentIndex];
+
+//   // Format heading
+//   const heading = currentSlider?.heading?.split('\n') || ["Ride the Vapes of", "smooth vaping"];
+
+//   const imageUrl = currentSlider?.image 
+//     ? `http://127.0.0.1:8000/storage/${currentSlider.image}`
+//     : vapeImg1;
+
+//   const features = [
+//     { icon: FiShield, title: "Premium Quality", subtitle: "Lab tested" },
+//     { icon: FiTruck, title: "Free Shipping", subtitle: "On orders $50+" },
+//     { icon: FiClock, title: "24/7 Support", subtitle: "Always here" },
+//     { icon: FiLock, title: "Secure Payment", subtitle: "100% encrypted" }
+//   ];
+
+//   return (
+//     <section className={`relative overflow-hidden min-h-screen flex items-center py-12 md:py-16 transition-opacity duration-700 ${
+//       isDarkMode ? 'bg-gray-900' : 'bg-white'
+//     } ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+
+//       {/* Fixed Background */}
+//       <div className="absolute inset-0 z-0">
+//         <div className={`absolute inset-0 transition-colors duration-300 ${
+//           isDarkMode ? 'bg-gray-900' : 'bg-white'
+//         }`}></div>
+//         <img 
+//           src={VapesBg} 
+//           alt="" 
+//           className="w-full h-full object-cover opacity-5"
+//           loading="eager"
+//           fetchpriority="high"
+//         />
+//       </div>
+
+//       {/* Gradient backgrounds */}
+//       <div className={`absolute top-0 right-0 w-3/4 h-3/4 rounded-full blur-3xl transition-colors duration-300 ${
+//         isDarkMode 
+//           ? 'bg-gradient-to-bl from-blue-900/40 via-blue-800/20 to-transparent' 
+//           : 'bg-gradient-to-bl from-blue-100/40 via-blue-50/20 to-transparent'
+//       }`}></div>
+
+//       <div className={`absolute bottom-0 left-0 w-3/4 h-3/4 rounded-full blur-3xl transition-colors duration-300 ${
+//         isDarkMode 
+//           ? 'bg-gradient-to-tr from-cyan-900/40 via-transparent to-transparent' 
+//           : 'bg-gradient-to-tr from-cyan-100/40 via-transparent to-transparent'
+//       }`}></div>
+
+//       {/* Navigation Arrows - only if more than one slide */}
+//       {sliders.length > 1 && (
+//         <>
+//           <button
+//             onClick={goToPrevious}
+//             className={`absolute left-4 top-1/2 transform -translate-y-1/2 z-20 p-2 rounded-full 
+//                        bg-white/30 dark:bg-gray-800/30 backdrop-blur-sm hover:bg-white/50 
+//                        dark:hover:bg-gray-800/50 transition-all`}
+//             aria-label="Previous slide"
+//           >
+//             <FiChevronLeft className="w-6 h-6 text-gray-800 dark:text-white" />
+//           </button>
+//           <button
+//             onClick={goToNext}
+//             className={`absolute right-4 top-1/2 transform -translate-y-1/2 z-20 p-2 rounded-full 
+//                        bg-white/30 dark:bg-gray-800/30 backdrop-blur-sm hover:bg-white/50 
+//                        dark:hover:bg-gray-800/50 transition-all`}
+//             aria-label="Next slide"
+//           >
+//             <FiChevronRight className="w-6 h-6 text-gray-800 dark:text-white" />
+//           </button>
+//         </>
+//       )}
+
+//       {/* Slide Indicators */}
+//       {sliders.length > 1 && (
+//         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex gap-2">
+//           {sliders.map((_, index) => (
+//             <button
+//               key={index}
+//               onClick={() => goToSlide(index)}
+//               className={`w-2 h-2 rounded-full transition-all duration-300 ${
+//                 index === currentIndex 
+//                   ? 'w-8 bg-blue-600' 
+//                   : isDarkMode ? 'bg-gray-700' : 'bg-gray-300'
+//               }`}
+//               aria-label={`Go to slide ${index + 1}`}
+//             />
+//           ))}
+//         </div>
+//       )}
+
+//       {/* Main content */}
+//       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+//         <div className="flex flex-col lg:flex-row items-center lg:items-center gap-8 lg:gap-12 xl:gap-16">
+
+//           {/* Left Content */}
+//           <div className="flex-1 space-y-6 sm:space-y-8 w-full">
+
+//             {/* Badge */}
+//             <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full transition-colors duration-300 ${
+//               isDarkMode 
+//                 ? 'bg-gradient-to-r from-blue-900/50 to-cyan-800/30 border border-blue-700/50' 
+//                 : 'bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200'
+//             }`}>
+//               <span className="relative flex h-2 w-2">
+//                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full 
+//                                bg-blue-400 opacity-75"></span>
+//                 <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+//               </span>
+//               <span className={`text-xs sm:text-sm font-medium tracking-wide ${
+//                 isDarkMode ? 'text-blue-300' : 'text-blue-600'
+//               }`}>
+//                 {currentSlider?.offer_tag || "Vapes COLLECTION • 25% OFF"}
+//               </span>
+//             </div>
+
+//             {/* Heading */}
+//             <div className="space-y-2">
+//               <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
+//                 <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>
+//                   {heading[0]}
+//                 </span>
+//                 <br />
+//                 <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+//                   {heading[1] || "smooth vaping"}
+//                 </span>
+//               </h1>
+
+//               <p className={`text-sm sm:text-base max-w-lg leading-relaxed transition-colors duration-300 ${
+//                 isDarkMode ? 'text-gray-400' : 'text-gray-600'
+//               }`}>
+//                 {currentSlider?.paragraph || "Premium Vapes vaping products curated for enthusiasts. Quality you can trust, support you deserve."}
+//               </p>
+//             </div>
+
+//             {/* Shop Now Button - shadow removed */}
+//             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+//               <button 
+//                 onClick={handleShopNow}
+//                 className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 
+//                          text-white font-semibold rounded-lg 
+//                          hover:from-blue-700 hover:to-cyan-700 transition-all duration-300 
+//                          flex items-center justify-center gap-3 text-lg"
+//               >
+//                 <FiShoppingBag className="text-xl" />
+//                 <span>Shop Now</span>
+//                 <FiArrowRight className="opacity-0 group-hover:opacity-100 group-hover:translate-x-2 
+//                                        transition-all duration-300" />
+//               </button>
+//             </div>
+
+//             {/* Features Grid */}
+//             <div className={`grid grid-cols-2 gap-4 pt-4 border-t transition-colors duration-300 ${
+//               isDarkMode ? 'border-gray-800' : 'border-gray-200'
+//             }`}>
+//               {features.map((feature, index) => (
+//                 <FeatureItem 
+//                   key={index}
+//                   icon={feature.icon}
+//                   title={feature.title}
+//                   subtitle={feature.subtitle}
+//                   isDarkMode={isDarkMode}
+//                 />
+//               ))}
+//             </div>
+
+//             {/* Trust Indicators */}
+//             <div className="flex items-center gap-6 pt-2">
+//               <div className="flex -space-x-2">
+//                 {[1, 2, 3, 4].map((i) => (
+//                   <div key={i}
+//                     className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-white text-xs
+//                                 bg-gradient-to-br from-blue-500 to-cyan-600 ${
+//                                   isDarkMode ? 'border-gray-900' : 'border-white'
+//                                 }`}>
+//                     {i === 1 && 'JD'}
+//                     {i === 2 && 'MK'}
+//                     {i === 3 && 'SL'}
+//                     {i === 4 && '+2'}
+//                   </div>
+//                 ))}
+//               </div>
+//               <div className="flex items-center gap-2">
+//                 <div className="flex items-center gap-0.5">
+//                   {[...Array(5)].map((_, i) => (
+//                     <FiStar key={i} className="text-blue-500 fill-current text-xs" />
+//                   ))}
+//                 </div>
+//                 <span className={`text-sm font-bold transition-colors duration-300 ${
+//                   isDarkMode ? 'text-white' : 'text-gray-900'
+//                 }`}>
+//                   {currentSlider?.badge_trusted_text?.match(/\d+/)?.[0] || '10k+'}
+//                 </span>
+//                 <span className="text-xs text-gray-500">customers</span>
+//               </div>
+//             </div>
+//           </div>
+
+//           {/* Right Image - All shadows removed */}
+//           <div className="flex-1 flex justify-center items-center">
+//             <div className="relative w-full max-w-xs md:max-w-sm lg:max-w-md">
+
+//               {/* Main Image - all shadows removed */}
+//               <div className="relative animate-up-down flex justify-center">
+//                 {/* All gradient glow effects removed */}
+
+//                 {/* Main image - no shadows */}
+//                 <img
+//                   key={currentSlider?.id} // Force re-render on slide change
+//                   src={imageUrl}
+//                   alt={currentSlider?.badge_product_name || "Vapes"}
+//                   className="relative w-3/4 sm:w-2/3 md:w-4/5 h-auto object-contain"
+//                   loading="eager"
+//                   fetchpriority="high"
+//                   onError={(e) => {
+//                     e.target.src = vapeImg1;
+//                   }}
+//                 />
+
+//                 {/* Inner shadow overlay removed */}
+//               </div>
+
+//               {/* Decorative elements */}
+//               <div className={`absolute -top-6 -right-6 w-32 h-32 border-2 rounded-full animate-ping-slow ${
+//                 isDarkMode ? 'border-blue-500/20' : 'border-blue-200/50'
+//               }`}></div>
+
+//               <div className={`absolute -bottom-6 -left-6 w-40 h-40 border-2 rounded-full animate-ping-slow ${
+//                 isDarkMode ? 'border-cyan-500/20' : 'border-cyan-200/50'
+//               }`} style={{ animationDelay: '1s' }}></div>
+
+//               {/* Product Badge - shadow removed */}
+//               <div className="absolute -top-4 -left-4 bg-gradient-to-r from-blue-600 to-cyan-600 
+//                             px-4 py-2 rounded-full animate-float hidden lg:block">
+//                 <span className="text-sm font-medium text-white">
+//                   {currentSlider?.badge_product_name || "Vapes"}
+//                 </span>
+//               </div>
+
+//               {/* Stats Card - shadow removed */}
+//               <div className={`absolute -bottom-6 left-0 backdrop-blur-sm px-4 py-3 
+//                             rounded-lg border hidden lg:flex items-center gap-3 min-w-[160px] animate-up-down ${
+//                               isDarkMode 
+//                                 ? 'bg-gray-800/95 border-gray-700' 
+//                                 : 'bg-white/95 border-gray-200'
+//                             }`}
+//                 style={{ animationDelay: '0.5s' }}>
+//                 <div className={`w-10 h-10 rounded-lg flex items-center justify-center border ${
+//                   isDarkMode 
+//                     ? 'bg-gradient-to-br from-blue-900/50 to-cyan-900/50 border-blue-800/30' 
+//                     : 'bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200'
+//                 }`}>
+//                   <FiStar className={`fill-current text-xl ${
+//                     isDarkMode ? 'text-blue-400' : 'text-blue-600'
+//                   }`} />
+//                 </div>
+//                 <div>
+//                   <p className="text-xs text-gray-500">Trusted by</p>
+//                   <p className={`text-base font-bold ${
+//                     isDarkMode ? 'text-gray-200' : 'text-gray-900'
+//                   }`}>
+//                     {currentSlider?.badge_trusted_text?.match(/\d[\d,]*\+?/)?.[0] || '10,000+'}
+//                   </p>
+//                 </div>
+//               </div>
+
+//               {/* Stock Badge - shadow removed */}
+//               <div className={`absolute top-4 -right-3 rounded-full px-4 py-2 
+//                             border hidden lg:flex items-center gap-2 animate-up-down ${
+//                               isDarkMode 
+//                                 ? 'bg-gray-800 border-gray-700' 
+//                                 : 'bg-white border-gray-200'
+//                             }`}
+//                 style={{ animationDelay: '0.2s' }}>
+//                 <span className="relative flex h-2 w-2">
+//                   <span className="animate-ping absolute inline-flex h-full w-full 
+//                                  rounded-full bg-green-400 opacity-75"></span>
+//                   <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+//                 </span>
+//                 <span className={`text-sm font-medium ${
+//                   isDarkMode ? 'text-gray-300' : 'text-gray-700'
+//                 }`}>In Stock</span>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+
+//       <style jsx>{`
+//         @keyframes upDown {
+//           0%, 100% { transform: translateY(0); }
+//           50% { transform: translateY(-15px); }
+//         }
+//         .animate-up-down {
+//           animation: upDown 3s ease-in-out infinite;
+//         }
+//         @keyframes ping-slow {
+//           75%, 100% { transform: scale(1.5); opacity: 0; }
+//         }
+//         .animate-ping-slow {
+//           animation: ping-slow 3s cubic-bezier(0, 0, 0.2, 1) infinite;
+//         }
+//         @keyframes float {
+//           0%, 100% { transform: translateY(0); }
+//           50% { transform: translateY(-10px); }
+//         }
+//         .animate-float {
+//           animation: float 3s ease-in-out infinite;
+//         }
+//       `}</style>
+//     </section>
+//   );
+// }
+
+// export default memo(HeroSection);
+
+
+
+
+
+
+
+
+
+
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { FiChevronRight, FiChevronLeft, FiArrowRight } from 'react-icons/fi';
+import axios from 'axios';
+
+import { API_URL, STORAGE_URL } from "../../config";
+
+
+
+const HeroSection = () => {
+  const [sliders, setSliders] = useState([]);
+  const [currentBanner, setCurrentBanner] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const contentRef = useRef(null);
-  const autoPlayRef = useRef(null);
 
-  // Check dark mode instantly
+  // --- DARK MODE DETECTION LOGIC (Same as your AboutSection) ---
   useEffect(() => {
-    setIsDarkMode(document.documentElement.classList.contains('dark'));
-    
-    const observer = new MutationObserver(() => {
+    const checkDarkMode = () => {
       setIsDarkMode(document.documentElement.classList.contains('dark'));
+    };
+
+    checkDarkMode(); // Initial check
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, { 
+      attributes: true, 
+      attributeFilter: ['class'] 
     });
-    
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
     return () => observer.disconnect();
   }, []);
 
-  // Get data if not already cached
-  useEffect(() => {
-    if (sliders.length === 0) {
-      fetchData().then(data => {
-        if (data && data.length > 0) setSliders(data);
-      });
+  // Fetch sliders from API
+  const fetchSliders = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${API_URL}/sliders`);
+      if (response.data.success && response.data.sliders) {
+        const formattedSliders = response.data.sliders.map(slider => ({
+          id: slider.id,
+          image: slider.image ? `${STORAGE_URL}/${slider.image}` : "",
+          link: slider.link || "/shop",
+          btnText: slider.btn_text || "Shop Now"
+        }));
+        setSliders(formattedSliders);
+      }
+    } catch (err) {
+      setError('Failed to load sliders.');
+    } finally {
+      setLoading(false);
     }
+  };
+
+  useEffect(() => { fetchSliders(); }, []);
+
+  useEffect(() => {
+    if (sliders.length === 0) return;
+    const timer = setInterval(() => {
+      setCurrentBanner(prev => (prev + 1) % sliders.length);
+    }, 5000);
+    return () => clearInterval(timer);
   }, [sliders]);
 
-  // Auto-play functionality
-  useEffect(() => {
-    if (sliders.length <= 1) return; // No need to auto-play if only one slider
+  // Shadow aur unnecessary borders remove kar diye gaye hain
+  const sectionBg = isDarkMode ? 'bg-gray-900' : 'bg-white';
 
-    autoPlayRef.current = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % sliders.length);
-    }, 5000); // Change slide every 5 seconds
-
-    return () => {
-      if (autoPlayRef.current) {
-        clearInterval(autoPlayRef.current);
-      }
-    };
-  }, [sliders.length]);
-
-  // Show component immediately with smooth fade
-  useEffect(() => {
-    const raf = requestAnimationFrame(() => {
-      setIsVisible(true);
-    });
-    return () => cancelAnimationFrame(raf);
-  }, []);
-
-  const handleShopNow = useCallback(() => {
-    navigate('/shop', { replace: true });
-  }, [navigate]);
-
-  // Navigation handlers
-  const goToPrevious = useCallback(() => {
-    setCurrentIndex((prev) => (prev - 1 + sliders.length) % sliders.length);
-  }, [sliders.length]);
-
-  const goToNext = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % sliders.length);
-  }, [sliders.length]);
-
-  const goToSlide = useCallback((index) => {
-    setCurrentIndex(index);
-  }, []);
-
-  // If no sliders, don't render
-  if (sliders.length === 0) {
-    return null;
+  if (loading || error || sliders.length === 0) {
+    return (
+      <section className={`w-full min-h-[500px] flex items-center justify-center transition-colors duration-700 ${sectionBg}`}>
+        {loading ? (
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+        ) : (
+          <p className={isDarkMode ? 'text-white' : 'text-gray-800'}>{error || "No sliders available"}</p>
+        )}
+      </section>
+    );
   }
 
-  const currentSlider = sliders[currentIndex];
-
-  // Format heading
-  const heading = currentSlider?.heading?.split('\n') || ["Ride the Vapes of", "smooth vaping"];
-  
-  const imageUrl = currentSlider?.image 
-    ? `http://127.0.0.1:8000/storage/${currentSlider.image}`
-    : vapeImg1;
-
-  const features = [
-    { icon: FiShield, title: "Premium Quality", subtitle: "Lab tested" },
-    { icon: FiTruck, title: "Free Shipping", subtitle: "On orders $50+" },
-    { icon: FiClock, title: "24/7 Support", subtitle: "Always here" },
-    { icon: FiLock, title: "Secure Payment", subtitle: "100% encrypted" }
-  ];
-
   return (
-    <section className={`relative overflow-hidden min-h-screen flex items-center py-12 md:py-16 transition-opacity duration-700 ${
-      isDarkMode ? 'bg-gray-900' : 'bg-white'
-    } ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-      
-      {/* Fixed Background */}
-      <div className="absolute inset-0 z-0">
-        <div className={`absolute inset-0 transition-colors duration-300 ${
-          isDarkMode ? 'bg-gray-900' : 'bg-white'
-        }`}></div>
-        <img 
-          src={VapesBg} 
-          alt="" 
-          className="w-full h-full object-cover opacity-5"
-          loading="eager"
-          fetchpriority="high"
-        />
-      </div>
-
-      {/* Gradient backgrounds */}
-      <div className={`absolute top-0 right-0 w-3/4 h-3/4 rounded-full blur-3xl transition-colors duration-300 ${
-        isDarkMode 
-          ? 'bg-gradient-to-bl from-blue-900/40 via-blue-800/20 to-transparent' 
-          : 'bg-gradient-to-bl from-blue-100/40 via-blue-50/20 to-transparent'
-      }`}></div>
-      
-      <div className={`absolute bottom-0 left-0 w-3/4 h-3/4 rounded-full blur-3xl transition-colors duration-300 ${
-        isDarkMode 
-          ? 'bg-gradient-to-tr from-cyan-900/40 via-transparent to-transparent' 
-          : 'bg-gradient-to-tr from-cyan-100/40 via-transparent to-transparent'
-      }`}></div>
-
-      {/* Navigation Arrows - only if more than one slide */}
-      {sliders.length > 1 && (
-        <>
-          <button
-            onClick={goToPrevious}
-            className={`absolute left-4 top-1/2 transform -translate-y-1/2 z-20 p-2 rounded-full 
-                       bg-white/30 dark:bg-gray-800/30 backdrop-blur-sm hover:bg-white/50 
-                       dark:hover:bg-gray-800/50 transition-all`}
-            aria-label="Previous slide"
-          >
-            <FiChevronLeft className="w-6 h-6 text-gray-800 dark:text-white" />
-          </button>
-          <button
-            onClick={goToNext}
-            className={`absolute right-4 top-1/2 transform -translate-y-1/2 z-20 p-2 rounded-full 
-                       bg-white/30 dark:bg-gray-800/30 backdrop-blur-sm hover:bg-white/50 
-                       dark:hover:bg-gray-800/50 transition-all`}
-            aria-label="Next slide"
-          >
-            <FiChevronRight className="w-6 h-6 text-gray-800 dark:text-white" />
-          </button>
-        </>
-      )}
-
-      {/* Slide Indicators */}
-      {sliders.length > 1 && (
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex gap-2">
-          {sliders.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                index === currentIndex 
-                  ? 'w-8 bg-blue-600' 
-                  : isDarkMode ? 'bg-gray-700' : 'bg-gray-300'
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
-      )}
-
-      {/* Main content */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center lg:items-center gap-8 lg:gap-12 xl:gap-16">
-
-          {/* Left Content */}
-          <div className="flex-1 space-y-6 sm:space-y-8 w-full">
-            
-            {/* Badge */}
-            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full transition-colors duration-300 ${
-              isDarkMode 
-                ? 'bg-gradient-to-r from-blue-900/50 to-cyan-800/30 border border-blue-700/50' 
-                : 'bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200'
-            }`}>
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full 
-                               bg-blue-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-              </span>
-              <span className={`text-xs sm:text-sm font-medium tracking-wide ${
-                isDarkMode ? 'text-blue-300' : 'text-blue-600'
-              }`}>
-                {currentSlider?.offer_tag || "Vapes COLLECTION • 25% OFF"}
-              </span>
-            </div>
-
-            {/* Heading */}
-            <div className="space-y-2">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
-                <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>
-                  {heading[0]}
-                </span>
-                <br />
-                <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-                  {heading[1] || "smooth vaping"}
-                </span>
-              </h1>
-
-              <p className={`text-sm sm:text-base max-w-lg leading-relaxed transition-colors duration-300 ${
-                isDarkMode ? 'text-gray-400' : 'text-gray-600'
-              }`}>
-                {currentSlider?.paragraph || "Premium Vapes vaping products curated for enthusiasts. Quality you can trust, support you deserve."}
-              </p>
-            </div>
-
-            {/* Shop Now Button - shadow removed */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
-              <button 
-                onClick={handleShopNow}
-                className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 
-                         text-white font-semibold rounded-lg 
-                         hover:from-blue-700 hover:to-cyan-700 transition-all duration-300 
-                         flex items-center justify-center gap-3 text-lg"
+    <section className={`w-full transition-colors duration-700 ease-in-out ${sectionBg}`}>
+      <div className="container mx-auto px-4 py-6">
+        
+        {/* Slider Container - Shadow removed, transition added */}
+        <div className="w-full relative rounded-2xl overflow-hidden min-h-[460px] shadow-none">
+          
+          {/* Background Images Layer */}
+          <div className="absolute inset-0">
+            {sliders.map((slider, i) => (
+              <div
+                key={slider.id}
+                className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+                style={{
+                  backgroundImage: `url(${slider.image})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  opacity: currentBanner === i ? 1 : 0,
+                }}
               >
-                <FiShoppingBag className="text-xl" />
-                <span>Shop Now</span>
-                <FiArrowRight className="opacity-0 group-hover:opacity-100 group-hover:translate-x-2 
-                                       transition-all duration-300" />
+                {/* Overlay: Ye image ke charon taraf ke area ko dark/light ke mutabiq adjust karega */}
+                {/* <div className={`absolute inset-0 transition-colors duration-700 ${
+                  isDarkMode ? 'bg-black/30' : 'bg-black/5'
+                }`}></div> */}
+              </div>
+            ))}
+          </div>
+
+          {/* Content Area */}
+          <div className="relative z-10 flex items-end h-full min-h-[460px] px-8 md:px-14 pb-16 md:pb-20">
+            <div className="max-w-[450px]">
+              <Link
+                to={sliders[currentBanner].link}
+                className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-extrabold inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-xs uppercase tracking-widest transition-transform active:scale-95 shadow-lg"
+              >
+                {sliders[currentBanner].btnText}
+                <FiArrowRight />
+              </Link>
+            </div>
+          </div>
+
+          {/* Navigation Arrows */}
+          {sliders.length > 1 && (
+            <>
+              <button
+                onClick={() => setCurrentBanner(prev => (prev - 1 + sliders.length) % sliders.length)}
+                className={`absolute left-4 top-1/2 -translate-y-1/2 size-10 rounded-full flex items-center justify-center z-20 transition-all backdrop-blur-sm 
+                  ${isDarkMode ? 'bg-gray-800/60 text-white hover:bg-gray-800' : 'bg-white/70 text-gray-800 hover:bg-white shadow-md'}`}
+              >
+                <FiChevronLeft />
               </button>
-            </div>
+              <button
+                onClick={() => setCurrentBanner(prev => (prev + 1) % sliders.length)}
+                className={`absolute right-4 top-1/2 -translate-y-1/2 size-10 rounded-full flex items-center justify-center z-20 transition-all backdrop-blur-sm 
+                  ${isDarkMode ? 'bg-gray-800/60 text-white hover:bg-gray-800' : 'bg-white/70 text-gray-800 hover:bg-white shadow-md'}`}
+              >
+                <FiChevronRight />
+              </button>
+            </>
+          )}
 
-            {/* Features Grid */}
-            <div className={`grid grid-cols-2 gap-4 pt-4 border-t transition-colors duration-300 ${
-              isDarkMode ? 'border-gray-800' : 'border-gray-200'
-            }`}>
-              {features.map((feature, index) => (
-                <FeatureItem 
-                  key={index}
-                  icon={feature.icon}
-                  title={feature.title}
-                  subtitle={feature.subtitle}
-                  isDarkMode={isDarkMode}
-                />
-              ))}
-            </div>
-
-            {/* Trust Indicators */}
-            <div className="flex items-center gap-6 pt-2">
-              <div className="flex -space-x-2">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i}
-                    className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-white text-xs
-                                bg-gradient-to-br from-blue-500 to-cyan-600 ${
-                                  isDarkMode ? 'border-gray-900' : 'border-white'
-                                }`}>
-                    {i === 1 && 'JD'}
-                    {i === 2 && 'MK'}
-                    {i === 3 && 'SL'}
-                    {i === 4 && '+2'}
-                  </div>
-                ))}
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="flex items-center gap-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <FiStar key={i} className="text-blue-500 fill-current text-xs" />
-                  ))}
-                </div>
-                <span className={`text-sm font-bold transition-colors duration-300 ${
-                  isDarkMode ? 'text-white' : 'text-gray-900'
-                }`}>
-                  {currentSlider?.badge_trusted_text?.match(/\d+/)?.[0] || '10k+'}
-                </span>
-                <span className="text-xs text-gray-500">customers</span>
-              </div>
-            </div>
+          {/* Pagination Dots */}
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+            {sliders.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentBanner(i)}
+                className={`h-1.5 rounded-full transition-all ${
+                  currentBanner === i ? "w-6 bg-white" : "w-1.5 bg-white/50"
+                }`}
+              />
+            ))}
           </div>
 
-          {/* Right Image - All shadows removed */}
-          <div className="flex-1 flex justify-center items-center">
-            <div className="relative w-full max-w-xs md:max-w-sm lg:max-w-md">
-              
-              {/* Main Image - all shadows removed */}
-              <div className="relative animate-up-down flex justify-center">
-                {/* All gradient glow effects removed */}
-                
-                {/* Main image - no shadows */}
-                <img
-                  key={currentSlider?.id} // Force re-render on slide change
-                  src={imageUrl}
-                  alt={currentSlider?.badge_product_name || "Vapes"}
-                  className="relative w-3/4 sm:w-2/3 md:w-4/5 h-auto object-contain"
-                  loading="eager"
-                  fetchpriority="high"
-                  onError={(e) => {
-                    e.target.src = vapeImg1;
-                  }}
-                />
-
-                {/* Inner shadow overlay removed */}
-              </div>
-
-              {/* Decorative elements */}
-              <div className={`absolute -top-6 -right-6 w-32 h-32 border-2 rounded-full animate-ping-slow ${
-                isDarkMode ? 'border-blue-500/20' : 'border-blue-200/50'
-              }`}></div>
-              
-              <div className={`absolute -bottom-6 -left-6 w-40 h-40 border-2 rounded-full animate-ping-slow ${
-                isDarkMode ? 'border-cyan-500/20' : 'border-cyan-200/50'
-              }`} style={{ animationDelay: '1s' }}></div>
-
-              {/* Product Badge - shadow removed */}
-              <div className="absolute -top-4 -left-4 bg-gradient-to-r from-blue-600 to-cyan-600 
-                            px-4 py-2 rounded-full animate-float hidden lg:block">
-                <span className="text-sm font-medium text-white">
-                  {currentSlider?.badge_product_name || "Vapes"}
-                </span>
-              </div>
-
-              {/* Stats Card - shadow removed */}
-              <div className={`absolute -bottom-6 left-0 backdrop-blur-sm px-4 py-3 
-                            rounded-lg border hidden lg:flex items-center gap-3 min-w-[160px] animate-up-down ${
-                              isDarkMode 
-                                ? 'bg-gray-800/95 border-gray-700' 
-                                : 'bg-white/95 border-gray-200'
-                            }`}
-                style={{ animationDelay: '0.5s' }}>
-                <div className={`w-10 h-10 rounded-lg flex items-center justify-center border ${
-                  isDarkMode 
-                    ? 'bg-gradient-to-br from-blue-900/50 to-cyan-900/50 border-blue-800/30' 
-                    : 'bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200'
-                }`}>
-                  <FiStar className={`fill-current text-xl ${
-                    isDarkMode ? 'text-blue-400' : 'text-blue-600'
-                  }`} />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500">Trusted by</p>
-                  <p className={`text-base font-bold ${
-                    isDarkMode ? 'text-gray-200' : 'text-gray-900'
-                  }`}>
-                    {currentSlider?.badge_trusted_text?.match(/\d[\d,]*\+?/)?.[0] || '10,000+'}
-                  </p>
-                </div>
-              </div>
-
-              {/* Stock Badge - shadow removed */}
-              <div className={`absolute top-4 -right-3 rounded-full px-4 py-2 
-                            border hidden lg:flex items-center gap-2 animate-up-down ${
-                              isDarkMode 
-                                ? 'bg-gray-800 border-gray-700' 
-                                : 'bg-white border-gray-200'
-                            }`}
-                style={{ animationDelay: '0.2s' }}>
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full 
-                                 rounded-full bg-green-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                </span>
-                <span className={`text-sm font-medium ${
-                  isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                }`}>In Stock</span>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes upDown {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-15px); }
-        }
-        .animate-up-down {
-          animation: upDown 3s ease-in-out infinite;
-        }
-        @keyframes ping-slow {
-          75%, 100% { transform: scale(1.5); opacity: 0; }
-        }
-        .animate-ping-slow {
-          animation: ping-slow 3s cubic-bezier(0, 0, 0.2, 1) infinite;
-        }
-        @keyframes float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
-        }
-        .animate-float {
-          animation: float 3s ease-in-out infinite;
-        }
-      `}</style>
     </section>
   );
-}
+};
 
-export default memo(HeroSection);
+export default HeroSection;

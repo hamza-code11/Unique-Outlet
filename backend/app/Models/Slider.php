@@ -7,11 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Slider extends Model
 {
     protected $fillable = [
-        'heading',
-        'paragraph',
+        'btn_text',
+        'link',
         'image',
-        'offer_tag',
-        'badge_product_name',
-        'badge_trusted_text'
     ];
 }

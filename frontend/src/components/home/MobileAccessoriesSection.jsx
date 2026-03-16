@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { FiShoppingBag, FiStar, FiArrowRight, FiCheck } from "react-icons/fi";
 import axios from 'axios';
 import { useCart } from "../../context/CartContext";
+import { API_URL, STORAGE_URL } from "../../config";
 
 const MobileAccessoriesSection = () => {
   const { addToCart } = useCart();
@@ -35,7 +36,7 @@ const MobileAccessoriesSection = () => {
         setLoading(true);
         
         // Fetch ALL products first
-        const response = await axios.get('http://127.0.0.1:8000/api/products');
+        const response = await axios.get(`${API_URL}/products`);
         
         // Laravel pagination handling
         const rawData = response.data.data || response.data;
@@ -93,7 +94,7 @@ const MobileAccessoriesSection = () => {
   const getImageUrl = (product) => {
     const img = product.image1 || product.image;
     if (!img) return '';
-    return img.startsWith('http') ? img : `http://127.0.0.1:8000/storage/${img}`;
+    return img.startsWith('http') ? img : `${STORAGE_URL}/${img}`;
   };
 
   // Handle Add to Cart with animation

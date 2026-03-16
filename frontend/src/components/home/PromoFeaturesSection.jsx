@@ -525,6 +525,7 @@ import React, { useState, useEffect } from "react";
 import productImg from "../../assets/home/product-single-no-decor-501x1024.png";
 import { FiShield, FiWind, FiSmile, FiShoppingBag, FiArrowRight, FiStar } from "react-icons/fi";
 import axios from "axios";
+import { API_URL, STORAGE_URL } from "../../config";
 
 // Pre-fetch data immediately
 let promoDataCache = null;
@@ -534,7 +535,7 @@ let dataPromise = null;
 const fetchData = async () => {
   if (dataPromise) return dataPromise;
   
-  dataPromise = axios.get('http://127.0.0.1:8000/api/promo-features', { timeout: 3000 })
+  dataPromise = axios.get(`${API_URL}/promo-features`, { timeout: 3000 })
     .then(response => {
       if (response.data.success && response.data.data) {
         promoDataCache = response.data.data;
@@ -620,7 +621,7 @@ const PromoFeaturesSection = () => {
   ];
 
   const imageUrl = promoData?.image 
-    ? `http://127.0.0.1:8000/storage/${promoData.image}`
+    ? `${STORAGE_URL}/${promoData.image}`
     : productImg;
 
   // Format heading parts

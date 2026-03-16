@@ -10,6 +10,7 @@ import {
 } from "react-icons/fi";
 import { GiCigarette } from "react-icons/gi";
 import { GiFruitBowl } from "react-icons/gi";
+import { API_URL, STORAGE_URL } from "../../config";
 
 const AdminSidebar = ({ isDarkMode, isSidebarOpen, isMobileMenuOpen, closeMobileMenu }) => {
   const location = useLocation();

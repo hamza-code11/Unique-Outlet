@@ -3,6 +3,8 @@ import axios from "axios";
 import VapesBg from "../../assets/home/footer.jfif"; // fallback image
 import { FiMapPin, FiPhone, FiMail, FiSend, FiHeart, FiFacebook, FiTwitter, FiInstagram, FiYoutube } from "react-icons/fi";
 
+import { API_URL, STORAGE_URL } from "../../config";
+
 const Footer = () => {
     const footerRef = useRef(null);
     const [isDarkMode, setIsDarkMode] = useState(false);
@@ -23,7 +25,7 @@ const Footer = () => {
         const fetchFooterData = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get("http://127.0.0.1:8000/api/footer-setting");
+                const response = await axios.get(`${API_URL}/footer-setting`);
                 console.log("API Response:", response.data); // Debug log
                 
                 if (response.data) {

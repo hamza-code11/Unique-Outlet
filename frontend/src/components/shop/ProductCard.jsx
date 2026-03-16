@@ -11,8 +11,8 @@
     
   //   // Handle image - use first available image or placeholder
   //   const getImageUrl = () => {
-  //     if (product.image1) return `http://127.0.0.1:8000/storage/${product.image1}`;
-  //     if (product.image) return product.image.startsWith('http') ? product.image : `http://127.0.0.1:8000/storage/${product.image}`;
+  //     if (product.image1) return `${STORAGE_URL}/${product.image1}`;
+  //     if (product.image) return product.image.startsWith('http') ? product.image : `${STORAGE_URL}/${product.image}`;
   //     // Return empty string - we'll show a color background instead
   //     return '';
   //   };
@@ -90,6 +90,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FiShoppingCart, FiCheck, FiShoppingBag } from "react-icons/fi";
+import { API_URL, STORAGE_URL } from "../../config";
 
 const ProductCard = ({ product, isDarkMode, onAddToCart }) => {
   const [added, setAdded] = useState(false);
@@ -101,8 +102,8 @@ const ProductCard = ({ product, isDarkMode, onAddToCart }) => {
   
   // Handle image - use first available image or placeholder
   const getImageUrl = () => {
-    if (product.image1) return `http://127.0.0.1:8000/storage/${product.image1}`;
-    if (product.image) return product.image.startsWith('http') ? product.image : `http://127.0.0.1:8000/storage/${product.image}`;
+    if (product.image1) return `${STORAGE_URL}/${product.image1}`;
+    if (product.image) return product.image.startsWith('http') ? product.image : `${STORAGE_URL}/${product.image}`;
     return '';
   };
 

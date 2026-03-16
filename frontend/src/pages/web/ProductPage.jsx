@@ -2013,12 +2013,11 @@ import Footer from "../../components/home/Footer";
 import ShopBanner from "../../components/banner/Banner";
 import axios from "axios";
 import { useCart } from "../../context/CartContext";
+import { API_URL, STORAGE_URL } from "../../config";
 
 // Lazy load components
 const TabsSection = lazy(() => import("../../components/tabs/TabsSection"));
 
-const API_URL = 'http://127.0.0.1:8000/api';
-const STORAGE_URL = 'http://127.0.0.1:8000/storage/';
 const NO_IMAGE_SVG = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'600\' height=\'600\' viewBox=\'0 0 600 600\'%3E%3Crect width=\'600\' height=\'600\' fill=\'%23f0f0f0\'/%3E%3Ctext x=\'300\' y=\'300\' font-family=\'Arial\' font-size=\'24\' fill=\'%23999\' text-anchor=\'middle\' dy=\'.3em\'%3ENo Image%3C/text%3E%3C/svg%3E';
 
 // Cache system
@@ -2343,7 +2342,7 @@ const ProductPage = () => {
           // ✅ FIXED: Set images for flavour - ONLY flavour image, NO parent product images
           const images = [];
           if (flavourData.image) {
-            images.push(`${STORAGE_URL}${flavourData.image}`);
+            images.push(`${STORAGE_URL}/${flavourData.image}`);
           }
 
           // ✅ REMOVED: Parent product images are NOT added
@@ -2398,12 +2397,12 @@ const ProductPage = () => {
         for (let i = 1; i <= 6; i++) {
           const imgKey = `image${i}`;
           if (productData[imgKey] && productData[imgKey] !== null) {
-            images.push(`${STORAGE_URL}${productData[imgKey]}`);
+            images.push(`${STORAGE_URL}/${productData[imgKey]}`);
           }
         }
 
         if (productData.image && productData.image !== null) {
-          const mainImageUrl = `${STORAGE_URL}${productData.image}`;
+          const mainImageUrl = `${STORAGE_URL}/${productData.image}`;
           if (!images.includes(mainImageUrl)) images.unshift(mainImageUrl);
         }
 
@@ -2470,7 +2469,7 @@ const ProductPage = () => {
   const getImageUrl = useCallback((image) => {
     if (!image || image === null) return NO_IMAGE_SVG;
     if (image.startsWith('http') || image.startsWith('data:')) return image;
-    return `${STORAGE_URL}${image}`;
+    return `${STORAGE_URL}/${image}`;
   }, []);
 
   const handleQuantityChange = useCallback((type) => {

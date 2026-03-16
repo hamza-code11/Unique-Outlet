@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import { 
+import {
   FiImage, FiEye, FiEyeOff, FiUpload, FiSave,
   FiRefreshCw, FiCheck, FiX, FiDollarSign,
   FiCreditCard, FiHash, FiFileText, FiHelpCircle
 } from "react-icons/fi";
 import axios from "axios";
+import { API_URL, STORAGE_URL } from "../../../config";
 
-const API_URL = 'http://127.0.0.1:8000/api';
 
 const PaymentSectionCMS = ({ isDarkMode, isVisible }) => {
   const fileInputRef = useRef(null);
@@ -19,7 +19,7 @@ const PaymentSectionCMS = ({ isDarkMode, isVisible }) => {
   // Payment Section Data
   const [paymentData, setPaymentData] = useState({
     id: null,
-    shipping_charges: "2",
+    shipping_charges: "-",
     bank_name: "",
     account_title: "",
     account_number: "",
@@ -37,7 +37,7 @@ const PaymentSectionCMS = ({ isDarkMode, isVisible }) => {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${API_URL}/payment-section`);
-      
+
       if (response.data.success && response.data.payment) {
         const payment = response.data.payment;
 
@@ -48,7 +48,7 @@ const PaymentSectionCMS = ({ isDarkMode, isVisible }) => {
           account_title: payment.account_title || "",
           account_number: payment.account_number || "",
           iban: payment.iban || "",
-          qrcode_image: payment.qrcode_image ? `http://127.0.0.1:8000/storage/${payment.qrcode_image}` : "",
+          qrcode_image: payment.qrcode_image ? `${STORAGE_URL}/${payment.qrcode_image}` : "",
           qrcode_preview: null,
           other: payment.other || "",
           active: true,
@@ -89,14 +89,14 @@ const PaymentSectionCMS = ({ isDarkMode, isVisible }) => {
 
     try {
       const formData = new FormData();
-      
+
       formData.append('shipping_charges', paymentData.shipping_charges);
       formData.append('bank_name', paymentData.bank_name);
       formData.append('account_title', paymentData.account_title);
       formData.append('account_number', paymentData.account_number);
       formData.append('iban', paymentData.iban);
       formData.append('other', paymentData.other || '');
-      
+
       // Handle QR code image if changed
       if (paymentData.qrcode_preview && paymentData.qrcode_preview.startsWith('data:image')) {
         const response = await fetch(paymentData.qrcode_preview);
@@ -113,7 +113,7 @@ const PaymentSectionCMS = ({ isDarkMode, isVisible }) => {
 
       setSuccessMessage('Payment section saved successfully!');
       setTimeout(() => setSuccessMessage(''), 3000);
-      
+
       // Refresh data
       await fetchPaymentData();
     } catch (err) {
@@ -232,13 +232,12 @@ const PaymentSectionCMS = ({ isDarkMode, isVisible }) => {
               </>
             )}
           </button>
-          <button 
+          <button
             onClick={toggleActive}
-            className={`p-2 rounded-lg transition-colors flex items-center gap-2 ${
-              paymentData.active 
+            className={`p-2 rounded-lg transition-colors flex items-center gap-2 ${paymentData.active
                 ? isDarkMode ? 'bg-green-500/20 text-green-400' : 'bg-green-50 text-green-600'
                 : isDarkMode ? 'bg-gray-700 text-gray-400' : 'bg-gray-100 text-gray-600'
-            }`}
+              }`}
           >
             {paymentData.active ? <FiEye /> : <FiEyeOff />}
             <span className="text-sm">{paymentData.active ? 'Active' : 'Inactive'}</span>
@@ -256,9 +255,8 @@ const PaymentSectionCMS = ({ isDarkMode, isVisible }) => {
 
           {/* Bank Name */}
           <div>
-            <label className={`block text-xs font-medium mb-1 ${
-              isDarkMode ? 'text-gray-400' : 'text-gray-500'
-            }`}>
+            <label className={`block text-xs font-medium mb-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}>
               Bank Name
             </label>
             <div className="flex gap-2">
@@ -271,20 +269,18 @@ const PaymentSectionCMS = ({ isDarkMode, isVisible }) => {
                 onChange={(e) => updateField('bank_name', e.target.value)}
                 disabled={saving}
                 placeholder="e.g., HBL Bank"
-                className={`flex-1 px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
-                  isDarkMode 
-                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50' 
+                className={`flex-1 px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${isDarkMode
+                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50'
                     : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 disabled:opacity-50'
-                }`}
+                  }`}
               />
             </div>
           </div>
 
           {/* Account Title */}
           <div>
-            <label className={`block text-xs font-medium mb-1 ${
-              isDarkMode ? 'text-gray-400' : 'text-gray-500'
-            }`}>
+            <label className={`block text-xs font-medium mb-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}>
               Account Title
             </label>
             <div className="flex gap-2">
@@ -297,20 +293,18 @@ const PaymentSectionCMS = ({ isDarkMode, isVisible }) => {
                 onChange={(e) => updateField('account_title', e.target.value)}
                 disabled={saving}
                 placeholder="e.g., Unique Outlet"
-                className={`flex-1 px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
-                  isDarkMode 
-                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50' 
+                className={`flex-1 px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${isDarkMode
+                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50'
                     : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 disabled:opacity-50'
-                }`}
+                  }`}
               />
             </div>
           </div>
 
           {/* Account Number */}
           <div>
-            <label className={`block text-xs font-medium mb-1 ${
-              isDarkMode ? 'text-gray-400' : 'text-gray-500'
-            }`}>
+            <label className={`block text-xs font-medium mb-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}>
               Account Number
             </label>
             <div className="flex gap-2">
@@ -323,20 +317,18 @@ const PaymentSectionCMS = ({ isDarkMode, isVisible }) => {
                 onChange={(e) => updateField('account_number', e.target.value)}
                 disabled={saving}
                 placeholder="e.g., 12345678934692"
-                className={`flex-1 px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
-                  isDarkMode 
-                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50' 
+                className={`flex-1 px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${isDarkMode
+                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50'
                     : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 disabled:opacity-50'
-                }`}
+                  }`}
               />
             </div>
           </div>
 
           {/* IBAN */}
           <div>
-            <label className={`block text-xs font-medium mb-1 ${
-              isDarkMode ? 'text-gray-400' : 'text-gray-500'
-            }`}>
+            <label className={`block text-xs font-medium mb-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}>
               IBAN
             </label>
             <div className="flex gap-2">
@@ -349,20 +341,18 @@ const PaymentSectionCMS = ({ isDarkMode, isVisible }) => {
                 onChange={(e) => updateField('iban', e.target.value)}
                 disabled={saving}
                 placeholder="e.g., PK36SCBL0000001123456702"
-                className={`flex-1 px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
-                  isDarkMode 
-                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50' 
+                className={`flex-1 px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${isDarkMode
+                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50'
                     : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 disabled:opacity-50'
-                }`}
+                  }`}
               />
             </div>
           </div>
 
           {/* Other (Additional Info) */}
           <div>
-            <label className={`block text-xs font-medium mb-1 ${
-              isDarkMode ? 'text-gray-400' : 'text-gray-500'
-            }`}>
+            <label className={`block text-xs font-medium mb-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}>
               Additional Information (Optional)
             </label>
             <div className="flex gap-2">
@@ -375,11 +365,10 @@ const PaymentSectionCMS = ({ isDarkMode, isVisible }) => {
                 disabled={saving}
                 rows="3"
                 placeholder="Any additional payment instructions..."
-                className={`flex-1 px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 resize-none ${
-                  isDarkMode 
-                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50' 
+                className={`flex-1 px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 resize-none ${isDarkMode
+                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50'
                     : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 disabled:opacity-50'
-                }`}
+                  }`}
               />
             </div>
           </div>
@@ -393,9 +382,8 @@ const PaymentSectionCMS = ({ isDarkMode, isVisible }) => {
 
           {/* Shipping Charges */}
           <div>
-            <label className={`block text-xs font-medium mb-1 ${
-              isDarkMode ? 'text-gray-400' : 'text-gray-500'
-            }`}>
+            <label className={`block text-xs font-medium mb-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}>
               Shipping Charges ($)
             </label>
             <div className="flex gap-2">
@@ -403,43 +391,39 @@ const PaymentSectionCMS = ({ isDarkMode, isVisible }) => {
                 <FiDollarSign className={`text-lg ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`} />
               </div>
               <input
-                type="number"
+                type="text"
                 step="0.01"
                 min="0"
                 value={paymentData.shipping_charges}
                 onChange={(e) => updateField('shipping_charges', e.target.value)}
                 disabled={saving}
                 placeholder="2.00"
-                className={`flex-1 px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${
-                  isDarkMode 
-                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50' 
+                className={`flex-1 px-4 py-2.5 rounded-lg border text-sm transition-all focus:ring-2 focus:ring-blue-500 ${isDarkMode
+                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 disabled:opacity-50'
                     : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 disabled:opacity-50'
-                }`}
+                  }`}
               />
             </div>
           </div>
 
           {/* QR Code Image */}
           <div>
-            <label className={`block text-xs font-medium mb-1 ${
-              isDarkMode ? 'text-gray-400' : 'text-gray-500'
-            }`}>
+            <label className={`block text-xs font-medium mb-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}>
               QR Code Image
             </label>
-            <div className={`relative rounded-xl border-2 border-dashed overflow-hidden ${
-              isDarkMode ? 'border-gray-600' : 'border-gray-300'
-            }`}>
+            <div className={`relative rounded-xl border-2 border-dashed overflow-hidden ${isDarkMode ? 'border-gray-600' : 'border-gray-300'
+              }`}>
               <div className="aspect-square relative group">
                 {paymentData.qrcode_preview || paymentData.qrcode_image ? (
-                  <img 
-                    src={paymentData.qrcode_preview || paymentData.qrcode_image} 
+                  <img
+                    src={paymentData.qrcode_preview || paymentData.qrcode_image}
                     alt="QR Code"
                     className="w-full h-full object-contain p-4"
                   />
                 ) : (
-                  <div className={`w-full h-full flex flex-col items-center justify-center ${
-                    isDarkMode ? 'bg-gray-800' : 'bg-gray-50'
-                  }`}>
+                  <div className={`w-full h-full flex flex-col items-center justify-center ${isDarkMode ? 'bg-gray-800' : 'bg-gray-50'
+                    }`}>
                     <FiImage className={`text-4xl mb-2 ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`} />
                     <p className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>
                       No QR code uploaded
@@ -543,8 +527,8 @@ const PaymentSectionCMS = ({ isDarkMode, isVisible }) => {
                   <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>QR Code:</span>
                   <div className="mt-2">
                     {paymentData.qrcode_preview || paymentData.qrcode_image ? (
-                      <img 
-                        src={paymentData.qrcode_preview || paymentData.qrcode_image} 
+                      <img
+                        src={paymentData.qrcode_preview || paymentData.qrcode_image}
                         alt="QR Code Preview"
                         className="w-24 h-24 object-contain border rounded-lg"
                       />
@@ -562,9 +546,8 @@ const PaymentSectionCMS = ({ isDarkMode, isVisible }) => {
       </div>
 
       {/* Stats Summary */}
-      <div className={`mt-4 p-4 rounded-lg border flex items-center justify-between ${
-        isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-gray-50'
-      }`}>
+      <div className={`mt-4 p-4 rounded-lg border flex items-center justify-between ${isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-gray-50'
+        }`}>
         <div className="flex items-center gap-4">
           <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
             Record ID: <strong>{paymentData.id || 'N/A'}</strong>

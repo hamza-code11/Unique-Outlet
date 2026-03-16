@@ -3,6 +3,7 @@ import {
   FiEye, FiEyeOff, FiUpload, FiSave, FiClock, FiTrash2
 } from "react-icons/fi";
 import axios from "axios";
+import { API_URL, STORAGE_URL } from "../../../config";
 
 const NavbarCMS = ({ isDarkMode, isVisible }) => {
   const fileInputRef = useRef(null);
@@ -30,7 +31,7 @@ const NavbarCMS = ({ isDarkMode, isVisible }) => {
   const fetchLogo = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://127.0.0.1:8000/api/navbar-setting");
+      const response = await axios.get(`${API_URL}/navbar-setting`);
 
       if (response.data && response.data.logo_image) {
         setNavbarData(prev => ({

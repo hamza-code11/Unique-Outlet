@@ -526,6 +526,7 @@ import rightTop from "../../assets/home/view-image2.jpg";
 import rightBottom from "../../assets/home/view-image3.jpg";
 import { FiShoppingBag, FiGift, FiArrowRight } from "react-icons/fi";
 import axios from "axios";
+import { API_URL, STORAGE_URL } from "../../config";
 
 // Pre-fetch data immediately
 let promoDataCache = null;
@@ -535,7 +536,7 @@ let dataPromise = null;
 const fetchData = async () => {
   if (dataPromise) return dataPromise;
 
-  dataPromise = axios.get('http://127.0.0.1:8000/api/interactive-promo', { timeout: 3000 })
+  dataPromise = axios.get(`${API_URL}/interactive-promo`, { timeout: 3000 })
     .then(response => {
       if (response.data.success && response.data.promo) {
         promoDataCache = response.data.promo;
@@ -604,15 +605,15 @@ const InteractivePromo = () => {
 
   // Construct image URLs
   const leftImageUrl = promoData?.left_image
-    ? `http://127.0.0.1:8000/storage/${promoData.left_image}`
+    ? `${STORAGE_URL}/${promoData.left_image}`
     : leftImg;
 
   const rightTopImageUrl = promoData?.right_top_image
-    ? `http://127.0.0.1:8000/storage/${promoData.right_top_image}`
+    ? `${STORAGE_URL}/${promoData.right_top_image}`
     : rightTop;
 
   const rightBottomImageUrl = promoData?.right_bottom_image
-    ? `http://127.0.0.1:8000/storage/${promoData.right_bottom_image}`
+    ? `${STORAGE_URL}/${promoData.right_bottom_image}`
     : rightBottom;
 
   return (

@@ -5,6 +5,7 @@ import { FiUser, FiMail, FiLock, FiEye, FiEyeOff, FiUserPlus } from "react-icons
 import Navbar from "../../components/home/Navbar";
 import Footer from "../../components/home/Footer";
 import ShopBanner from "../../components/banner/Banner";
+import { API_URL } from "../../config";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -74,7 +75,7 @@ const Register = () => {
 
     try {
       // API call to register
-      const response = await axios.post('http://localhost:8000/api/register', {
+      const response = await axios.post(`${API_URL}/register`, {
         name: formData.name,
         email: formData.email,
         password: formData.password,

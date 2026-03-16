@@ -6,6 +6,7 @@ import {
 } from "react-icons/fi";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { API_URL, STORAGE_URL } from "../../config";
 
 const AdminHeader = ({ 
   isDarkMode, 

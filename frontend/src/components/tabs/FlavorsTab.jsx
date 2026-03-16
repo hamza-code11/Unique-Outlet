@@ -455,9 +455,8 @@ import {
   FiWind, FiCoffee, FiPackage
 } from "react-icons/fi";
 import axios from "axios";
+import { API_URL, STORAGE_URL } from "../../config";
 
-const API_URL = 'http://127.0.0.1:8000/api';
-const STORAGE_URL = 'http://127.0.0.1:8000/storage/';
 const ITEMS_PER_PAGE = 5;
 
 // Default image for flavors
@@ -498,7 +497,7 @@ const FlavorsTab = ({ isDarkMode, selectedFlavor, setSelectedFlavor, productId }
           description: flavor.desc || "No description available",
           price: parseFloat(flavor.price),
           stock: flavor.stock,
-          image: flavor.image ? `${STORAGE_URL}${flavor.image}` : DEFAULT_FLAVOR_IMG,
+          image: flavor.image ? `${STORAGE_URL}/${flavor.image}` : DEFAULT_FLAVOR_IMG,
           category: "Flavor",
           icon: getIconForFlavor(flavor.flavour || flavor.name),
           color: getColorForFlavor(flavor.flavour || flavor.name),

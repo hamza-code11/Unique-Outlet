@@ -92,7 +92,7 @@ const GoogleCallback = () => {
               </div>
             </div>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-              Login Successful! 🎉
+              Login Successful! 
             </h2>
             <p className="text-gray-500 dark:text-gray-400 text-sm">
               Redirecting you now...

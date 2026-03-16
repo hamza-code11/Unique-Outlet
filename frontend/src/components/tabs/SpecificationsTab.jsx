@@ -139,6 +139,7 @@
 
 // src/components/tabs/SpecificationsTab.jsx
 import React, { useState, useEffect } from "react";
+import { API_URL, STORAGE_URL } from "../../config";
 
 const SpecificationsTab = ({ isDarkMode, specifications, product }) => {
   const [specs, setSpecs] = useState({});

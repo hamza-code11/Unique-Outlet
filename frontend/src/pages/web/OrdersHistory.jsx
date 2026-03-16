@@ -475,8 +475,8 @@ import { FiSearch, FiPackage, FiCalendar, FiUser, FiMapPin, FiPhone, FiMail, FiS
 import axios from 'axios'; // Direct axios import, not from services
 import Navbar from '../../components/home/Navbar';
 import Footer from '../../components/home/Footer';
+import { API_URL, STORAGE_URL } from "../../config";
 
-const API_URL = 'http://127.0.0.1:8000/api';
 
 const OrdersHistory = () => {
   const navigate = useNavigate();

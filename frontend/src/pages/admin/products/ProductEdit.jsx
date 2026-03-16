@@ -1026,9 +1026,8 @@ import {
 } from "react-icons/fi";
 import { HexColorPicker } from "react-colorful"; // Import color picker
 import axios from "axios";
+import { API_URL, STORAGE_URL } from "../../../config";
 
-const API_URL = 'http://127.0.0.1:8000/api';
-const STORAGE_URL = 'http://127.0.0.1:8000/storage/';
 
 const ProductEdit = () => {
   const { id } = useParams();
@@ -1110,7 +1109,7 @@ const ProductEdit = () => {
     if (!imagePath) return null;
     if (imagePath.startsWith('http')) return imagePath;
     if (imagePath.startsWith('products/')) {
-      return `${STORAGE_URL}${imagePath}`;
+      return `${STORAGE_URL}/${imagePath}`;
     }
     return `${STORAGE_URL}products/${imagePath}`;
   };

@@ -17,6 +17,7 @@ import {
 } from "react-icons/fi";
 import { GiCigarette } from "react-icons/gi";
 import { useCart } from "../../context/CartContext"; // ✅ Import useCart
+import { API_URL, STORAGE_URL } from "../../config";
 
 // Import logo image as fallback
 import defaultLogo from "../../assets/logo/logo.png";
@@ -78,10 +79,10 @@ function Navbar() {
       try {
         logoFetchAttempted.current = true;
         setLogoLoading(true);
-        const response = await axios.get("http://127.0.0.1:8000/api/navbar-setting");
+        const response = await axios.get(`${API_URL}/navbar-setting`);
         
         if (response.data.logo_image) {
-          const logoUrl = `http://127.0.0.1:8000/${response.data.logo_image}`;
+          const logoUrl = `${API_URL}/${response.data.logo_image}`;
           setLogo(logoUrl);
           localStorage.setItem('siteLogo', logoUrl);
           setLogoError(false);
@@ -108,8 +109,8 @@ function Navbar() {
         categoriesFetchAttempted.current = true;
         setCategoriesLoading(true);
         
-        const categoriesResponse = await axios.get("http://127.0.0.1:8000/api/categories");
-        const subcategoriesResponse = await axios.get("http://127.0.0.1:8000/api/subcategories");
+        const categoriesResponse = await axios.get(`${API_URL}/categories`);
+        const subcategoriesResponse = await axios.get(`${API_URL}/subcategories`);
         
         if (categoriesResponse.data && subcategoriesResponse.data) {
           const categoriesWithSubs = categoriesResponse.data.map(category => {
@@ -284,7 +285,7 @@ function Navbar() {
       const token = localStorage.getItem('token');
       
       if (token) {
-        await axios.post('http://localhost:8000/api/logout', {}, {
+        await axios.post(`${API_URL}/logout`, {}, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',

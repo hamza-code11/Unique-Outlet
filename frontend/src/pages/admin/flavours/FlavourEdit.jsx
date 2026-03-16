@@ -8,9 +8,8 @@ import {
   FiArrowLeft, FiUpload, FiImage, FiType
 } from "react-icons/fi";
 import axios from "axios";
+import { API_URL, STORAGE_URL } from "../../../config";
 
-const API_URL = 'http://127.0.0.1:8000/api';
-const STORAGE_URL = 'http://127.0.0.1:8000/storage/';
 
 const FlavourEdit = () => {
   const { id } = useParams();
@@ -118,7 +117,7 @@ const FlavourEdit = () => {
           });
 
           if (flavour.image) {
-            setImagePreview(`${STORAGE_URL}${flavour.image}`);
+            setImagePreview(`${STORAGE_URL}/${flavour.image}`);
           }
 
           // Filter subcategories and products based on selected category

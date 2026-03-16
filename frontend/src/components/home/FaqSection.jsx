@@ -755,6 +755,7 @@ import vape from "../../assets/home/faq-vape-sec-768x993.png";
 import VapesBg from "../../assets/home/faq.jfif";
 import { FiChevronDown, FiChevronUp, FiHeadphones } from "react-icons/fi";
 import axios from "axios";
+import { API_URL, STORAGE_URL } from "../../config";
 
 // Pre-fetch data immediately
 let faqDataCache = null;
@@ -764,7 +765,7 @@ let dataPromise = null;
 const fetchData = async () => {
   if (dataPromise) return dataPromise;
   
-  dataPromise = axios.get('http://127.0.0.1:8000/api/faq', { timeout: 3000 })
+  dataPromise = axios.get(`${API_URL}/faq`, { timeout: 3000 })
     .then(response => {
       if (response.data.success && response.data.faq) {
         faqDataCache = response.data.faq;
@@ -870,7 +871,7 @@ const FaqSection = () => {
   };
 
   const imageUrl = faqData?.image 
-    ? `http://127.0.0.1:8000/storage/${faqData.image}`
+    ? `${STORAGE_URL}/${faqData.image}`
     : vape;
 
   // Format heading

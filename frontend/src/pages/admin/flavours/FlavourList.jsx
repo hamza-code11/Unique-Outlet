@@ -8,9 +8,8 @@ import {
   FiDollarSign, FiBox, FiTag, FiType
 } from "react-icons/fi";
 import axios from "axios";
+import { API_URL, STORAGE_URL } from "../../../config";
 
-const API_URL = 'http://127.0.0.1:8000/api';
-const STORAGE_URL = 'http://127.0.0.1:8000/storage/';
 
 const FlavourList = () => {
   const { isDarkMode } = useOutletContext();
@@ -88,7 +87,7 @@ const FlavourList = () => {
   // Get image URL
   const getImageUrl = (imagePath) => {
     if (!imagePath) return null;
-    return `${STORAGE_URL}${imagePath}`;
+    return `${STORAGE_URL}/${imagePath}`;
   };
 
   if (loading) {

@@ -389,6 +389,8 @@ import React, { useRef, useEffect } from "react";
 import { FiShoppingBag } from "react-icons/fi";
 import vapeVideo from "../../assets/video/banner2.mp4";
 
+import { API_URL, STORAGE_URL } from "../../config";
+
 const Banner = ({ 
   title = "Shop", 
   breadcrumbItems = [{ name: "UNIQUE OUTLET", link: "/" }, { name: "SHOP" }],

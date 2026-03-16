@@ -756,10 +756,11 @@ import { FiMail, FiLock, FiLogIn, FiEye, FiEyeOff } from "react-icons/fi";
 import Navbar from "../../components/home/Navbar";
 import Footer from "../../components/home/Footer";
 import ShopBanner from "../../components/banner/Banner";
+import { API_URL } from "../../config";
 
 // Create axios instance with default config
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api',
+  baseURL: `${API_URL}`,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json'

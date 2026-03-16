@@ -10,12 +10,28 @@ class ProductController extends Controller
 {
 
 
+// public function index()
+// {
+//     return response()->json(
+//         Product::with(['category', 'subCategory'])->get()
+//     );
+// }
+
 public function index()
 {
-    return response()->json(
-        Product::with(['category', 'subCategory'])->get()
-    );
+    $products = Product::with(['category', 'subCategory'])->get();
+
+    $products->transform(function ($product) {
+        if ($product->category && strtolower($product->category->name) === 'vapes') {
+            unset($product->price); // price key completely remove
+        }
+        return $product;
+    });
+
+    return response()->json($products);
 }
+
+
 
 public function bySubCategory($subCategoryId)
 {

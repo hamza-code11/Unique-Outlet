@@ -454,8 +454,8 @@ import Footer from "../../components/home/Footer";
 import ShopBanner from "../../components/banner/Banner";
 import { useCart } from "../../context/CartContext";
 import axios from "axios";
+import { API_URL, STORAGE_URL } from "../../config";
 
-const API_URL = 'http://127.0.0.1:8000/api';
 
 // Pre-fetch payment data immediately
 let paymentDataCache = null;
@@ -604,7 +604,7 @@ const Cart = () => {
         if (item.image) {
             return item.image.startsWith('http') 
                 ? item.image 
-                : `http://127.0.0.1:8000/storage/${item.image}`;
+                : `${STORAGE_URL}/${item.image}`;
         }
         return '';
     }, []);
